@@ -1,13 +1,14 @@
-import { getGreeting } from '../support/app.po';
+import { getSidePanel, getToolbar, getToolbarTitle } from '../support/app.po';
 
 describe('preview-ui', () => {
   beforeEach(() => cy.visit('/'));
 
-  it('should display welcome message', () => {
+  it('should display standard layout', () => {
     // Custom command example, see `../support/commands.ts` file
     cy.login('my-email@something.com', 'myPassword');
 
-    // Function helper example, see `../support/app.po.ts` file
-    getGreeting().contains('Welcome to preview-ui!');
+    getToolbar();
+    getToolbarTitle().contains('Preview');
+    getSidePanel();
   });
 });
