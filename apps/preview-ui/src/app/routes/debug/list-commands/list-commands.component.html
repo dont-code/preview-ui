@@ -1,0 +1,3 @@
+<ng-container *ngIf="(context$ | async) as ctx">
+<p *ngFor="let command of commands">{{command.type}}, {{command.position}}, {{(command.value|json)}}</p>
+</ng-container>
