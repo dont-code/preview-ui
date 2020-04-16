@@ -10,6 +10,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MainComponent } from './main.component';
 import { RouterModule } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
+import { MenuComponent } from '../menu/menu.component';
 
 describe('MainComponent', () => {
   let component: MainComponent;
@@ -17,7 +18,7 @@ describe('MainComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [MainComponent],
+      declarations: [MainComponent, MenuComponent],
       imports: [
         RouterModule,
         NoopAnimationsModule,

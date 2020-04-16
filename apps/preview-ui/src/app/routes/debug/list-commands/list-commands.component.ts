@@ -16,7 +16,7 @@ export class ListCommandsComponent implements OnInit {
 
 
   constructor(    protected providerService:CommandProviderService,
-  ) { }
+  ) { console.log('injected');}
 
   ngOnInit(): void {
     this.context$ = combineLatest([this.providerService.receiveCommands()])

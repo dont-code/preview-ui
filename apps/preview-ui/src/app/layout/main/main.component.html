@@ -17,12 +17,7 @@
         [mode]="(isHandset$ | async) ? 'over' : 'side'"
         [opened]="(isHandset$ | async) === false"
       fixedTopGap="64">
-      <mat-toolbar id="sideNavToolbar">Menu</mat-toolbar>
-      <mat-nav-list>
-        <a mat-list-item href="#">Link 1</a>
-        <a mat-list-item href="#">Link 2</a>
-        <a mat-list-item href="#">Link 3</a>
-      </mat-nav-list>
+      <preview-ui-menu></preview-ui-menu>
     </mat-sidenav>
     <mat-sidenav-content>
       <router-outlet></router-outlet>
