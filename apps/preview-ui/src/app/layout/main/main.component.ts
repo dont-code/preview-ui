@@ -38,4 +38,5 @@ export class MainComponent implements OnInit, OnDestroy {
     this.unsubscriber.next();
     this.unsubscriber.complete();
   }
+
 }
