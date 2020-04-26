@@ -1,24 +1,30 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, ReplaySubject, Subject } from 'rxjs';
 import { Command, CommandType } from '../command';
 import { filter } from 'rxjs/operators';
 import { DontCodeModel } from '../../model/dont-code-model';
+import { ChangeListenerService } from '../../change/services/change-listener.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CommandProviderService {
 
-  receivedCommands = new Observable<Command> ((observer) => {
-    observer.next(new Command(CommandType.ADD, DontCodeModel.APP_NAME, 'New Name' ));
-    observer.next(new Command(CommandType.ADD, DontCodeModel.APP_ENTITIES, JSON.parse('{"name":"ToDoItem"}') ));
-    observer.next(new Command(CommandType.ADD, DontCodeModel.APP_ENTITIES, JSON.parse('{"name":"Country"}') ));
-  });
+  protected receivedCommands = new ReplaySubject<Command> ();
 
-  constructor() { console.log('new ProviderService');}
+  constructor(protected changeListener: ChangeListenerService) {
+    this.receivedCommands.next(new Command(CommandType.ADD, DontCodeModel.APP_NAME, 'New Name' ));
+    this.receivedCommands.next(new Command(CommandType.ADD, DontCodeModel.APP_ENTITIES, JSON.parse('{"name":"ToDoItem"}') ));
+    this.receivedCommands.next(new Command(CommandType.ADD, DontCodeModel.APP_ENTITIES, JSON.parse('{"name":"Country"}') ));
+    changeListener.getChangeEvents().subscribe(change => {
+      console.log ('Received Change ', change);
+      this.receivedCommands.next(new Command (
+        CommandType.UPDATE, change.position, change.value
+      ))
+    });
+  }
 
   receiveCommands (position?: string): Observable<Command> {
-    console.log('not stubbed');
     if (position)
     {
       return this.receivedCommands.pipe(filter (command => {

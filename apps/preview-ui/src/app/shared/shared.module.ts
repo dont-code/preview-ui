@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CommandModule } from './command/command.module';
 import { ModelModule } from './model/model.module';
+import { ChangeModule } from './change/change.module';
 
 
 @NgModule({
@@ -9,7 +10,8 @@ import { ModelModule } from './model/model.module';
   imports: [
     CommonModule,
     CommandModule,
-    ModelModule
+    ModelModule,
+    ChangeModule
   ]
 })
 export class SharedModule { }

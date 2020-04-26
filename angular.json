@@ -65,7 +65,8 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "preview-ui:build"
+            "browserTarget": "preview-ui:build",
+            "port": 4201
           },
           "configurations": {
             "production": {
