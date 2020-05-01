@@ -1,28 +1,35 @@
 import { Injectable } from '@angular/core';
 import { Change } from '../change';
 import { Observable, Subject } from 'rxjs';
-import {BroadcastChannel} from 'broadcast-channel';
+import { WebSocketSubject } from 'rxjs/internal-compatibility';
+import { webSocket } from 'rxjs/webSocket';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ChangeListenerService {
 
-  public static readonly CHANNEL_CHANGE_NAME='ide-ui-changes';
-
-  protected channel: BroadcastChannel<Change>;
   protected listOfChanges: Change[]=[];
 
+  protected listOfEntities: Map<string, string> = new Map();
+
+  myWebSocket: WebSocketSubject<Change>;
   protected changeEmitter = new Subject<Change> ();
 
   constructor() {
-    this.channel = new BroadcastChannel(ChangeListenerService.CHANNEL_CHANGE_NAME);
-    console.log('Channel receiver created');
-    this.channel.onmessage = msg => {
-//      console.log('Change received',msg, this.listOfChanges.length);
-      this.listOfChanges.push(msg);
-      this.changeEmitter.next(msg);
-    };
+    this.myWebSocket = webSocket('ws://localhost:8081/preview');
+    this.myWebSocket.subscribe(
+      msg => {
+        console.log('message received: ' + msg);
+        this.listOfChanges.push(msg);
+        this.changeEmitter.next(msg);
+      },
+      // Called whenever there is a message from the server
+      err => console.log(err),
+      // Called if WebSocket API signals some kind of error
+      () => console.log('complete')
+      // Called when connection is closed (for whatever reason)
+    );
   }
 
   getListOfChanges (): Change[] {

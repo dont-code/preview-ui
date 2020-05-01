@@ -1,28 +1,28 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { CommandProviderService } from '../../shared/command/services/command-provider.service';
 import { Subject } from 'rxjs';
 import { DontCodeModel } from '../../shared/model/dont-code-model';
 import { takeUntil } from 'rxjs/operators';
-import { CommandType } from '../../shared/command/command';
 
 @Component({
   selector: 'preview-ui-menu',
   templateUrl: './menu.component.html',
-  styleUrls: ['./menu.component.css']
+  styleUrls: ['./menu.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MenuComponent implements OnInit, OnDestroy {
 
-  menus:string []=[];
+  menus:Map<string, string>=new Map();
   unsubscriber = new Subject();
 
-  constructor(protected provider: CommandProviderService) { }
+  constructor(protected provider: CommandProviderService,
+              private ref: ChangeDetectorRef) { }
 
   ngOnInit(): void {
-    this.provider.receiveCommands (DontCodeModel.APP_ENTITIES).pipe(
+    this.provider.receiveCommands (DontCodeModel.APP_ENTITIES, DontCodeModel.APP_ENTITIES_NAME_NODE).pipe(
       takeUntil(this.unsubscriber)).subscribe(command => {
-      if (command.type==CommandType.ADD) {
-        this.menus.push(command.value.name);
-      }
+        this.menus.set(command.position, command.value);
+        this.ref.detectChanges();
     })
 
   }
@@ -33,4 +33,14 @@ export class MenuComponent implements OnInit, OnDestroy {
     this.unsubscriber.complete();
   }
 
+}
+
+class MenuItem {
+  constructor(position: string, name: string) {
+    this.entity = position;
+    this.name=name;
+  }
+
+  public entity:string;
+  public name:string;
 }
