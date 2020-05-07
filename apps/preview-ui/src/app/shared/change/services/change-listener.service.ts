@@ -3,6 +3,8 @@ import { Change } from '../change';
 import { Observable, Subject } from 'rxjs';
 import { WebSocketSubject } from 'rxjs/internal-compatibility';
 import { webSocket } from 'rxjs/webSocket';
+import {environment} from '../../../../environments/environment';
+
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +19,7 @@ export class ChangeListenerService {
   protected changeEmitter = new Subject<Change> ();
 
   constructor() {
-    this.myWebSocket = webSocket('ws://localhost:8081/preview');
+    this.myWebSocket = webSocket(environment.webSocketUrl);
     this.myWebSocket.subscribe(
       msg => {
         console.log('message received: ' + msg);
