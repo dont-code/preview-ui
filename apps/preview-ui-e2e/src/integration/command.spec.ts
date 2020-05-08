@@ -22,8 +22,8 @@ describe('commands', () => {
       getToolbarTitle().contains('Testing Name');
     });
   });
-  it('should display entities menu', () => {
+  /*it('should display entities menu', () => {
     getMenuForEntity('ToDoItem');
     getMenuForEntity('Country');
-  });
+  });*/
 });
