@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Change } from '../change';
-import { Observable, Subject } from 'rxjs';
+import {Observable, ReplaySubject, Subject} from 'rxjs';
 import { WebSocketSubject } from 'rxjs/internal-compatibility';
 import { webSocket } from 'rxjs/webSocket';
 import {environment} from '../../../../environments/environment';
@@ -15,21 +15,30 @@ export class ChangeListenerService {
 
   protected listOfEntities: Map<string, string> = new Map();
 
-  myWebSocket: WebSocketSubject<Change>;
+  previewServiceWebSocket: WebSocketSubject<Change>;
   protected changeEmitter = new Subject<Change> ();
+  protected connectionStatus: ReplaySubject<string>=new ReplaySubject<string>(1);
 
   constructor() {
-    this.myWebSocket = webSocket(environment.webSocketUrl);
-    this.myWebSocket.subscribe(
+    this.previewServiceWebSocket = webSocket(environment.webSocketUrl);
+    this.connectionStatus.next("connected");
+    this.previewServiceWebSocket.subscribe(
       msg => {
         console.log('message received: ' + msg);
         this.listOfChanges.push(msg);
         this.changeEmitter.next(msg);
       },
       // Called whenever there is a message from the server
-      err => console.log(err),
+      err => {
+        console.log(err);
+        this.connectionStatus.next("ERROR:"+err);
+
+      },
       // Called if WebSocket API signals some kind of error
-      () => console.log('complete')
+      () => {
+        console.log('complete');
+        this.connectionStatus.next("closed");
+      }
       // Called when connection is closed (for whatever reason)
     );
   }
@@ -41,4 +50,8 @@ export class ChangeListenerService {
   getChangeEvents (): Observable<Change> {
     return this.changeEmitter;
   }
+  getConnectionStatus (): Observable<string> {
+    return this.connectionStatus;
+  }
+
 }

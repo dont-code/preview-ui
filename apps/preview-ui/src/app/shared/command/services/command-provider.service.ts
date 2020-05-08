@@ -14,8 +14,8 @@ export class CommandProviderService {
 
   constructor(protected changeListener: ChangeListenerService) {
     this.receivedCommands.next(new Command(CommandType.ADD, DontCodeModel.APP_NAME, 'New Name' ));
-    this.receivedCommands.next(new Command(CommandType.ADD, DontCodeModel.APP_ENTITIES+"/a/name", "ToDoItem"));
-    this.receivedCommands.next(new Command(CommandType.ADD, DontCodeModel.APP_ENTITIES+"/b/name","Country"));
+/*    this.receivedCommands.next(new Command(CommandType.ADD, DontCodeModel.APP_ENTITIES+"/a/name", "ToDoItem"));
+    this.receivedCommands.next(new Command(CommandType.ADD, DontCodeModel.APP_ENTITIES+"/b/name","Country"));*/
     changeListener.getChangeEvents().subscribe(change => {
       console.log ('Received Change ', change);
       this.receivedCommands.next(new Command (

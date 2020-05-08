@@ -1,3 +1,12 @@
 <ng-container *ngIf="(context$ | async) as ctx">
-<p *ngFor="let command of commands">{{command.type}}, {{command.position}}, {{(command.value|json)}}</p>
+  <h1>Welcome to DontCode !</h1>
+  <h2>What am I seeing ?</h2>
+  <p>You have opened the Preview App. The Preview App connects to Online services to receive Application changes from the Application Builder in realtime.</p>
+  <ng-container *ngIf="noCommands()">
+    <p><b>Check you are connected</b> to the online service by looking at the <mat-icon>sync</mat-icon> icon in the header panel.</p>
+    <p><mat-icon color="primary">sync</mat-icon> means you are ok, <mat-icon color="warn">sync_problem</mat-icon> you have connection issue to the online service. Please check the browser log in this case</p>
+    <p>If <mat-icon color="primary">sync</mat-icon>, then <b>go back to the Application Builder</b> and enter some values in the Editor</p>
+  </ng-container>
+  <p>We list below the commands received from the Application Builder:</p>
+  <p *ngFor="let command of commands">{{command.type}}, {{command.position}}, {{(command.value|json)}}</p>
 </ng-container>

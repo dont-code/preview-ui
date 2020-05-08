@@ -1,4 +1,4 @@
-<div>
+<div *ngIf="(context$ | async) as ctx">
   <mat-toolbar id="mainToolbar" color="primary">
     <button
       type="button"
@@ -10,6 +10,15 @@
     </button>
     <img src="assets/images/logo64.png">
     <span>Preview {{appName}}</span>
+    <span class="fill-remaining-space"></span>
+    <button
+      type="button"
+      aria-label="Connected"
+      mat-icon-button
+      id="connected">
+      <mat-icon *ngIf="ctx.status === 'connected'" aria-label="Connected">sync</mat-icon>
+      <mat-icon *ngIf="ctx.status !== 'connected'" aria-label="Connection error" color="warn">sync_problem</mat-icon>
+    </button>
   </mat-toolbar>
   <mat-sidenav-container class="sidenav-container">
     <mat-sidenav id="mainSidePanel" #drawer class="sidenav" fixedInViewport
