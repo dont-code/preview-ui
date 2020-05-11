@@ -3,8 +3,8 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { combineLatest, Observable, Subject } from 'rxjs';
 import { map, shareReplay, takeUntil } from 'rxjs/operators';
 import { CommandProviderService } from '../../shared/command/services/command-provider.service';
-import { DontCodeModel } from '../../shared/model/dont-code-model';
 import {ChangeListenerService} from "../../shared/change/services/change-listener.service";
+import { DontCodeModel } from '@dontcode/core';
 
 @Component({
   selector: 'preview-ui-main',

@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CommandModule } from './command/command.module';
-import { ModelModule } from './model/model.module';
 import { ChangeModule } from './change/change.module';
 
 
@@ -10,7 +9,6 @@ import { ChangeModule } from './change/change.module';
   imports: [
     CommonModule,
     CommandModule,
-    ModelModule,
     ChangeModule
   ]
 })

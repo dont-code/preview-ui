@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { CommandProviderService } from '../../shared/command/services/command-provider.service';
 import { Subject } from 'rxjs';
-import { DontCodeModel } from '../../shared/model/dont-code-model';
 import { takeUntil } from 'rxjs/operators';
+import { DontCodeModel } from '@dontcode/core';
 
 @Component({
   selector: 'preview-ui-menu',

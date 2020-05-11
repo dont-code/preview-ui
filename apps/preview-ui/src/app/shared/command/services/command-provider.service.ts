@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, ReplaySubject, Subject } from 'rxjs';
 import { Command, CommandType } from '../command';
 import { filter, last } from 'rxjs/operators';
-import { DontCodeModel } from '../../model/dont-code-model';
+import { DontCodeModel } from '@dontcode/core';
 import { ChangeListenerService } from '../../change/services/change-listener.service';
 
 @Injectable({

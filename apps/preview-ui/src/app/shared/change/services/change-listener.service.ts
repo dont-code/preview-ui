@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Change } from '../change';
+import { Change } from '@dontcode/core';
 import {Observable, ReplaySubject, Subject} from 'rxjs';
 import { WebSocketSubject } from 'rxjs/internal-compatibility';
 import { webSocket } from 'rxjs/webSocket';
