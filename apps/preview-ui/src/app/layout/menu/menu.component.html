@@ -1,4 +1,1 @@
-<mat-toolbar id="sideNavToolbar">Menu</mat-toolbar>
-<mat-nav-list id="sideNavMenu">
-  <a mat-list-item *ngFor="let menu of menus.values()" [id]="'menu_'+menu" href="#">{{menu}}</a>
-</mat-nav-list>
+<kor-menu-item *ngFor="let menu of menus.values()" [id]="'menu_'+menu" [label]="menu" href="#"></kor-menu-item>

@@ -1,5 +1,14 @@
 <div *ngIf="(context$ | async) as ctx">
-  <mat-toolbar id="mainToolbar" color="primary">
+  <kor-page>
+    <kor-app-bar slot="top" mobile [label]="'Preview '+appName">
+      <kor-icon button icon="url('./assets/images/logo.png')" slot="left" size="xl" (click)="logoClicked()"></kor-icon>
+      <div slot="right">
+        <kor-icon *ngIf="ctx.status === 'connected'" icon="sync"></kor-icon>
+        <kor-icon *ngIf="ctx.status !== 'connected'" color="rgb(var(--functional-red))" icon="sync_problem"></kor-icon>
+      </div>
+    </kor-app-bar>
+  </kor-page>
+  <!-- mat-toolbar id="mainToolbar" color="primary">
     <button
       type="button"
       aria-label="Toggle sidenav"
@@ -19,8 +28,12 @@
       <mat-icon *ngIf="ctx.status === 'connected'" aria-label="Connected">sync</mat-icon>
       <mat-icon *ngIf="ctx.status !== 'connected'" aria-label="Connection error" color="warn">sync_problem</mat-icon>
     </button>
-  </mat-toolbar>
-  <mat-sidenav-container class="sidenav-container">
+  </mat-toolbar -->
+  <kor-drawer id="mainSidePanel" [visible]="sidePanelVisible" (visible-changed)="sidePanelVisibleChanged ($event)" label="Menu">
+    <preview-ui-menu></preview-ui-menu>
+  </kor-drawer>
+  <router-outlet></router-outlet>
+  <!-- mat-sidenav-container class="sidenav-container">
     <mat-sidenav id="mainSidePanel" #drawer class="sidenav" fixedInViewport
         [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
         [mode]="(isHandset$ | async) ? 'over' : 'side'"
@@ -31,5 +44,5 @@
     <mat-sidenav-content>
       <router-outlet></router-outlet>
     </mat-sidenav-content>
-  </mat-sidenav-container>
+  </mat-sidenav-container -->
 </div>

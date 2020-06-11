@@ -5,6 +5,7 @@ import { map, shareReplay, takeUntil } from 'rxjs/operators';
 import { CommandProviderService } from '../../shared/command/services/command-provider.service';
 import {ChangeListenerService} from "../../shared/change/services/change-listener.service";
 import { DontCodeModel } from '@dontcode/core';
+import { $e } from "codelyzer/angular/styles/chars";
 
 @Component({
   selector: 'preview-ui-main',
@@ -21,19 +22,15 @@ export class MainComponent implements OnInit, OnDestroy {
 
   appName = 'No Name';
 
-  isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
-    .pipe(
-      map(result => result.matches),
-      shareReplay()
-    );
+  sidePanelVisible: boolean;
 
   constructor(
     protected provider:CommandProviderService,
-    protected listenerService:ChangeListenerService,
-    protected breakpointObserver:BreakpointObserver
+    protected listenerService:ChangeListenerService
   ) {}
 
   ngOnInit() {
+    this.sidePanelVisible = true;
     this.provider.receiveCommands (DontCodeModel.APP_NAME).pipe(
       takeUntil(this.unsubscriber)).subscribe(command => {
         this.appName = command.value;
@@ -49,4 +46,12 @@ export class MainComponent implements OnInit, OnDestroy {
     this.unsubscriber.complete();
   }
 
+  logoClicked() {
+    this.sidePanelVisible=true;
+  }
+
+  sidePanelVisibleChanged($event: any) {
+    //console.log($event);
+    this.sidePanelVisible=$event.target.visible;
+  }
 }

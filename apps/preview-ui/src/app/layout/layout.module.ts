@@ -9,7 +9,6 @@ import { RouterModule } from '@angular/router';
 import { MainComponent } from './main/main.component';
 import { MenuComponent } from './menu/menu.component';
 
-
 @NgModule({
   declarations: [MainComponent, MenuComponent],
   exports: [

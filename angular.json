@@ -27,11 +27,20 @@
             ],
             "styles": [
               "./node_modules/@angular/material/prebuilt-themes/pink-bluegrey.css",
-              "apps/preview-ui/src/styles.scss"
+              "apps/preview-ui/src/styles.scss",
+              "./node_modules/@kor-ui/kor/kor-styles.css"
             ],
-            "scripts": []
+            "scripts": ["./node_modules/@kor-ui/kor/index.js"]
           },
           "configurations": {
+            "online": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/preview-ui/src/environments/environment.ts",
+                  "with": "apps/preview-ui/src/environments/environment.prod.ts"
+                }
+              ]
+            },
             "production": {
               "fileReplacements": [
                 {
@@ -69,6 +78,9 @@
             "port": 4201
           },
           "configurations": {
+            "online": {
+              "browserTarget": "preview-ui:build:online"
+            },
             "production": {
               "browserTarget": "preview-ui:build:production"
             }
