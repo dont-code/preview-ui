@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { DebugPageComponent } from './debug-page.component';
+import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 
 describe('DebugPageComponent', () => {
   let component: DebugPageComponent;
@@ -8,7 +9,8 @@ describe('DebugPageComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ DebugPageComponent ]
+      declarations: [ DebugPageComponent ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA]
     })
     .compileComponents();
   }));

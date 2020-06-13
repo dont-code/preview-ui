@@ -24,6 +24,10 @@ export class CommandProviderService {
     });
   }
 
+  pushCommand (newCommand:Command) {
+    this.receivedCommands.next(newCommand);
+  }
+
   receiveCommands (position?: string, lastItem?: string): Observable<Command> {
     if (position)
     {

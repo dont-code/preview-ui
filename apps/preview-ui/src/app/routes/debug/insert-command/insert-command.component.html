@@ -1,1 +1,5 @@
-<p>insert-command works!</p>
+<kor-accordion label="Add Command" expanded>
+<kor-input label="position" [value]="position" (value-changed)="position = $event.target.value"></kor-input>
+<kor-input label="value" [value]="value" (value-changed)="value = $event.target.value"></kor-input>
+  <kor-button slot="footer" label="Add" (click)="addCommand($event)"></kor-button>
+</kor-accordion>
