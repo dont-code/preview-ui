@@ -7,42 +7,9 @@
         <kor-icon *ngIf="ctx.status !== 'connected'" color="rgb(var(--functional-red))" icon="sync_problem"></kor-icon>
       </div>
     </kor-app-bar>
-  </kor-page>
-  <!-- mat-toolbar id="mainToolbar" color="primary">
-    <button
-      type="button"
-      aria-label="Toggle sidenav"
-      mat-icon-button
-      (click)="drawer.toggle()"
-      *ngIf="isHandset$ | async">
-      <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
-    </button>
-    <img src="assets/images/logo64.png">
-    <span>Preview {{appName}}</span>
-    <span class="fill-remaining-space"></span>
-    <button
-      type="button"
-      aria-label="Connected"
-      mat-icon-button
-      id="connected">
-      <mat-icon *ngIf="ctx.status === 'connected'" aria-label="Connected">sync</mat-icon>
-      <mat-icon *ngIf="ctx.status !== 'connected'" aria-label="Connection error" color="warn">sync_problem</mat-icon>
-    </button>
-  </mat-toolbar -->
   <kor-drawer id="mainSidePanel" [visible]="sidePanelVisible" (visible-changed)="sidePanelVisibleChanged ($event)" label="Menu">
     <preview-ui-menu></preview-ui-menu>
   </kor-drawer>
   <router-outlet></router-outlet>
-  <!-- mat-sidenav-container class="sidenav-container">
-    <mat-sidenav id="mainSidePanel" #drawer class="sidenav" fixedInViewport
-        [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
-        [mode]="(isHandset$ | async) ? 'over' : 'side'"
-        [opened]="(isHandset$ | async) === false"
-      fixedTopGap="64">
-      <preview-ui-menu></preview-ui-menu>
-    </mat-sidenav>
-    <mat-sidenav-content>
-      <router-outlet></router-outlet>
-    </mat-sidenav-content>
-  </mat-sidenav-container -->
+  </kor-page>
 </div>

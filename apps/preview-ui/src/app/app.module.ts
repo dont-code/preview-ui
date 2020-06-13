@@ -11,10 +11,12 @@ import { RouterModule, Routes } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 import '@kor-ui/kor';
+import { HomeComponent } from "./routes/home/home.component";
+import { DebugPageComponent } from "./routes/debug/debug-page/debug-page.component";
 
 const appRoutes: Routes = [
-  { path: '', component: ListCommandsComponent },
-  { path: 'dev', component: ListCommandsComponent }]
+  { path: '', component: HomeComponent },
+  { path: 'dev', component: DebugPageComponent }]
 
 @NgModule({
   declarations: [AppComponent],

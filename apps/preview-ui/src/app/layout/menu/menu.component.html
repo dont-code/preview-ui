@@ -1,2 +1,3 @@
-<kor-menu-item (click)="gotoDevPage()" label="Dev"></kor-menu-item>
-<kor-menu-item *ngFor="let menu of menus.values()" [id]="'menu_'+menu" [label]="menu" href="#"></kor-menu-item>
+<kor-menu-item (click)="gotoHomePage()" label="Home" toggle="false"></kor-menu-item>
+<kor-menu-item (click)="gotoDevPage()" label="Dev" toggle="false"></kor-menu-item>
+<kor-menu-item *ngFor="let menu of menus.values()" [id]="'menu_'+menu" [label]="menu" toggle="false" href="#"></kor-menu-item>

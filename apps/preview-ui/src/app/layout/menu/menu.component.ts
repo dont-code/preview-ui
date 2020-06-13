@@ -37,6 +37,10 @@ export class MenuComponent implements OnInit, OnDestroy {
   gotoDevPage() {
     this.router.navigate(['dev']);
   }
+
+  gotoHomePage() {
+    this.router.navigate(['/']);
+  }
 }
 
 class MenuItem {
