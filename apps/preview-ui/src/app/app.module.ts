@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from "@angular/core";
 
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -10,8 +10,11 @@ import { ListCommandsComponent } from './routes/debug/list-commands/list-command
 import { RouterModule, Routes } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
+import '@kor-ui/kor';
+
 const appRoutes: Routes = [
-  { path: '', component: ListCommandsComponent }]
+  { path: '', component: ListCommandsComponent },
+  { path: 'dev', component: ListCommandsComponent }]
 
 @NgModule({
   declarations: [AppComponent],
@@ -21,6 +24,8 @@ const appRoutes: Routes = [
       { enableTracing: false } // <-- debugging purposes only
     ), FontAwesomeModule],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
+
 export class AppModule {}

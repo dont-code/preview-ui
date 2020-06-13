@@ -3,6 +3,7 @@ import { CommandProviderService } from '../../shared/command/services/command-pr
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { DontCodeModel } from '@dontcode/core';
+import { Router } from "@angular/router";
 
 @Component({
   selector: 'preview-ui-menu',
@@ -16,7 +17,7 @@ export class MenuComponent implements OnInit, OnDestroy {
   unsubscriber = new Subject();
 
   constructor(protected provider: CommandProviderService,
-              private ref: ChangeDetectorRef) { }
+              private ref: ChangeDetectorRef, protected router: Router) { }
 
   ngOnInit(): void {
     this.provider.receiveCommands (DontCodeModel.APP_ENTITIES, DontCodeModel.APP_ENTITIES_NAME_NODE).pipe(
@@ -33,6 +34,9 @@ export class MenuComponent implements OnInit, OnDestroy {
     this.unsubscriber.complete();
   }
 
+  gotoDevPage() {
+    this.router.navigate(['dev']);
+  }
 }
 
 class MenuItem {

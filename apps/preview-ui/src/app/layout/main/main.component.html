@@ -1,6 +1,6 @@
 <div *ngIf="(context$ | async) as ctx">
   <kor-page>
-    <kor-app-bar slot="top" mobile [label]="'Preview '+appName">
+    <kor-app-bar id="mainToolbar" slot="top" mobile [label]="'Preview '+appName">
       <kor-icon button icon="url('./assets/images/logo.png')" slot="left" size="xl" (click)="logoClicked()"></kor-icon>
       <div slot="right">
         <kor-icon *ngIf="ctx.status === 'connected'" icon="sync"></kor-icon>

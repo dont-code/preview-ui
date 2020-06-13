@@ -1,13 +1,8 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatListModule } from '@angular/material/list';
-import { RouterModule } from '@angular/router';
-import { MainComponent } from './main/main.component';
-import { MenuComponent } from './menu/menu.component';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { RouterModule } from "@angular/router";
+import { MainComponent } from "./main/main.component";
+import { MenuComponent } from "./menu/menu.component";
 
 @NgModule({
   declarations: [MainComponent, MenuComponent],
@@ -15,8 +10,8 @@ import { MenuComponent } from './menu/menu.component';
     MainComponent
   ],
   imports: [
-    CommonModule,MatSidenavModule, MatToolbarModule, MatButtonModule, MatIconModule,MatListModule
-    ,RouterModule
-  ]
+    CommonModule,RouterModule
+  ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class LayoutModule { }
