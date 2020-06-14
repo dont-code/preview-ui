@@ -13,10 +13,12 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import '@kor-ui/kor';
 import { HomeComponent } from "./routes/home/home.component";
 import { DebugPageComponent } from "./routes/debug/debug-page/debug-page.component";
+import { ScreenComponent } from "./routes/screens/screen/screen.component";
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent },
-  { path: 'dev', component: DebugPageComponent }]
+  { path: 'dev', component: DebugPageComponent },
+  { path: 'screens/:id', component: ScreenComponent }]
 
 @NgModule({
   declarations: [AppComponent],

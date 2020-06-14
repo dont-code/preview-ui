@@ -9,22 +9,28 @@ import { Router } from "@angular/router";
   selector: 'preview-ui-menu',
   templateUrl: './menu.component.html',
   styleUrls: ['./menu.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.Default
 })
 export class MenuComponent implements OnInit, OnDestroy {
 
-  menus:Map<string, string>=new Map();
+  menus:Map<string, MenuComponentMenu>=new Map();
   unsubscriber = new Subject();
 
   constructor(protected provider: CommandProviderService,
-              private ref: ChangeDetectorRef, protected router: Router) { }
+              private ref: ChangeDetectorRef, public router: Router) { }
 
   ngOnInit(): void {
     this.provider.receiveCommands (DontCodeModel.APP_ENTITIES, DontCodeModel.APP_ENTITIES_NAME_NODE).pipe(
       takeUntil(this.unsubscriber)).subscribe(command => {
-        this.menus.set(command.position, command.value);
+        this.menus.set(command.position, new MenuComponentMenu (command.position, command.value, 'create'));
         this.ref.detectChanges();
+    });
+    this.provider.receiveCommands (DontCodeModel.APP_SCREENS, DontCodeModel.APP_SCREENS_NAME_NODE).pipe(
+      takeUntil(this.unsubscriber)).subscribe(command => {
+      this.menus.set(command.position, new MenuComponentMenu (command.position, command.value, 'filter'));
+      this.ref.detectChanges();
     })
+
 
   }
 
@@ -34,22 +40,47 @@ export class MenuComponent implements OnInit, OnDestroy {
     this.unsubscriber.complete();
   }
 
-  gotoDevPage() {
-    this.router.navigate(['dev']);
-
+  gotoPage(page:string): void {
+    this.router.navigate([page]);
   }
 
-  gotoHomePage() {
-    this.router.navigate(['/']);
+  isActive(page:string):boolean {
+    const ret = this.router.isActive(page, true);
+    console.log(page +' is active:'+ret);
+    return ret;
+  }
+
+  gotoItem(menu: MenuComponentMenu) {
+    this.router.navigate([menu.position]);
   }
 }
 
-class MenuItem {
-  constructor(position: string, name: string) {
-    this.entity = position;
-    this.name=name;
+export class MenuComponentMenu {
+  position:string;
+  key:string;
+  label:string;
+  icon:string;
+
+
+  constructor(position: string, label: any, icon?: string) {
+    position = this.cleanPosition (position);
+    this.position = position;
+    this.key = position.split('/').join('-');
+    this.label = label.name?label.name:label;
+    if (icon) {
+      this.icon = icon;
+    } else {
+      this.icon = 'text_snippet';
+    }
   }
 
-  public entity:string;
-  public name:string;
+  private cleanPosition(position: string): string {
+    if (position.startsWith(DontCodeModel.ROOT))
+      position = position.substr(DontCodeModel.ROOT.length+1);
+    if (position.endsWith(DontCodeModel.APP_SCREENS_NAME_NODE))
+    {
+      position = position.substring(0, position.length-DontCodeModel.APP_SCREENS_NAME_NODE.length-1);
+    }
+    return position;
+  }
 }
