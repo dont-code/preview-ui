@@ -46,7 +46,7 @@ export class MenuComponent implements OnInit, OnDestroy {
 
   isActive(page:string):boolean {
     const ret = this.router.isActive(page, true);
-    console.log(page +' is active:'+ret);
+//    console.log(page +' is active:'+ret);
     return ret;
   }
 
