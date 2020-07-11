@@ -3,6 +3,7 @@ import { CommonModule } from "@angular/common";
 import { RouterModule } from "@angular/router";
 import { MainComponent } from "./main/main.component";
 import { MenuComponent } from "./menu/menu.component";
+import { FlexLayoutModule } from "@angular/flex-layout";
 
 @NgModule({
   declarations: [MainComponent, MenuComponent],
@@ -10,7 +11,7 @@ import { MenuComponent } from "./menu/menu.component";
     MainComponent
   ],
   imports: [
-    CommonModule,RouterModule
+    CommonModule, RouterModule, FlexLayoutModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

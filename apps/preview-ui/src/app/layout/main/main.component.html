@@ -7,9 +7,16 @@
         <kor-icon *ngIf="ctx.status !== 'connected'" color="rgb(var(--functional-red))" icon="sync_problem"></kor-icon>
       </div>
     </kor-app-bar>
-  <kor-drawer id="mainSidePanel" [visible]="sidePanelVisible" (visible-changed)="sidePanelVisibleChanged ($event)" label="Menu">
-    <preview-ui-menu></preview-ui-menu>
-  </kor-drawer>
+    <div fxHide="true" fxShow.lt-md="true">
+      <kor-drawer id="mainSidePanel" [visible]="sidePanelVisible" (visible-changed)="sidePanelVisibleChanged ($event)" label="Menu">
+        <preview-ui-menu></preview-ui-menu>
+      </kor-drawer>
+    </div>
+    <div slot="left" fxShow="true" fxHide.lt-md="true">
+      <kor-pane label="Menu" size="l">
+      <preview-ui-menu></preview-ui-menu>
+      </kor-pane>
+    </div>
   <router-outlet></router-outlet>
   </kor-page>
 </div>
