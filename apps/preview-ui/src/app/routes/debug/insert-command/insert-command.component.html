@@ -1,5 +1,11 @@
 <kor-accordion label="Add Command" expanded>
-<kor-input label="position" [value]="position" (value-changed)="position = $event.target.value"></kor-input>
-<kor-input label="value" [value]="value" (value-changed)="value = $event.target.value"></kor-input>
+  <kor-input label="position" type="select" [value]="position" (value-changed)="position = $event.target.value">
+    <kor-menu-item label="creation/name"></kor-menu-item>
+    <kor-menu-item label="creation/entities/a/name"></kor-menu-item>
+    <kor-menu-item label="creation/screens/a/name"></kor-menu-item>
+    <kor-menu-item label="creation/entities/b/name"></kor-menu-item>
+    <kor-menu-item label="creation/screens/b/name"></kor-menu-item>
+  </kor-input>
+  <kor-input label="value" [value]="value" (value-changed)="value = $event.target.value"></kor-input>
   <kor-button slot="footer" label="Add" (click)="addCommand($event)"></kor-button>
 </kor-accordion>

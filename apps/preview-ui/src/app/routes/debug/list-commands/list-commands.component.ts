@@ -24,7 +24,7 @@ export class ListCommandsComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    console.log("ListCommands");
+    //console.log("ListCommands");
     this.context$ = combineLatest([this.providerService.receiveCommands()])
       .pipe(map ((command) => {
         if( this.forgetIt) {

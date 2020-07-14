@@ -14,6 +14,7 @@ import { HomeComponent } from "./routes/home/home.component";
 import { DebugPageComponent } from "./routes/debug/debug-page/debug-page.component";
 import { ScreenComponent } from "./routes/screens/screen/screen.component";
 import { FlexLayoutModule } from "@angular/flex-layout";
+import { ScreenModule } from "@dontcode/plugin-screen";
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent },
@@ -27,7 +28,9 @@ const appRoutes: Routes = [
       appRoutes,
       { enableTracing: false } // <-- debugging purposes only
     ), FontAwesomeModule
-  ,FlexLayoutModule],
+  ,FlexLayoutModule
+  ,ScreenModule
+  ],
   providers: [],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]

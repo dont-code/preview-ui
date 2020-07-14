@@ -1,11 +1,9 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { combineLatest, Observable, Subject } from 'rxjs';
-import { map, shareReplay, takeUntil } from 'rxjs/operators';
-import { CommandProviderService } from '../../shared/command/services/command-provider.service';
-import {ChangeListenerService} from "../../shared/change/services/change-listener.service";
-import { DontCodeModel } from '@dontcode/core';
-import { $e } from "codelyzer/angular/styles/chars";
+import { Component, OnDestroy, OnInit } from "@angular/core";
+import { combineLatest, Observable, Subject } from "rxjs";
+import { map, takeUntil } from "rxjs/operators";
+import { CommandProviderService } from "../../shared/command/services/command-provider.service";
+import { ChangeListenerService } from "../../shared/change/services/change-listener.service";
+import { DontCodeModel } from "@dontcode/core";
 
 @Component({
   selector: 'preview-ui-main',

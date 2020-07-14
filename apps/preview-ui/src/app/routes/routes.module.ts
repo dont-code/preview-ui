@@ -5,13 +5,15 @@ import { HomeComponent } from './home/home.component';
 import { InsertCommandComponent } from './debug/insert-command/insert-command.component';
 import { DebugPageComponent } from './debug/debug-page/debug-page.component';
 import { ScreenComponent } from './screens/screen/screen.component';
+import { SharedModule } from "../shared/shared.module";
 
 
 @NgModule({
   declarations: [ListCommandsComponent, HomeComponent, InsertCommandComponent, DebugPageComponent, ScreenComponent],
-    imports: [
-        CommonModule
-    ],
+  imports: [
+    CommonModule,
+    SharedModule
+  ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class RoutesModule { }

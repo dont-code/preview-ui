@@ -29,7 +29,8 @@
               "apps/preview-ui/src/styles.scss",
               "./node_modules/@kor-ui/kor/kor-styles.css"
             ],
-            "scripts": []
+            "scripts": [],
+            "preserveSymlinks": true
           },
           "configurations": {
             "online": {
