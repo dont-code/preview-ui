@@ -39,7 +39,17 @@ export class ScreenComponent implements OnInit {
       viewContainerRef.clear();
 
       const componentRef = viewContainerRef.createComponent(componentFactory);
-    });
+    }).catch(reason => {
+        import('@dontcode/plugin-' + handler.class.source + '/fesm2015/dontcode-plugin-' + handler.class.source + '.js').then((m) => {
+          const componentFactory = this.componentFactoryResolver.resolveComponentFactory(m[handler.class.name]);
+
+          const viewContainerRef = this.host.viewContainerRef;
+          viewContainerRef.clear();
+
+          const componentRef = viewContainerRef.createComponent(componentFactory);
+
+        });
+      })
     }
 
   }
