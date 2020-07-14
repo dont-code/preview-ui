@@ -32,7 +32,7 @@ export class ScreenComponent implements OnInit {
     if (handler) {
       console.log("Importing from ", handler.class.source);
 //      import('../../../../../../../../plugins/dist/libs/'+handler.class.source+'/esm2015').then ((m) => {
-      import('@dontcode/plugin-'+handler.class.source+'/esm2015').then ((m) => {
+      import('@dontcode/plugin-'+handler.class.source+'/__ivy_ngcc__/fesm2015/dontcode-plugin-'+handler.class.source+'.js').then ((m) => {
       const componentFactory = this.componentFactoryResolver.resolveComponentFactory(m[handler.class.name]);
 
       const viewContainerRef = this.host.viewContainerRef;
