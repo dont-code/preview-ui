@@ -5,6 +5,7 @@ import { map } from "rxjs/operators";
 import { Observable } from "rxjs";
 import { DynamicInsertDirective } from "../../../shared/dynamic/directives/dynamic-insert.directive";
 import { DontCode, DontCodeModel } from '@dontcode/core';
+import { environment} from "../../../../environments/environment";
 
 @Component({
   selector: 'preview-ui-screen',
@@ -31,27 +32,30 @@ export class ScreenComponent implements OnInit {
 
     if (handler) {
       console.log("Importing from ", handler.class.source);
-//      import('../../../../../../../../plugins/dist/libs/'+handler.class.source+'/esm2015').then ((m) => {
-      import('@dontcode/plugin-'+handler.class.source+'/__ivy_ngcc__/fesm2015/dontcode-plugin-'+handler.class.source+'.js').then ((m) => {
-      const componentFactory = this.componentFactoryResolver.resolveComponentFactory(m[handler.class.name]);
-
-      const viewContainerRef = this.host.viewContainerRef;
-      viewContainerRef.clear();
-
-      const componentRef = viewContainerRef.createComponent(componentFactory);
-    }).catch(reason => {
-        import('@dontcode/plugin-' + handler.class.source + '/fesm2015/dontcode-plugin-' + handler.class.source + '.js').then((m) => {
-          const componentFactory = this.componentFactoryResolver.resolveComponentFactory(m[handler.class.name]);
-
-          const viewContainerRef = this.host.viewContainerRef;
-          viewContainerRef.clear();
-
-          const componentRef = viewContainerRef.createComponent(componentFactory);
-
+        // First try to import from ivy modules (in prod)
+      if (environment.production) {
+        import('@dontcode/plugin-' + handler.class.source + '/__ivy_ngcc__/fesm2015/dontcode-plugin-' + handler.class.source + '.js').then((m) => {
+          this.applyComponent(m, handler);
         });
-      })
+      }
+      else {
+        import('@dontcode/plugin-' + handler.class.source + '/fesm2015/dontcode-plugin-' + handler.class.source + '.js').then((m) => {
+          this.applyComponent (m, handler);
+        }).catch(reason => {
+          import('../../../../../../../dist/libs/' + handler.class.source + '/fesm2015/dontcode-plugin-' + handler.class.source + '.js').then((m) => {
+            this.applyComponent(m, handler);
+          });
+        });
+      }
     }
-
   }
 
+  applyComponent (module:any, handler:DontCode.PreviewHandlerConfig)  {
+    const componentFactory = this.componentFactoryResolver.resolveComponentFactory(module[handler.class.name]);
+
+    const viewContainerRef = this.host.viewContainerRef;
+    viewContainerRef.clear();
+
+    const componentRef = viewContainerRef.createComponent(componentFactory);
+  }
 }
