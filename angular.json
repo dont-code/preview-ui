@@ -37,7 +37,7 @@
               "fileReplacements": [
                 {
                   "replace": "apps/preview-ui/src/environments/environment.ts",
-                  "with": "apps/preview-ui/src/environments/environment.prod.ts"
+                  "with": "apps/preview-ui/src/environments/environment.online.ts"
                 }
               ]
             },
