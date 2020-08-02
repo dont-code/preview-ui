@@ -9,7 +9,7 @@ import { Router } from "@angular/router";
   selector: 'preview-ui-menu',
   templateUrl: './menu.component.html',
   styleUrls: ['./menu.component.css'],
-  changeDetection: ChangeDetectionStrategy.Default
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MenuComponent implements OnInit, OnDestroy {
 

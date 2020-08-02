@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { combineLatest, Observable } from 'rxjs';
-import { Command } from '../../../shared/command/command';
-import { map } from 'rxjs/operators';
-import { CommandProviderService } from '../../../shared/command/services/command-provider.service';
+import { Component, OnInit } from "@angular/core";
+import { combineLatest, Observable } from "rxjs";
+import { map } from "rxjs/operators";
+import { Change } from "@dontcode/core";
+import { CommandProviderService } from "../../../shared/command/services/command-provider.service";
 
 @Component({
   selector: 'preview-ui-list-commands',
@@ -11,8 +11,8 @@ import { CommandProviderService } from '../../../shared/command/services/command
 })
 export class ListCommandsComponent implements OnInit {
 
-  commands: Command[] = [];
-  context$: Observable<{command: Command}>;
+  commands: Change[] = [];
+  context$: Observable<{command: Change}>;
 
   /**
    * Dont update for the first item sent by providerservice

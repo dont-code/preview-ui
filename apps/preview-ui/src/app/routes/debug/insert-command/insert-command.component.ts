@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { CommandProviderService } from "../../../shared/command/services/command-provider.service";
-import { Command, CommandType } from "../../../shared/command/command";
+import { Change, ChangeType } from "@dontcode/core";
 
 @Component({
   selector: 'preview-ui-insert-command',
@@ -17,6 +17,6 @@ export class InsertCommandComponent implements OnInit {
   }
 
   addCommand($event: any) {
-    this.commandService.pushCommand(new Command(CommandType.ADD, this.position, this.value));
+    this.commandService.pushCommand(new Change (ChangeType.ADD, this.position, this.value));
   }
 }
