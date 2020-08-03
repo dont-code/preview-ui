@@ -15,7 +15,7 @@ describe('commands', () => {
 
   it('should display updated name', () => {
     closeSidePanel();
-    getToolbarTitle().should('contain','New Name');
+    getToolbarTitle().should('contain','No Name');
     cy.findNgComponent('preview-ui-main').then((comp: MainComponent) => {
       comp.appName = 'Testing Name';
       cy.applyChanges(comp);
