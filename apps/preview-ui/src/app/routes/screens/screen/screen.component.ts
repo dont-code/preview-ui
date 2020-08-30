@@ -1,10 +1,10 @@
 import { Component, ComponentFactoryResolver, OnInit, ViewChild } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { CommandProviderService } from "../../../shared/command/services/command-provider.service";
-import { catchError, first, map } from "rxjs/operators";
+import { catchError, first, map, flatMap, mergeMap } from "rxjs/operators";
 import { forkJoin, from, Observable } from "rxjs";
 import { DynamicInsertDirective } from "../../../shared/dynamic/directives/dynamic-insert.directive";
-import { DontCode, DontCodeModel, PreviewHandler } from "@dontcode/core";
+import { DontCode, DontCodeModel, PreviewHandler, CommandProviderInterface } from "@dontcode/core";
 import { environment } from "../../../../environments/environment";
 
 @Component({
@@ -26,27 +26,34 @@ export class ScreenComponent implements OnInit {
       return params.get('id');
     }));
 
-    forkJoin ({
-      screenId:
-        this.screenName$.pipe(first()),
-      component:
-        this.loadComponent ()
-    }).pipe(
-      map (value => {
-//        console.log("Loaded:", value);
-        value.component.initCommandFlow(this.provider,
-          DontCodeModel.APP_SCREENS+'/'+value.screenId,
-          DontCodeModel.APP_SCREENS);
+    this.screenName$.pipe(
+      mergeMap (valueId => {
+        console.log("Searching for component for route ", this.route.snapshot.url);
+        const position = DontCodeModel.ROOT+'/'+this.route.snapshot.url[0];
+
+        return this.loadComponent(position, valueId).pipe(
+          map (component => {
+            return {valueId, position, component};
+          })
+        )
+      }),
+      map( context => {
+        // We shouldn't need to convert this.provider to CommandProviderInterface,
+        // But otherwise we get an ts error
+        context.component.initCommandFlow(this.provider as unknown as CommandProviderInterface,
+          context.position+'/'+context.valueId,
+          context.position);
       })
     ).subscribe(() => {
       //console.log("Loaded");
     });
   }
 
-  loadComponent (): Observable<PreviewHandler> {
+  loadComponent (position:string, value:string): Observable<PreviewHandler> {
     const previewMgr = DontCode.dtcde.getPreviewManager ();
+    const currentJson = this.provider.getJsonAt (position+'/'+value);
 
-    const handler = previewMgr.retrieveHandlerConfig(DontCodeModel.APP_SCREENS);
+    const handler = previewMgr.retrieveHandlerConfig(position+'/'+value, currentJson);
 
     if (handler) {
       console.log("Importing from ", handler.class.source);

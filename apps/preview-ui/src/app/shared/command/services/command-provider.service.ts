@@ -1,3 +1,4 @@
+import { ValueService } from '../../values/services/value.service';
 import { Injectable } from "@angular/core";
 import { Observable, ReplaySubject, Subject } from "rxjs";
 import { filter } from "rxjs/operators";
@@ -11,16 +12,18 @@ export class CommandProviderService implements CommandProviderInterface {
 
   protected receivedCommands = new Subject<Change> ();
 
-  constructor(protected changeListener: ChangeListenerService) {
-/*    this.receivedCommands.next(new Change(ChangeType.ADD, DontCodeModel.APP_NAME, 'New Name' ));
-    this.receivedCommands.next(new Command(CommandType.ADD, DontCodeModel.APP_ENTITIES+"/a/name", "ToDoItem"));
-    this.receivedCommands.next(new Command(CommandType.ADD, DontCodeModel.APP_ENTITIES+"/b/name","Country"));*/
+  constructor(protected changeListener: ChangeListenerService, protected valueService:ValueService) {
+    valueService.receiveUpdatesFrom (this.receivedCommands);
     changeListener.getChangeEvents().subscribe(change => {
       console.log ('Received Change ', change);
       this.receivedCommands.next(new Change (
         ChangeType.UPDATE, change.position, change.value
       ))
     });
+  }
+
+  getJsonAt(position: string): any {
+    return this.valueService.findAtPosition (position, false);
   }
 
   pushCommand (newChange:Change) {

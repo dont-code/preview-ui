@@ -13,7 +13,7 @@ export class ChangeListenerService {
 
   protected listOfChanges: Change[]=[];
 
-  protected listOfEntities: Map<string, string> = new Map();
+//  protected listOfEntities: Map<string, string> = new Map();
 
   previewServiceWebSocket: WebSocketSubject<Change>;
   protected changeEmitter = new Subject<Change> ();
