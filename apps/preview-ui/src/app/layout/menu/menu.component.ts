@@ -75,8 +75,9 @@ export class MenuComponentMenu {
   }
 
   private cleanPosition(position: string): string {
-    if (position.startsWith(DontCodeModel.ROOT))
-      position = position.substr(DontCodeModel.ROOT.length+1);
+/*    if (position.startsWith(DontCodeModel.ROOT))
+      position = position.substr(DontCodeModel.ROOT.length+1);*/
+
     if (position.endsWith(DontCodeModel.APP_SCREENS_NAME_NODE))
     {
       position = position.substring(0, position.length-DontCodeModel.APP_SCREENS_NAME_NODE.length-1);

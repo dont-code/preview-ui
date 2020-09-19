@@ -19,7 +19,12 @@ import { ScreenModule } from "@dontcode/plugin-screen";
 const appRoutes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'dev', component: DebugPageComponent },
-  { path: 'screens/:id', component: ScreenComponent }]
+  { matcher: segments => {
+    if (segments[0] && segments[0].path==='creation')
+      return { consumed:segments };
+    else
+      return null;
+    }, component: ScreenComponent }]
 
 @NgModule({
   declarations: [AppComponent],

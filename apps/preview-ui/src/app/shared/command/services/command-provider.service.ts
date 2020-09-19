@@ -2,8 +2,16 @@ import { ValueService } from '../../values/services/value.service';
 import { Injectable } from "@angular/core";
 import { Observable, ReplaySubject, Subject } from "rxjs";
 import { filter } from "rxjs/operators";
-import { Change, ChangeType, CommandProviderInterface, DontCodeModel } from "@dontcode/core";
+import {
+  Change,
+  ChangeType,
+  CommandProviderInterface,
+  DontCode,
+  DontCodeModel,
+  DontCodeModelPointer
+} from "@dontcode/core";
 import { ChangeListenerService } from "../../change/services/change-listener.service";
+import dtcde = DontCode.dtcde;
 
 @Injectable({
   providedIn: 'root'
@@ -54,4 +62,8 @@ export class CommandProviderService implements CommandProviderInterface {
       return this.receivedCommands;
   }
 
+  calculatePointerFor (position:string): DontCodeModelPointer {
+    const ret = dtcde.getSchemaManager().generateSchemaPointer(position);
+    return ret;
+  }
 }

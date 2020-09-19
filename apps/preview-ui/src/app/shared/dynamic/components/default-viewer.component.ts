@@ -1,4 +1,4 @@
-import { PreviewHandler, CommandProviderInterface } from '@dontcode/core';
+import { PreviewHandler, CommandProviderInterface, DontCodeModelPointer } from "@dontcode/core";
 import { Component, OnInit, ChangeDetectionStrategy, ComponentFactoryResolver } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CommandProviderService } from '../../command/services/command-provider.service';
@@ -22,9 +22,9 @@ export class DefaultViewerComponent implements OnInit, PreviewHandler {
   ngOnInit(): void {
   }
 
-  initCommandFlow(provider: CommandProviderInterface, position: string, schemaPosition: string) {
-    this.position = position;
-    this.schemaPosition = schemaPosition;
+  initCommandFlow(provider: CommandProviderInterface, pointer:DontCodeModelPointer) {
+    this.position = pointer.position;
+    this.schemaPosition = pointer.schemaPosition;
   }
 
 

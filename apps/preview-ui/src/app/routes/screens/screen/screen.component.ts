@@ -22,31 +22,33 @@ export class ScreenComponent extends DynamicBaseComponent implements OnInit {
               }
 
   ngOnInit(): void {
-    this.screenName$= this.route.paramMap.pipe(map(params => {
-      return params.get('id');
+    this.screenName$= this.route.url.pipe(map(segments => {
+      return segments[1].path;
     }));
 
-    this.screenName$.pipe(
-      mergeMap (valueId => {
-        console.log("Searching for component for route ", this.route.snapshot.url);
-        const position = DontCodeModel.ROOT+'/'+this.route.snapshot.url[0];
+    let position = null;
+    this.route.snapshot.url.forEach(value => {
+      if( position === null)
+        position = value.path;
+      else
+        position = position+'/'+value.path;
+    })
+    console.log("Searching for component handling route ", position);
 
-        return this.loadComponent(position, valueId).pipe(
-          map (component => {
-            return {valueId, position, component};
-          })
-        )
-      }),
-      map( context => {
-        // We shouldn't need to convert this.provider to CommandProviderInterface,
-        // But otherwise we get an ts error
-        context.component.initCommandFlow(this.provider as unknown as CommandProviderInterface,
-          context.position+'/'+context.valueId,
-          context.position);
-      })
-    ).subscribe(() => {
-      //console.log("Loaded");
-    });
+    const schemaPointer = this.provider.calculatePointerFor(position);
+    this.loadComponent(schemaPointer.schemaPosition).pipe(
+        map (component => {
+            return {position, component};
+          }),
+        map( context => {
+          // We shouldn't need to convert this.provider to CommandProviderInterface,
+          // But otherwise we get an ts error
+          context.component.initCommandFlow(this.provider as unknown as CommandProviderInterface,
+            schemaPointer);
+        })
+        ).subscribe(() => {
+          //console.log("Loaded");
+        });
   }
 
 }

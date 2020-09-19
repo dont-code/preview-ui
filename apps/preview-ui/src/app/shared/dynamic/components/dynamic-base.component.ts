@@ -25,9 +25,9 @@ export abstract class DynamicBaseComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  protected loadComponent (position:string, value:string): Observable<PreviewHandler> {
+  protected loadComponent (position:string): Observable<PreviewHandler> {
     const previewMgr = DontCode.dtcde.getPreviewManager ();
-    const currentJson = this.provider.getJsonAt (position+'/'+value);
+    const currentJson = this.provider.getJsonAt (position);
 
     const handler = previewMgr.retrieveHandlerConfig(position, currentJson);
 
