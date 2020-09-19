@@ -99,19 +99,14 @@
               "apps/preview-ui/tsconfig.app.json",
               "apps/preview-ui/tsconfig.spec.json"
             ],
-            "exclude": [
-              "**/node_modules/**",
-              "!apps/preview-ui/**"
-            ]
+            "exclude": ["**/node_modules/**", "!apps/preview-ui/**/*"]
           }
         },
         "test": {
           "builder": "@nrwl/jest:jest",
           "options": {
             "jestConfig": "apps/preview-ui/jest.config.js",
-            "tsConfig": "apps/preview-ui/tsconfig.spec.json",
-            "passWithNoTests": true,
-            "setupFile": "apps/preview-ui/src/test-setup.ts"
+            "passWithNoTests": true
           }
         }
       }
@@ -137,13 +132,8 @@
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
-            "tsConfig": [
-              "apps/preview-ui-e2e/tsconfig.e2e.json"
-            ],
-            "exclude": [
-              "**/node_modules/**",
-              "!apps/preview-ui-e2e/**"
-            ]
+            "tsConfig": ["apps/preview-ui-e2e/tsconfig.e2e.json"],
+            "exclude": ["**/node_modules/**", "!apps/preview-ui-e2e/**/*"]
           }
         }
       }
