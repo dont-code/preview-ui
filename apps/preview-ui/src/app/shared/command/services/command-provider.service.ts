@@ -42,7 +42,7 @@ export class CommandProviderService implements CommandProviderInterface {
     if (position)
     {
       return this.receivedCommands.pipe(filter (command => {
-        if (command.position.startsWith(position)) {
+        if ((command.position!=null) && (command.position.startsWith(position))) {
           if (lastItem) {
             const next=command.position.indexOf('/', position.length+1);
             if( next != -1) {
