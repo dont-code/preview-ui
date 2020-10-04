@@ -41,19 +41,25 @@ export class CommandProviderService implements CommandProviderInterface {
   receiveCommands (position?: string, lastItem?: string): Observable<Change> {
     if (position)
     {
+      //console.log("Setting Commands updates for ", position);
       return this.receivedCommands.pipe(filter (command => {
+        //console.log("Filtering position for pos,item:", command.position, position, lastItem);
         if ((command.position!=null) && (command.position.startsWith(position))) {
           if (lastItem) {
             const next=command.position.indexOf('/', position.length+1);
             if( next != -1) {
               if( command.position.startsWith(lastItem, next+1)) {
+                //console.log("Filtering ok");
                 return true;
               }
             }
+            //console.log("Filtering no");
             return false;
           }
+          //console.log("Filtering ok");
           return true;
         } else {
+          //console.log("Filtering no");
           return false;
         }
       }));
