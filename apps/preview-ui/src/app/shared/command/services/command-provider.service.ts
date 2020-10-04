@@ -25,8 +25,8 @@ export class CommandProviderService implements CommandProviderInterface {
     changeListener.getChangeEvents().subscribe(change => {
       console.log ('Received Change ', change);
       this.receivedCommands.next(new Change (
-        ChangeType.UPDATE, change.position, change.value
-      ))
+        ChangeType.UPDATE, change.position,change.value,this.calculatePointerFor(change.position)
+      ));
     });
   }
 
@@ -56,7 +56,7 @@ export class CommandProviderService implements CommandProviderInterface {
         } else {
           return false;
         }
-      }))
+      }));
     }
     else
       return this.receivedCommands;

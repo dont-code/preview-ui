@@ -7,4 +7,9 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'preview-ui';
+
+  mainTab(): boolean {
+    return window.location.hash.indexOf('/newTabDev')==-1;
+  }
+
 }

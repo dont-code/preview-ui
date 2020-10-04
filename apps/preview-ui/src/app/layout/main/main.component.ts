@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from "@angular/core";
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from "@angular/core";
 import { combineLatest, Observable, Subject } from "rxjs";
 import { map, takeUntil } from "rxjs/operators";
 import { CommandProviderService } from "../../shared/command/services/command-provider.service";
@@ -8,7 +8,8 @@ import { DontCodeModel } from "@dontcode/core";
 @Component({
   selector: 'preview-ui-main',
   templateUrl: './main.component.html',
-  styleUrls: ['./main.component.css']
+  styleUrls: ['./main.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MainComponent implements OnInit, OnDestroy {
 
@@ -24,7 +25,8 @@ export class MainComponent implements OnInit, OnDestroy {
 
   constructor(
     protected provider:CommandProviderService,
-    protected listenerService:ChangeListenerService
+    protected listenerService:ChangeListenerService,
+    private ref: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
@@ -32,6 +34,7 @@ export class MainComponent implements OnInit, OnDestroy {
     this.provider.receiveCommands (DontCodeModel.APP_NAME).pipe(
       takeUntil(this.unsubscriber)).subscribe(command => {
         this.appName = command.value;
+        this.ref.detectChanges();
     });
     this.context$ = combineLatest([this.listenerService.getConnectionStatus()])
       .pipe(map ((status) => {
@@ -52,4 +55,9 @@ export class MainComponent implements OnInit, OnDestroy {
     //console.log($event);
     this.sidePanelVisible=$event.target.visible;
   }
+
+  openDevUrl() {
+    window.open('#/newTabDev', '_blank');
+  }
+
 }

@@ -15,10 +15,12 @@ import { DebugPageComponent } from "./routes/debug/debug-page/debug-page.compone
 import { ScreenComponent } from "./routes/screens/screen/screen.component";
 import { FlexLayoutModule } from "@angular/flex-layout";
 import { ScreenModule } from "@dontcode/plugin-screen";
+import { BasicModule } from "@dontcode/plugin-basic";
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'dev', component: DebugPageComponent },
+  { path: 'newTabDev', component: DebugPageComponent},
   { matcher: segments => {
     if (segments[0] && segments[0].path==='creation')
       return { consumed:segments };
@@ -31,10 +33,11 @@ const appRoutes: Routes = [
   imports: [BrowserModule, BrowserAnimationsModule, LayoutModule, SharedModule,
     RoutesModule, RouterModule.forRoot(
       appRoutes,
-      { enableTracing: false } // <-- debugging purposes only
+      { enableTracing: false,useHash:true } // <-- debugging purposes only
     ), FontAwesomeModule
-  ,FlexLayoutModule
-  ,ScreenModule
+    ,FlexLayoutModule
+    ,ScreenModule
+    ,BasicModule
   ],
   providers: [],
   bootstrap: [AppComponent],

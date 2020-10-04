@@ -1,11 +1,10 @@
-import { Component, ComponentFactoryResolver, OnInit, ViewChild } from "@angular/core";
+import { Component, ComponentFactoryResolver, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
-import { map, mergeMap } from "rxjs/operators";
+import { map } from "rxjs/operators";
 import { Observable } from "rxjs";
-import { DontCodeModel, CommandProviderInterface } from "@dontcode/core";
-import { DynamicBaseComponent } from '../../../shared/dynamic/components/dynamic-base.component';
+import { CommandProviderInterface } from "@dontcode/core";
+import { DynamicBaseComponent } from "../../../shared/dynamic/components/dynamic-base.component";
 import { CommandProviderService } from "../../../shared/command/services/command-provider.service";
-import { DynamicInsertDirective } from "../../../shared/dynamic/directives/dynamic-insert.directive";
 
 @Component({
   selector: 'preview-ui-screen',

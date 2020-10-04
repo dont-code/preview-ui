@@ -1,4 +1,2 @@
-<ng-container *ngIf="(context$ | async) as ctx">
-  <p>We list below the commands received from the Application Builder:</p>
-  <p *ngFor="let command of commands">{{command.type}}, {{command.position}}, {{(command.value|json)}}</p>
-</ng-container>
+<p>We list below the commands received from the Application Builder:</p>
+<p *ngFor="let command of commands">{{command.type}}, {{command.position}}, {{(command.value|json)}}</p>

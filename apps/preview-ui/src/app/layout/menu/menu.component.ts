@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, NgZone, OnDestroy, OnInit } from "@angular/core";
 import { CommandProviderService } from '../../shared/command/services/command-provider.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -17,7 +17,8 @@ export class MenuComponent implements OnInit, OnDestroy {
   unsubscriber = new Subject();
 
   constructor(protected provider: CommandProviderService,
-              private ref: ChangeDetectorRef, public router: Router) { }
+              private ref: ChangeDetectorRef, public router: Router,
+              public ngZone:NgZone) { }
 
   ngOnInit(): void {
     this.provider.receiveCommands (DontCodeModel.APP_ENTITIES, DontCodeModel.APP_ENTITIES_NAME_NODE).pipe(
@@ -41,7 +42,10 @@ export class MenuComponent implements OnInit, OnDestroy {
   }
 
   gotoPage(page:string): void {
-    this.router.navigate([page]);
+    // ngZone is necessary as we are being called by a non angular component (kor-ui)
+    this.ngZone.run (() => {
+      this.router.navigate([page]);
+    })
   }
 
   isActive(page:string):boolean {
@@ -51,7 +55,10 @@ export class MenuComponent implements OnInit, OnDestroy {
   }
 
   gotoItem(menu: MenuComponentMenu) {
-    this.router.navigate([menu.position]);
+    // ngZone is necessary as we are being called by a non angular component (kor-ui)
+    this.ngZone.run (() => {
+      this.router.navigate([menu.position]);
+    });
   }
 }
 

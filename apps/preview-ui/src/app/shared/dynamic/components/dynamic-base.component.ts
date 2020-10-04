@@ -49,6 +49,7 @@ export abstract class DynamicBaseComponent implements OnInit {
                 return this.applyComponentFromConfig (module, handler);
               }),
             catchError(err => {
+              console.error ('Error importing using ../../ ', err);
               console.log ('Trying import using  @dontcode/plugin-../fesm2015');
             return from (
               import('@dontcode/plugin-' + handler.class.source + '/fesm2015/dontcode-plugin-' + handler.class.source + '.js')

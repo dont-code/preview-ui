@@ -4,6 +4,8 @@ import { Observable, ReplaySubject, Subject } from "rxjs";
 import { WebSocketSubject } from "rxjs/internal-compatibility";
 import { webSocket } from "rxjs/webSocket";
 import { environment } from "../../../../environments/environment";
+import { BroadcastChannel } from "broadcast-channel";
+import { DevChangePushService } from "../../dev/services/dev-change-push.service";
 
 
 @Injectable({
@@ -18,6 +20,8 @@ export class ChangeListenerService {
   previewServiceWebSocket: WebSocketSubject<Change>;
   protected changeEmitter = new Subject<Change> ();
   protected connectionStatus: ReplaySubject<string>=new ReplaySubject<string>(1);
+
+  protected channel: BroadcastChannel<Change>;
 
   constructor() {
     this.previewServiceWebSocket = webSocket(environment.webSocketUrl);
@@ -41,6 +45,14 @@ export class ChangeListenerService {
       }
       // Called when connection is closed (for whatever reason)
     );
+
+    // Listens as well to broadcasted events
+    console.log("Listening to debug broadcasts")
+    this.channel = new BroadcastChannel(DevChangePushService.CHANNEL_CHANGE_NAME);
+    this.channel.onmessage = msg => {
+      this.listOfChanges.push(msg);
+      this.changeEmitter.next(msg);
+    }
   }
 
   getListOfChanges (): Change[] {
