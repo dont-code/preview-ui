@@ -1,8 +1,16 @@
 import { DefaultViewerComponent } from './default-viewer.component';
-import { Component, OnInit, ChangeDetectionStrategy, ComponentFactoryResolver, ViewChild, Type } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ChangeDetectionStrategy,
+  ComponentFactoryResolver,
+  ViewChild,
+  Type,
+  getModuleFactory
+} from "@angular/core";
 import { ActivatedRoute } from '@angular/router';
 import { Observable, from, of } from 'rxjs';
-import { PreviewHandler, DontCode } from '@dontcode/core';
+import { PreviewHandler, DontCode, PluginModuleInterface} from '@dontcode/core';
 import { map, catchError } from 'rxjs/operators';
 import { environment } from '../../../../environments/environment';
 import { CommandProviderService } from '../../command/services/command-provider.service';
@@ -33,6 +41,13 @@ export abstract class DynamicBaseComponent implements OnInit {
 
     if (handler) {
       console.log("Importing from ", handler.class.source);
+      try {
+        // First lets try if the plugin is imported during the compilation
+        let module:PluginModuleInterface=getModuleFactory('dontcode-plugin/'+handler.class.source).create(null).instance;
+        return of(this.applyComponent(module.exposedPreviewHandlers().get(handler.class.name)));
+      } catch (e) {
+        // Nope, fallback to dynamically loading it
+      }
       // First try to import from ivy modules (in prod)
       if (environment.production) {
         console.log ('production import using __ivy_ngcc__');
@@ -83,4 +98,38 @@ export abstract class DynamicBaseComponent implements OnInit {
     return handler;
   }
 
+}
+
+declare let Reflect: any;
+function getAnnotations(typeOrFunc: Type<any>): any[]|null {// Prefer the direct API.
+  if ((<any>typeOrFunc).annotations) {
+    let annotations = (<any>typeOrFunc).annotations;
+    if (typeof annotations === 'function' && annotations.annotations) {
+      annotations = annotations.annotations;
+    }
+    return annotations;
+  }
+
+  // API of tsickle for lowering decorators to properties on the class.
+  if ((<any>typeOrFunc).decorators) {
+    return convertTsickleDecoratorIntoMetadata((<any>typeOrFunc).decorators);
+  }
+
+  // API for metadata created by invoking the decorators.
+  if (Reflect && Reflect.getOwnMetadata) {
+    return Reflect.getOwnMetadata('annotations', typeOrFunc);
+  }
+  return null;
+}
+
+function convertTsickleDecoratorIntoMetadata(decoratorInvocations: any[]): any[] {
+  if (!decoratorInvocations) {
+    return [];
+  }
+  return decoratorInvocations.map(decoratorInvocation => {
+    const decoratorType = decoratorInvocation.type;
+    const annotationCls = decoratorType.annotationCls;
+    const annotationArgs = decoratorInvocation.args ? decoratorInvocation.args : [];
+    return new annotationCls(...annotationArgs);
+  });
 }

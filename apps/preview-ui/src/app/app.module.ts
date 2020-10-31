@@ -16,6 +16,7 @@ import { ScreenComponent } from "./routes/screens/screen/screen.component";
 import { FlexLayoutModule } from "@angular/flex-layout";
 import { ScreenModule } from "@dontcode/plugin-screen";
 import { BasicModule } from "@dontcode/plugin-basic";
+import { HttpClientModule } from "@angular/common/http";
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent },
@@ -30,7 +31,7 @@ const appRoutes: Routes = [
 
 @NgModule({
   declarations: [AppComponent],
-  imports: [BrowserModule, BrowserAnimationsModule, LayoutModule, SharedModule,
+  imports: [BrowserModule, BrowserAnimationsModule, HttpClientModule, LayoutModule, SharedModule,
     RoutesModule, RouterModule.forRoot(
       appRoutes,
       { enableTracing: false,useHash:true } // <-- debugging purposes only
