@@ -30,7 +30,7 @@ export class InsertCommandComponent extends BasicComponent implements OnInit {
     this.pushService.pushChange(new Change (ChangeType.ADD, this.position, this.value));
   }
 
-  templateChanged($event: any) {
-
+  templateChanged(selectedName: string) {
+    this.position = this.templates.findTemplate (selectedName).position;
   }
 }

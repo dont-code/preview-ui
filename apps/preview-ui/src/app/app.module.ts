@@ -22,12 +22,8 @@ const appRoutes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'dev', component: DebugPageComponent },
   { path: 'newTabDev', component: DebugPageComponent},
-  { matcher: segments => {
-    if (segments[0] && segments[0].path==='creation')
-      return { consumed:segments };
-    else
-      return null;
-    }, component: ScreenComponent }]
+  { path: 'creation/:type/:id', component: ScreenComponent
+  }];
 
 @NgModule({
   declarations: [AppComponent],

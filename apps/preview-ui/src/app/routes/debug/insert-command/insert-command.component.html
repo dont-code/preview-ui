@@ -1,5 +1,5 @@
 <kor-accordion label="Add Command" expanded>
-  <kor-input label="Commands" type="select" (value-changed)="templateChanged($event)">
+  <kor-input label="Commands" type="select" (value-changed)="templateChanged($event.target.value)">
       <kor-menu-item  *ngFor="let tmpl of listTemplates | async" label="{{tmpl.name}}"></kor-menu-item>
   </kor-input>
   <kor-input label="position" [value]="position" (value-changed)="position = $event.target.value"></kor-input>

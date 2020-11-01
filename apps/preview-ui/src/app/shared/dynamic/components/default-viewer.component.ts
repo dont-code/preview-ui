@@ -1,8 +1,5 @@
-import { PreviewHandler, CommandProviderInterface, DontCodeModelPointer } from "@dontcode/core";
-import { Component, OnInit, ChangeDetectionStrategy, ComponentFactoryResolver } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { CommandProviderService } from '../../command/services/command-provider.service';
-import { DynamicBaseComponent } from './dynamic-base.component';
+import { CommandProviderInterface, DontCodeModelPointer, PreviewHandler } from "@dontcode/core";
+import { ChangeDetectionStrategy, Component, OnInit } from "@angular/core";
 
 @Component({
   selector: 'preview-ui-default-viewer',

@@ -6,6 +6,7 @@ import { InsertCommandComponent } from './debug/insert-command/insert-command.co
 import { DebugPageComponent } from './debug/debug-page/debug-page.component';
 import { ScreenComponent } from './screens/screen/screen.component';
 import { SharedModule } from "../shared/shared.module";
+import { DynamicInsertDirective } from "../shared/dynamic/directives/dynamic-insert.directive";
 
 
 @NgModule({

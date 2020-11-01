@@ -6,10 +6,10 @@ import {
   ComponentFactoryResolver,
   ViewChild,
   Type,
-  getModuleFactory
+  getModuleFactory, OnDestroy
 } from "@angular/core";
 import { ActivatedRoute } from '@angular/router';
-import { Observable, from, of } from 'rxjs';
+import { Observable, from, of, Subject } from "rxjs";
 import { PreviewHandler, DontCode, PluginModuleInterface} from '@dontcode/core';
 import { map, catchError } from 'rxjs/operators';
 import { environment } from '../../../../environments/environment';
@@ -22,18 +22,17 @@ import { DynamicInsertDirective } from '../directives/dynamic-insert.directive';
   styleUrls: ['./dynamic-base.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export abstract class DynamicBaseComponent implements OnInit {
-
-  @ViewChild(DynamicInsertDirective, {static: true}) host: DynamicInsertDirective;
+export abstract class DynamicBaseComponent implements OnInit, OnDestroy {
+  protected unsubscriber = new Subject();
 
   constructor(protected route:ActivatedRoute,
-    protected  componentFactoryResolver: ComponentFactoryResolver,
+    protected componentFactoryResolver: ComponentFactoryResolver,
     protected provider:CommandProviderService) { }
 
   ngOnInit(): void {
   }
 
-  protected loadComponent (position:string): Observable<PreviewHandler> {
+  protected loadComponent (position:string, host:DynamicInsertDirective): Observable<PreviewHandler> {
     const previewMgr = DontCode.dtcde.getPreviewManager ();
     const currentJson = this.provider.getJsonAt (position);
 
@@ -44,7 +43,7 @@ export abstract class DynamicBaseComponent implements OnInit {
       try {
         // First lets try if the plugin is imported during the compilation
         let module:PluginModuleInterface=getModuleFactory('dontcode-plugin/'+handler.class.source).create(null).instance;
-        return of(this.applyComponent(module.exposedPreviewHandlers().get(handler.class.name)));
+        return of(this.applyComponent(module.exposedPreviewHandlers().get(handler.class.name), host));
       } catch (e) {
         // Nope, fallback to dynamically loading it
       }
@@ -52,7 +51,7 @@ export abstract class DynamicBaseComponent implements OnInit {
       if (environment.production) {
         console.log ('production import using __ivy_ngcc__');
         return from (import('@dontcode/plugin-' + handler.class.source + '/__ivy_ngcc__/fesm2015/dontcode-plugin-' + handler.class.source + '.js').then((m) => {
-          return this.applyComponentFromConfig (m, handler);
+          return this.applyComponentFromConfig (m, handler, host);
         }));
       }
       else {
@@ -61,7 +60,7 @@ export abstract class DynamicBaseComponent implements OnInit {
             import('../../../../../../../dist/libs/' + handler.class.source + '/fesm2015/dontcode-plugin-' + handler.class.source + '.js')
           ).pipe (
             map(module => {
-                return this.applyComponentFromConfig (module, handler);
+                return this.applyComponentFromConfig (module, handler, host);
               }),
             catchError(err => {
               console.error ('Error importing using ../../ ', err);
@@ -70,7 +69,7 @@ export abstract class DynamicBaseComponent implements OnInit {
               import('@dontcode/plugin-' + handler.class.source + '/fesm2015/dontcode-plugin-' + handler.class.source + '.js')
             ).pipe (
               map(module => {
-                return this.applyComponentFromConfig (module, handler);
+                return this.applyComponentFromConfig (module, handler, host);
               } )
             );
           }));
@@ -78,19 +77,19 @@ export abstract class DynamicBaseComponent implements OnInit {
     } else {
       console.log("No handler found, using default ");
       // No handler found, let's display a message with the default one
-      return of (this.applyComponent(DefaultViewerComponent));
+      return of (this.applyComponent(DefaultViewerComponent, host));
     }
 
   }
-  protected applyComponentFromConfig (module:any, handlerConfig:DontCode.PreviewHandlerConfig): PreviewHandler  {
-    return this.applyComponent (module[handlerConfig.class.name]);
+  protected applyComponentFromConfig (module:any, handlerConfig:DontCode.PreviewHandlerConfig, host:DynamicInsertDirective): PreviewHandler  {
+    return this.applyComponent (module[handlerConfig.class.name], host);
   }
 
-  protected applyComponent (componentType:Type<unknown>): PreviewHandler  {
+  protected applyComponent (componentType:Type<unknown>, host:DynamicInsertDirective): PreviewHandler  {
     //console.log ("Applying component");
     const componentFactory = this.componentFactoryResolver.resolveComponentFactory(componentType);
 
-    const viewContainerRef = this.host.viewContainerRef;
+    const viewContainerRef = host.viewContainerRef;
     viewContainerRef.clear();
 
     const componentRef = viewContainerRef.createComponent(componentFactory);
@@ -98,8 +97,21 @@ export abstract class DynamicBaseComponent implements OnInit {
     return handler;
   }
 
+  ngOnDestroy(): void {
+    this.forceUnsubscribe();
+  }
+
+  protected forceUnsubscribe(): void {
+    // unsubscribe to all observables
+    console.log("Unsubscribe");
+    this.unsubscriber.next();
+    this.unsubscriber.complete();
+    this.unsubscriber = new Subject();
+  }
+
 }
 
+/*
 declare let Reflect: any;
 function getAnnotations(typeOrFunc: Type<any>): any[]|null {// Prefer the direct API.
   if ((<any>typeOrFunc).annotations) {
@@ -133,3 +145,5 @@ function convertTsickleDecoratorIntoMetadata(decoratorInvocations: any[]): any[]
     return new annotationCls(...annotationArgs);
   });
 }
+
+ */
