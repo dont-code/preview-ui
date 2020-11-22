@@ -47,33 +47,6 @@ export abstract class DynamicBaseComponent implements OnInit, OnDestroy {
       } catch (e) {
         // Nope, fallback to dynamically loading it
       }
-      // First try to import from ivy modules (in prod)
-      if (environment.production) {
-        console.log ('production import using __ivy_ngcc__');
-        return from (import('@dontcode/plugin-' + handler.class.source + '/__ivy_ngcc__/fesm2015/dontcode-plugin-' + handler.class.source + '.js').then((m) => {
-          return this.applyComponentFromConfig (m, handler, host);
-        }));
-      }
-      else {
-          console.log ('Trying import using ../../');
-          return from (
-            import('../../../../../../../dist/libs/' + handler.class.source + '/fesm2015/dontcode-plugin-' + handler.class.source + '.js')
-          ).pipe (
-            map(module => {
-                return this.applyComponentFromConfig (module, handler, host);
-              }),
-            catchError(err => {
-              console.error ('Error importing using ../../ ', err);
-              console.log ('Trying import using  @dontcode/plugin-../fesm2015');
-            return from (
-              import('@dontcode/plugin-' + handler.class.source + '/fesm2015/dontcode-plugin-' + handler.class.source + '.js')
-            ).pipe (
-              map(module => {
-                return this.applyComponentFromConfig (module, handler, host);
-              } )
-            );
-          }));
-      }
     } else {
       console.log("No handler found, using default ");
       // No handler found, let's display a message with the default one
