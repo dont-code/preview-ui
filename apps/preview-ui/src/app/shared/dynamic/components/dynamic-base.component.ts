@@ -1,17 +1,17 @@
 import { DefaultViewerComponent } from './default-viewer.component';
 import {
-  Component,
-  OnInit,
   ChangeDetectionStrategy,
+  Component,
   ComponentFactoryResolver,
-  ViewChild,
-  Type,
-  getModuleFactory, OnDestroy
+  getModuleFactory,
+  OnDestroy,
+  OnInit,
+  Type
 } from "@angular/core";
 import { ActivatedRoute } from '@angular/router';
-import { Observable, from, of, Subject } from "rxjs";
-import { PreviewHandler, DontCode, PluginModuleInterface} from '@dontcode/core';
-import { map, catchError } from 'rxjs/operators';
+import { from, Observable, of, Subject } from "rxjs";
+import { DontCode, PluginModuleInterface, PreviewHandler } from '@dontcode/core';
+import { catchError, map } from 'rxjs/operators';
 import { environment } from '../../../../environments/environment';
 import { CommandProviderService } from '../../command/services/command-provider.service';
 import { DynamicInsertDirective } from '../directives/dynamic-insert.directive';

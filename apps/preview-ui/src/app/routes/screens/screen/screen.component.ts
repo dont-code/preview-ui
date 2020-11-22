@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, ComponentFactoryResolver, OnInit, ViewChild } from "@angular/core";
-import { ActivatedRoute, Params, Router } from "@angular/router";
-import { filter, map, take, takeUntil } from "rxjs/operators";
+import { ActivatedRoute, Params } from "@angular/router";
+import { map, takeUntil } from "rxjs/operators";
 import { Observable } from "rxjs";
 import { CommandProviderInterface } from "@dontcode/core";
 import { DynamicBaseComponent } from "../../../shared/dynamic/components/dynamic-base.component";
