@@ -1,0 +1,15 @@
+[{
+  "name": "Change App Name",
+  "position": "creation/name",
+  "value": "New Name"
+},
+  {
+    "name": "Change Entity A Name",
+    "position": "creation/entities/a/name",
+    "value": "A Name"
+  },
+  {
+    "name": "Change Screen A Name",
+    "position": "creation/screens/a/name",
+    "value": "SA Name"
+  }]
