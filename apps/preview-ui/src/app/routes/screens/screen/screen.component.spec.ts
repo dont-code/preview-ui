@@ -2,11 +2,8 @@ import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { ScreenComponent } from "./screen.component";
 import { of } from "rxjs";
-import { ActivatedRoute, RouterModule, UrlSegment } from "@angular/router";
+import { ActivatedRoute, UrlSegment } from "@angular/router";
 import { DefaultViewerComponent } from "../../../shared/dynamic/components/default-viewer.component";
-import { SharedModule } from "../../../shared/shared.module";
-import { RoutesModule } from "../../routes.module";
-import { NgModule } from "@angular/core";
 import { BrowserDynamicTestingModule } from "@angular/platform-browser-dynamic/testing";
 import { DynamicInsertDirective } from "../../../shared/dynamic/directives/dynamic-insert.directive";
 
@@ -19,9 +16,9 @@ describe('ScreenComponent', () => {
       declarations: [ ScreenComponent, DefaultViewerComponent, DynamicInsertDirective],
       providers: [{
         provide: ActivatedRoute, useValue: {
-          url: of([new UrlSegment("creation/screens/aa", {})]),
+          url: of([new UrlSegment("#/creation/screens/aa", {})]),
           snapshot: {
-            url: [new UrlSegment("creation/screens/aa", {})]
+            url: [new UrlSegment("#/creation/screens/aa", {})]
           }
         }
       }]

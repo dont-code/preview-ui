@@ -12,7 +12,7 @@ export class DevChangePushService {
   protected channel: BroadcastChannel<Change>;
 
   constructor() {
-    console.log('Creating debug broadcast');
+    // console.log('Creating debug broadcast');
     this.channel = new BroadcastChannel(DevChangePushService.CHANNEL_CHANGE_NAME);
   }
 

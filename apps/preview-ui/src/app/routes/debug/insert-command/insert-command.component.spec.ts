@@ -2,6 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { InsertCommandComponent } from './insert-command.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('InsertCommandComponent', () => {
   let component: InsertCommandComponent;
@@ -10,6 +11,7 @@ describe('InsertCommandComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ InsertCommandComponent ],
+      imports: [ HttpClientTestingModule ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     })
     .compileComponents();

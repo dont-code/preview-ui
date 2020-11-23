@@ -47,7 +47,7 @@ export class ChangeListenerService {
     );
 
     // Listens as well to broadcasted events
-    console.log("Listening to debug broadcasts")
+    // console.log("Listening to debug broadcasts")
     this.channel = new BroadcastChannel(DevChangePushService.CHANNEL_CHANGE_NAME);
     this.channel.onmessage = msg => {
       this.listOfChanges.push(msg);
