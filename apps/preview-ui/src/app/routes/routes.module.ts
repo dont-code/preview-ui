@@ -6,13 +6,23 @@ import { InsertCommandComponent } from "./debug/insert-command/insert-command.co
 import { DebugPageComponent } from "./debug/debug-page/debug-page.component";
 import { ScreenComponent } from "./screens/screen/screen.component";
 import { SharedModule } from "../shared/shared.module";
+import { AccordionModule } from 'primeng/accordion';
+import { AutoCompleteModule } from 'primeng/autocomplete';
+import { PanelModule } from 'primeng/panel';
+import { InputTextModule } from 'primeng/inputtext';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
   declarations: [ListCommandsComponent, HomeComponent, InsertCommandComponent, DebugPageComponent, ScreenComponent],
   imports: [
     CommonModule,
-    SharedModule
+    SharedModule,
+    AccordionModule,
+    AutoCompleteModule,
+    PanelModule,
+    InputTextModule,
+    ReactiveFormsModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

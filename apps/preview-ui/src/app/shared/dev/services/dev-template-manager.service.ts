@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
-import { catchError, map } from "rxjs/operators";
-import { Observable, of } from "rxjs";
+import { catchError, filter, flatMap, map, mergeMap } from "rxjs/operators";
+import { from, Observable, of } from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -33,13 +33,26 @@ export class DevTemplateManagerService {
     }
   }
 
-  findTemplate (templateName:string): DevTemplate {
-    for (let template of this.templates) {
-      if (template.name===templateName)
-        return template;
-    }
-    return null;
+  filterTemplates (templateName:string): Observable<DevTemplate[]> {
+    console.log ("filter templates called", templateName);
+/*    if (templateName.length==0) {
+      let ret=this.getTemplates();
+      console.log("Filter templates returning full list");
+      return ret;
+    }*/
+    templateName=templateName.toLowerCase();
+    return this.getTemplates().pipe(
+     map(value => {
+       let ret = value.filter(tmpl => {
+         if (tmpl.name.toLowerCase().startsWith(templateName)) {
+           return true;
+         } else return false;
+       });
+       console.log("filter templates returning",ret);
+       return ret;
+      }));
   }
+
 }
 
 export class DevTemplate {

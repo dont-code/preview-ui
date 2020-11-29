@@ -1,13 +1,15 @@
 <p-accordion>
   <p-accordionTab header="Add Command" selected="true">
-      <!-- kor-input label="Commands" type="select" (value-changed)="templateChanged($event.target.value)">
-          <kor-menu-item  *ngFor="let tmpl of listTemplates | async" label="{{tmpl.name}}"></kor-menu-item>
-      </kor-input>
-      <kor-input label="step" type="select" *ngIf="selectedStep" [value]="selectedStep.position" (value-changed)="stepChanged($event.target.value)">
-        <kor-menu-item *ngFor="let step of selectedTemplate.sequence" label="{{step.position}}"></kor-menu-item>
-      </kor-input>
-      <kor-input label="position" *ngIf="position" [value]="position" (value-changed)="positionChanged($event.target.value)"></kor-input>
-      <kor-input label="value" *ngIf="value" [value]="value | json" (value-changed)="valueChanged( $event.target.value)"></kor-input>
-      <kor-button slot="footer" label="Add" (click)="addCommand($event)"></kor-button -->
-    <p-accordionTab>
+    <p-panel [formGroup]="templateForm">
+      <p-header>
+        <p-autoComplete formControlName="template" [suggestions]="filteredTemplates" field="name" [dropdown]="true" (completeMethod)="searchTemplate($event)">
+        </p-autoComplete>
+      </p-header>
+      <span class="p-float-label">
+        <p-autoComplete id="step" formControlName="step" [suggestions]="filteredSteps" field="position" [dropdown]="true" (completeMethod)="searchStep($event)" >
+        </p-autoComplete>
+        <label for="step">Step</label>
+      </span>
+    </p-panel>
+    </p-accordionTab>
 </p-accordion>

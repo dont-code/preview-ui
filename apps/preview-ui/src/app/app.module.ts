@@ -17,7 +17,6 @@ import { FlexLayoutModule } from "@angular/flex-layout";
 import { ScreenModule } from "@dontcode/plugin-screen";
 import { BasicModule } from "@dontcode/plugin-basic";
 import { HttpClientModule } from "@angular/common/http";
-import { AccordionModule } from 'primeng/accordion';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent },
@@ -33,8 +32,7 @@ const appRoutes: Routes = [
       appRoutes,
       { enableTracing: false,useHash:true } // <-- debugging purposes only
     ), FontAwesomeModule
-    ,FlexLayoutModule,
-    AccordionModule
+    ,FlexLayoutModule
     ,ScreenModule
     ,BasicModule
   ],
