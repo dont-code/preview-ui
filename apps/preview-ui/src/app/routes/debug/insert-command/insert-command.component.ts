@@ -14,6 +14,8 @@ export class InsertCommandComponent implements OnInit {
   value:string = 'New Test';
 
   listTemplates: Observable<DevTemplate[]>;
+  selectedTemplate: DevTemplate;
+  selectedStep: { position, value };
 
   constructor(protected pushService:DevChangePushService, protected templates:DevTemplateManagerService) {
   }
@@ -23,10 +25,33 @@ export class InsertCommandComponent implements OnInit {
   }
 
   addCommand($event: any) {
-    this.pushService.pushChange(new Change (ChangeType.ADD, this.position, this.value));
+    this.selectedTemplate.sequence.forEach(step => {
+      this.pushService.pushChange(new Change (ChangeType.ADD, step.position, step.value));
+    });
   }
 
   templateChanged(selectedName: string) {
-    this.position = this.templates.findTemplate (selectedName).position;
+    this.selectedTemplate = this.templates.findTemplate (selectedName);
+    this.stepChanged(this.selectedTemplate.sequence[0].position);
+  }
+
+  stepChanged(step:string) {
+    this.selectedStep = this.selectedTemplate.sequence.find(seq => {
+      if( seq.position===step)
+        return true;
+      else return false;
+    });
+    this.position = this.selectedStep.position;
+    this.value = this.selectedStep.value;
+  }
+
+  positionChanged(newPos:string) {
+    this.selectedStep.position=newPos;
+    this.position=newPos;
+  }
+
+  valueChanged (newVal:any) {
+    this.selectedStep.value=newVal;
+    this.value=newVal;
   }
 }

@@ -45,12 +45,23 @@ export class DevTemplateManagerService {
 export class DevTemplate {
   constructor(tmpl: any) {
     this.name=tmpl.name;
-    this.position=tmpl.position;
-    this.value=tmpl.value;
+    this.sequence=tmpl.sequence;
+    if (tmpl.position !== undefined) {
+      this.sequence=new Array({
+        position:tmpl.position,
+        value: tmpl.value
+      });
+    }
   }
 
   name:string;
-  position?:string;
-  value?:any;
+  sequence?: Array<{
+    position:string,
+    value:any
+  }>;
+
+  isSequence():boolean {
+    return (this.sequence.length>1);
+  }
 }
 

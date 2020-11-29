@@ -12,4 +12,34 @@
     "name": "Change Screen A Name",
     "position": "creation/screens/a/name",
     "value": "SA Name"
+  },
+  {
+    "name": "Create Entity A",
+    "sequence": [
+      {
+        "position": "creation/entities/a/name",
+        "value": "A Name"
+      },
+      {
+        "position": "creation/entities/a/fields/a",
+        "value": {
+          "name": "id",
+          "type": "string"
+        }
+      },
+      {
+        "position": "creation/entities/a/fields/b",
+        "value": {
+          "name": "check",
+          "type": "boolean"
+        }
+      },
+      {
+        "position": "creation/entities/a/fields/c",
+        "sequence": {
+          "name": "count",
+          "type": "number"
+        }
+      }
+    ]
   }]
