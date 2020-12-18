@@ -13,7 +13,8 @@ import { Router } from "@angular/router";
 })
 export class MenuComponent implements OnInit, OnDestroy {
 
-  menus:Map<string, MenuComponentMenu>=new Map();
+  menus:Array<any>;
+  dynamicMenu:Array<any>;
   unsubscriber = new Subject();
 
   constructor(protected provider: CommandProviderService,
@@ -21,14 +22,31 @@ export class MenuComponent implements OnInit, OnDestroy {
               public ngZone:NgZone) { }
 
   ngOnInit(): void {
+    this.menus =[
+      {label:'Main Menu', items:[
+        {label:'Home', icon:'pi pi-home', routerLink:['/']},
+        {label:'Dev', icon:'pi pi-book', routerLink: ['dev']}
+    ]},
+      {label:'Application Menu', items:this.dynamicMenu}
+    ];
     this.provider.receiveCommands (DontCodeModel.APP_ENTITIES, DontCodeModel.APP_ENTITIES_NAME_NODE).pipe(
       takeUntil(this.unsubscriber)).subscribe(command => {
-        this.menus.set(command.position, new MenuComponentMenu (command.position, command.value, 'create'));
+        //this.menus.set(command.position, new MenuComponentMenu (command.position, command.value, 'create'));
+        this.dynamicMenu.push({
+          url:command.position,
+          label:command.value,
+          icon:'pi pi-ticket'
+        });
         this.ref.detectChanges();
     });
     this.provider.receiveCommands (DontCodeModel.APP_SCREENS, DontCodeModel.APP_SCREENS_NAME_NODE).pipe(
       takeUntil(this.unsubscriber)).subscribe(command => {
-      this.menus.set(command.position, new MenuComponentMenu (command.position, command.value, 'filter'));
+        //this.menus.set(command.position, new MenuComponentMenu (command.position, command.value, 'filter'));
+      this.dynamicMenu.push({
+        url:command.position,
+        label:command.value,
+        icon:'pi pi-desktop'
+      });
       this.ref.detectChanges();
     })
 

@@ -3,7 +3,10 @@ import { CommonModule } from "@angular/common";
 import { RouterModule } from "@angular/router";
 import { MainComponent } from "./main/main.component";
 import { MenuComponent } from "./menu/menu.component";
-import { FlexLayoutModule } from "@angular/flex-layout";
+import { SidebarModule } from "primeng/sidebar";
+import { ToolbarModule } from "primeng/toolbar";
+import { ButtonModule } from "primeng/button";
+import { MenuModule } from "primeng/menu";
 
 @NgModule({
   declarations: [MainComponent, MenuComponent],
@@ -11,7 +14,7 @@ import { FlexLayoutModule } from "@angular/flex-layout";
     MainComponent
   ],
   imports: [
-    CommonModule, RouterModule, FlexLayoutModule
+    CommonModule, RouterModule, SidebarModule, ToolbarModule, ButtonModule, MenuModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

@@ -9,11 +9,9 @@ import { RoutesModule } from "./routes/routes.module";
 import { RouterModule, Routes } from "@angular/router";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 
-import "@kor-ui/kor";
 import { HomeComponent } from "./routes/home/home.component";
 import { DebugPageComponent } from "./routes/debug/debug-page/debug-page.component";
 import { ScreenComponent } from "./routes/screens/screen/screen.component";
-import { FlexLayoutModule } from "@angular/flex-layout";
 import { ScreenModule } from "@dontcode/plugin-screen";
 import { BasicModule } from "@dontcode/plugin-basic";
 import { HttpClientModule } from "@angular/common/http";
@@ -32,7 +30,6 @@ const appRoutes: Routes = [
       appRoutes,
       { enableTracing: false,useHash:true } // <-- debugging purposes only
     ), FontAwesomeModule
-    ,FlexLayoutModule
     ,ScreenModule
     ,BasicModule
   ],

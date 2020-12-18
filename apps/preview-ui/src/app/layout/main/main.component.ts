@@ -60,4 +60,9 @@ export class MainComponent implements OnInit, OnDestroy {
     window.open('#/newTabDev', '_blank');
   }
 
+  connectedClass(ctx: { status: string }): string {
+    if( ctx.status!=="connected") {
+      return "p-button-danger";
+    }
+  }
 }
