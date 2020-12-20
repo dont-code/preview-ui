@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, NgZone, OnDestroy, OnInit } from "@angular/core";
 import { CommandProviderService } from '../../shared/command/services/command-provider.service';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { Subject, Subscription } from "rxjs";
+import { map, takeUntil } from "rxjs/operators";
 import { DontCodeModel } from '@dontcode/core';
 import { Router } from "@angular/router";
 
@@ -14,49 +14,63 @@ import { Router } from "@angular/router";
 export class MenuComponent implements OnInit, OnDestroy {
 
   menus:Array<any>;
-  dynamicMenu:Array<any>;
-  unsubscriber = new Subject();
+  templateMenus =[
+    {label:'Main Menu', items:[
+        {label:'Home', icon:'pi pi-home', routerLink:['/']},
+        {label:'Dev', icon:'pi pi-book', routerLink: ['dev']}
+      ]},
+    {label:'Application Menu', items:new Array<any>()}
+  ];
+  subscriptions = new Subscription();
 
   constructor(protected provider: CommandProviderService,
               private ref: ChangeDetectorRef, public router: Router,
               public ngZone:NgZone) { }
 
   ngOnInit(): void {
-    this.menus =[
-      {label:'Main Menu', items:[
-        {label:'Home', icon:'pi pi-home', routerLink:['/']},
-        {label:'Dev', icon:'pi pi-book', routerLink: ['dev']}
-    ]},
-      {label:'Application Menu', items:this.dynamicMenu}
-    ];
-    this.provider.receiveCommands (DontCodeModel.APP_ENTITIES, DontCodeModel.APP_ENTITIES_NAME_NODE).pipe(
-      takeUntil(this.unsubscriber)).subscribe(command => {
-        //this.menus.set(command.position, new MenuComponentMenu (command.position, command.value, 'create'));
-        this.dynamicMenu.push({
-          url:command.position,
+    this.menus = this.generateMenu ();
+    this.subscriptions.add (this.provider.receiveCommands (DontCodeModel.APP_ENTITIES, DontCodeModel.APP_ENTITIES_NAME_NODE).pipe (
+      map(command => {
+        this.getDynamicMenu().push({
+          routerLink:[this.cleanPosition(command.position)],
           label:command.value,
           icon:'pi pi-ticket'
         });
+        this.menus = this.generateMenu();
         this.ref.detectChanges();
+
+      })
+    ).subscribe());
+    this.subscriptions.add(this.provider.receiveCommands (DontCodeModel.APP_SCREENS, DontCodeModel.APP_SCREENS_NAME_NODE).pipe(
+      map(command => {
+          //this.menus.set(command.position, new MenuComponentMenu (command.position, command.value, 'filter'));
+        this.getDynamicMenu().push({
+          routerLink:[this.cleanPosition(command.position)],
+          label:command.value,
+          icon:'pi pi-desktop'
+        });
+        this.menus = this.generateMenu();
+        this.ref.detectChanges();
+    })).subscribe());
+
+  }
+
+  getDynamicMenu (): Array<any> {
+    return this.templateMenus[1].items;
+  }
+
+  generateMenu (): Array<any> {
+    // Create a new menu object to update UI
+    let ret= new Array<any>();
+    this.templateMenus.forEach(value => {
+      ret.push(value);
     });
-    this.provider.receiveCommands (DontCodeModel.APP_SCREENS, DontCodeModel.APP_SCREENS_NAME_NODE).pipe(
-      takeUntil(this.unsubscriber)).subscribe(command => {
-        //this.menus.set(command.position, new MenuComponentMenu (command.position, command.value, 'filter'));
-      this.dynamicMenu.push({
-        url:command.position,
-        label:command.value,
-        icon:'pi pi-desktop'
-      });
-      this.ref.detectChanges();
-    })
-
-
+    return ret;
   }
 
   ngOnDestroy(): void {
     // unsubscribe to all observables
-    this.unsubscriber.next();
-    this.unsubscriber.complete();
+    this.subscriptions.unsubscribe();
   }
 
   gotoPage(page:string): void {
@@ -72,36 +86,9 @@ export class MenuComponent implements OnInit, OnDestroy {
     return ret;
   }
 
-  gotoItem(menu: MenuComponentMenu) {
-    // ngZone is necessary as we are being called by a non angular component (kor-ui)
-    this.ngZone.run (() => {
-      this.router.navigate([menu.position]);
-    });
-  }
-}
-
-export class MenuComponentMenu {
-  position:string;
-  key:string;
-  label:string;
-  icon:string;
-
-
-  constructor(position: string, label: any, icon?: string) {
-    position = this.cleanPosition (position);
-    this.position = position;
-    this.key = position.split('/').join('-');
-    this.label = label.name?label.name:label;
-    if (icon) {
-      this.icon = icon;
-    } else {
-      this.icon = 'text_snippet';
-    }
-  }
-
   private cleanPosition(position: string): string {
-/*    if (position.startsWith(DontCodeModel.ROOT))
-      position = position.substr(DontCodeModel.ROOT.length+1);*/
+    /*    if (position.startsWith(DontCodeModel.ROOT))
+          position = position.substr(DontCodeModel.ROOT.length+1);*/
 
     if (position.endsWith(DontCodeModel.APP_SCREENS_NAME_NODE))
     {
@@ -110,3 +97,4 @@ export class MenuComponentMenu {
     return position;
   }
 }
+

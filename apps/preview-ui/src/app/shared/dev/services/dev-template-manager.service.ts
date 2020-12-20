@@ -59,6 +59,7 @@ export class DevTemplate {
   constructor(tmpl: any) {
     this.name=tmpl.name;
     this.sequence=tmpl.sequence;
+    // Support loading simple templates
     if (tmpl.position !== undefined) {
       this.sequence=new Array({
         position:tmpl.position,
