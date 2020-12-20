@@ -36,7 +36,7 @@
       },
       {
         "position": "creation/entities/a/fields/c",
-        "sequence": {
+        "value": {
           "name": "count",
           "type": "number"
         }

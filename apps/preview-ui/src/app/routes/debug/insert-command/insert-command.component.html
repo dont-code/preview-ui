@@ -1,15 +1,30 @@
 <p-accordion>
   <p-accordionTab header="Add Command" selected="true">
-    <p-panel [formGroup]="templateForm">
-      <p-header>
-        <p-autoComplete formControlName="template" [suggestions]="filteredTemplates" field="name" [dropdown]="true" (completeMethod)="searchTemplate($event)">
-        </p-autoComplete>
-      </p-header>
-      <span class="p-float-label">
-        <p-autoComplete id="step" formControlName="step" [suggestions]="filteredSteps" field="position" [dropdown]="true" (completeMethod)="searchStep($event)" >
-        </p-autoComplete>
-        <label for="step">Step</label>
-      </span>
-    </p-panel>
-    </p-accordionTab>
+    <div class="p-fluid p-formgrid p-grid" [formGroup]="templateForm">
+      <div class="p-field p-col-12 p-md-9">
+        <span class="p-float-label">
+          <p-autoComplete id="template" formControlName="template" [suggestions]="filteredTemplates" field="name" [dropdown]="true" (completeMethod)="searchTemplate($event)">
+          </p-autoComplete>
+          <label for="template">Select a Template</label>
+        </span>
+      </div>
+      <div class="p-field p-col-12 p-md-3">
+        <p-button label="Send" (onClick)="sendCommand()"></p-button>
+      </div>
+      <div class="p-field p-col-12">
+        <span class="p-float-label">
+          <p-autoComplete id="step" formControlName="step" [suggestions]="filteredSteps" field="position" [dropdown]="true" (completeMethod)="searchStep($event)" >
+          </p-autoComplete>
+          <label for="step">Step</label>
+        </span>
+      </div>
+      <div class="p-field p-col-12">
+        <span class="p-float-label">
+          <textarea pInputTextarea id="value" formControlName="value" field="value" rows="10" autoResize="autoResize" >
+          </textarea>
+          <label for="value">Value</label>
+        </span>
+      </div>
+    </div>
+  </p-accordionTab>
 </p-accordion>

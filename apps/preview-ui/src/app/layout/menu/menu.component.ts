@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, NgZone, OnDestro
 import { CommandProviderService } from '../../shared/command/services/command-provider.service';
 import { Subject, Subscription } from "rxjs";
 import { map, takeUntil } from "rxjs/operators";
-import { DontCodeModel } from '@dontcode/core';
+import { Change, DontCodeModel } from "@dontcode/core";
 import { Router } from "@angular/router";
 
 @Component({
@@ -31,27 +31,16 @@ export class MenuComponent implements OnInit, OnDestroy {
     this.menus = this.generateMenu ();
     this.subscriptions.add (this.provider.receiveCommands (DontCodeModel.APP_ENTITIES, DontCodeModel.APP_ENTITIES_NAME_NODE).pipe (
       map(command => {
-        this.getDynamicMenu().push({
-          routerLink:[this.cleanPosition(command.position)],
-          label:command.value,
-          icon:'pi pi-ticket'
-        });
-        this.menus = this.generateMenu();
+        this.updateMenu (command, 'pi-ticket');
         this.ref.detectChanges();
-
       })
     ).subscribe());
     this.subscriptions.add(this.provider.receiveCommands (DontCodeModel.APP_SCREENS, DontCodeModel.APP_SCREENS_NAME_NODE).pipe(
       map(command => {
-          //this.menus.set(command.position, new MenuComponentMenu (command.position, command.value, 'filter'));
-        this.getDynamicMenu().push({
-          routerLink:[this.cleanPosition(command.position)],
-          label:command.value,
-          icon:'pi pi-desktop'
-        });
-        this.menus = this.generateMenu();
+        this.updateMenu (command, 'pi-desktop');
         this.ref.detectChanges();
-    })).subscribe());
+    })
+    ).subscribe());
 
   }
 
@@ -95,6 +84,26 @@ export class MenuComponent implements OnInit, OnDestroy {
       position = position.substring(0, position.length-DontCodeModel.APP_SCREENS_NAME_NODE.length-1);
     }
     return position;
+  }
+
+  private updateMenu(command: Change, icon: string) {
+    let key = this.cleanPosition(command.position);
+    let found=false;
+    this.getDynamicMenu().forEach(value => {
+      if (value.routerLink[0]===key) {
+        value.label = command.value;
+        found=true;
+      }
+    });
+
+    if (!found) {
+      this.getDynamicMenu().push({
+        routerLink:[key],
+        label:command.value,
+        icon:'pi '+icon
+      });
+    }
+    this.menus = this.generateMenu();
   }
 }
 
