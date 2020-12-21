@@ -1,10 +1,10 @@
 <div *ngIf="(context$ | async) as ctx">
-  <p-toolbar>
+  <p-toolbar id="mainToolbar">
     <div class="p-toolbar-group-left">
       <img src="./assets/images/logo.png" width="119" height="66"/>
       <button pButton type="button" class="p-d-md-none p-button-rounded p-button-outlined" icon="pi pi-bars" (click)="sidePanelVisible=!sidePanelVisible"></button>
     </div>
-    Application {{appName}}
+    Preview {{appName}}
     <div class="p-toolbar-group-right">
       <button pButton type="button" class="p-button-rounded p-button-outlined" icon="pi pi-external-link" (click)="openDevUrl()"></button>
       <button pButton type="button" class="p-button-rounded p-button-outlined" [ngClass]="connectedClass(ctx)" icon="pi pi-sort" ></button>
@@ -18,7 +18,7 @@
   </div>
   <div class="p-grid">
     <div class="p-col p-d-none p-d-md-block p-md-3">
-      <preview-ui-menu></preview-ui-menu>
+      <preview-ui-menu id="mainMenu"></preview-ui-menu>
     </div>
     <div class="p-col p-md-9">
       <router-outlet> </router-outlet>

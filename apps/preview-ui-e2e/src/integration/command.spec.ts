@@ -1,6 +1,5 @@
-import { closeSidePanel, getToolbarTitle } from "../support/app.po";
+import { getToolbar } from "../support/app.po";
 import { MainComponent } from '../../../preview-ui/src/app/layout/main/main.component';
-import { getMenuForEntity } from '../support/command.po';
 
 describe('commands', () => {
   beforeEach(() => {
@@ -14,16 +13,11 @@ describe('commands', () => {
   });
 
   it('should display updated name', () => {
-    closeSidePanel();
-    getToolbarTitle().should('contain','No Name');
+    getToolbar().should('contain.text','No Name');
     cy.findNgComponent('preview-ui-main').then((comp: MainComponent) => {
       comp.appName = 'Testing Name';
       cy.applyChanges(comp);
-      getToolbarTitle().should('contain','Testing Name');
+      getToolbar().should('contain.text','Testing Name');
     });
   });
-  /*it('should display entities menu', () => {
-    getMenuForEntity('ToDoItem');
-    getMenuForEntity('Country');
-  });*/
 });
