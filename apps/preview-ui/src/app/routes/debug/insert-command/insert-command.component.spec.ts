@@ -1,17 +1,21 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 
 import { InsertCommandComponent } from './insert-command.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { ReactiveFormsModule } from "@angular/forms";
+import { AutoCompleteModule } from "primeng/autocomplete";
+import { InputTextModule } from "primeng/inputtext";
+import { InputTextareaModule } from "primeng/inputtextarea";
 
 describe('InsertCommandComponent', () => {
   let component: InsertCommandComponent;
   let fixture: ComponentFixture<InsertCommandComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ InsertCommandComponent ],
-      imports: [ HttpClientTestingModule ],
+      imports: [ HttpClientTestingModule,ReactiveFormsModule,AutoCompleteModule, InputTextModule, InputTextareaModule ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     })
     .compileComponents();
