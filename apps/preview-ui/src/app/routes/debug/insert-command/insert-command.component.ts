@@ -61,7 +61,7 @@ export class InsertCommandComponent implements OnInit, OnDestroy {
         }
 
         if (typeof step === 'string' || step instanceof String) {
-          valueControl.setValue(null);
+//          valueControl.setValue(null);
           this.templateForm.get("template").setValue(null,{emitEvent:false});
         } else {
           if (typeof step.value === 'string' || step.value instanceof String) {
@@ -104,7 +104,7 @@ export class InsertCommandComponent implements OnInit, OnDestroy {
     } else {
       // It's just a step, not from any template
       let step = this.getSelectedStep();
-      this.pushService.pushChange(new Change (ChangeType.ADD, step as string, this.templateForm.get("value").value));
+     this.pushService.pushChange(new Change (ChangeType.ADD, step as string, JSON.parse(this.templateForm.get("value").value)));
     }
   }
 
