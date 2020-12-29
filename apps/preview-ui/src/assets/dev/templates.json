@@ -9,6 +9,14 @@
     "value": "A Name"
   },
   {
+    "name": "Create String Field",
+    "position": "creation/entities/a/fields/a",
+    "value": {
+      "name": "fieldString",
+      "type": "string"
+    }
+  },
+  {
     "name": "Change Screen A Name",
     "position": "creation/screens/a/name",
     "value": "SA Name"

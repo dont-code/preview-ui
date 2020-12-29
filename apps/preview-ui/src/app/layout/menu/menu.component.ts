@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, NgZone, OnDestroy, OnInit } from "@angular/core";
-import { CommandProviderService } from '../../shared/command/services/command-provider.service';
-import { Subject, Subscription } from "rxjs";
-import { map, takeUntil } from "rxjs/operators";
+import { CommandProviderService } from "../../shared/command/services/command-provider.service";
+import { Subscription } from "rxjs";
+import { map } from "rxjs/operators";
 import { Change, DontCodeModel } from "@dontcode/core";
 import { Router } from "@angular/router";
 

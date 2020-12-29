@@ -1,4 +1,4 @@
-import { DefaultViewerComponent } from './default-viewer.component';
+import { DefaultViewerComponent } from "./default-viewer.component";
 import {
   ChangeDetectionStrategy,
   Component,
@@ -8,19 +8,16 @@ import {
   OnInit,
   Type
 } from "@angular/core";
-import { ActivatedRoute } from '@angular/router';
-import { from, Observable, of, Subject } from "rxjs";
-import { DontCode, PluginModuleInterface, PreviewHandler } from '@dontcode/core';
-import { catchError, map } from 'rxjs/operators';
-import { environment } from '../../../../environments/environment';
-import { CommandProviderService } from '../../command/services/command-provider.service';
-import { DynamicInsertDirective } from '../directives/dynamic-insert.directive';
+import { ActivatedRoute } from "@angular/router";
+import { Observable, of, Subject } from "rxjs";
+import { DontCode, PluginModuleInterface, PreviewHandler } from "@dontcode/core";
+import { CommandProviderService } from "../../command/services/command-provider.service";
+import { DynamicInsertDirective } from "../directives/dynamic-insert.directive";
 
 @Component({
   selector: 'preview-ui-dynamic-base',
   templateUrl: './dynamic-base.component.html',
-  styleUrls: ['./dynamic-base.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./dynamic-base.component.css']
 })
 export abstract class DynamicBaseComponent implements OnInit, OnDestroy {
   protected unsubscriber = new Subject();
@@ -83,40 +80,3 @@ export abstract class DynamicBaseComponent implements OnInit, OnDestroy {
   }
 
 }
-
-/*
-declare let Reflect: any;
-function getAnnotations(typeOrFunc: Type<any>): any[]|null {// Prefer the direct API.
-  if ((<any>typeOrFunc).annotations) {
-    let annotations = (<any>typeOrFunc).annotations;
-    if (typeof annotations === 'function' && annotations.annotations) {
-      annotations = annotations.annotations;
-    }
-    return annotations;
-  }
-
-  // API of tsickle for lowering decorators to properties on the class.
-  if ((<any>typeOrFunc).decorators) {
-    return convertTsickleDecoratorIntoMetadata((<any>typeOrFunc).decorators);
-  }
-
-  // API for metadata created by invoking the decorators.
-  if (Reflect && Reflect.getOwnMetadata) {
-    return Reflect.getOwnMetadata('annotations', typeOrFunc);
-  }
-  return null;
-}
-
-function convertTsickleDecoratorIntoMetadata(decoratorInvocations: any[]): any[] {
-  if (!decoratorInvocations) {
-    return [];
-  }
-  return decoratorInvocations.map(decoratorInvocation => {
-    const decoratorType = decoratorInvocation.type;
-    const annotationCls = decoratorType.annotationCls;
-    const annotationArgs = decoratorInvocation.args ? decoratorInvocation.args : [];
-    return new annotationCls(...annotationArgs);
-  });
-}
-
- */
