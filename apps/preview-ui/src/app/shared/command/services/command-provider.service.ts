@@ -23,7 +23,7 @@ export class CommandProviderService implements CommandProviderInterface {
   constructor(protected changeListener: ChangeListenerService, protected valueService:ValueService) {
     valueService.receiveUpdatesFrom (this.receivedCommands);
     changeListener.getChangeEvents().subscribe(change => {
-      console.log ('Received Change ', change);
+      // console.log ('Received Change ', change);
       this.receivedCommands.next(new Change (
         ChangeType.UPDATE, change.position,change.value,this.calculatePointerFor(change.position)
       ));
