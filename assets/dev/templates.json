@@ -17,6 +17,11 @@
     }
   },
   {
+    "name": "Set Field Name",
+    "position": "creation/entities/a/fields/b/name",
+    "value": "fieldName"
+  },
+  {
     "name": "Change Screen A Name",
     "position": "creation/screens/a/name",
     "value": "SA Name"
