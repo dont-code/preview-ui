@@ -104,7 +104,14 @@ export class InsertCommandComponent implements OnInit, OnDestroy {
     } else {
       // It's just a step, not from any template
       let step = this.getSelectedStep();
-     this.pushService.pushChange(new Change (ChangeType.ADD, step as string, JSON.parse(this.templateForm.get("value").value)));
+      // Is the value Json or not ?
+      let jsonVal=this.templateForm.get("value").value;
+      try {
+        jsonVal = JSON.parse(jsonVal);
+      } catch (error) {
+        console.log("Value is not json ", jsonVal, error);
+      }
+      this.pushService.pushChange(new Change (ChangeType.ADD, step as string, jsonVal));
     }
   }
 
