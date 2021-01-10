@@ -31,7 +31,7 @@ export class ScreenComponent extends DynamicBaseComponent implements OnInit, Aft
   ngAfterViewInit(): void {
     this.screenName$ = this.route.params;
 
-    this.route.url.pipe (takeUntil(this.unsubscriber),
+    this.subscriptions.add(this.route.url.pipe (
       map (segments => {
         let position = null;
         segments.forEach(value => {
@@ -43,7 +43,7 @@ export class ScreenComponent extends DynamicBaseComponent implements OnInit, Aft
         console.log("Searching for component handling route ", position);
 
         const schemaPointer = this.provider.calculatePointerFor(position);
-        this.loadComponent(schemaPointer.schemaPosition, this.host).pipe(
+        this.subscriptions.add(this.loadComponent(schemaPointer.schemaPosition, this.host).pipe(
           map(component => {
             return { position, component };
           }),
@@ -55,9 +55,9 @@ export class ScreenComponent extends DynamicBaseComponent implements OnInit, Aft
           })
         ).subscribe(() => {
           //console.log("Loaded");
-        });
+        }));
       })
-    ).subscribe();
+    ).subscribe());
   }
 
 }

@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from "@angular/core";
-import { Subject } from "rxjs";
-import { map, takeUntil } from "rxjs/operators";
+import { Subscription } from "rxjs";
+import { map } from "rxjs/operators";
 import { Change } from "@dontcode/core";
 import { CommandProviderService } from "../../../shared/command/services/command-provider.service";
 
@@ -11,9 +11,9 @@ import { CommandProviderService } from "../../../shared/command/services/command
   changeDetection:ChangeDetectionStrategy.OnPush
 })
 export class ListCommandsComponent implements OnInit, OnDestroy {
+  protected subscriptions = new Subscription();
 
   commands: Change[] = [];
-  unsubscriber = new Subject();
 
   /**
    * Dont update for the first item sent by providerservice
@@ -21,22 +21,21 @@ export class ListCommandsComponent implements OnInit, OnDestroy {
   protected forgetIt = true;
 
 
-  constructor(    protected providerService:CommandProviderService,
+  constructor(    protected changeProvider:CommandProviderService,
                   protected ref:ChangeDetectorRef) { }
 
   ngOnInit(): void {
-//    console.log("ListCommands");
-    this.providerService.receiveCommands()
-      .pipe(takeUntil(this.unsubscriber),
+    this.subscriptions.add(this.changeProvider.getAllCommands()
+      .pipe(
         map ((command) => {
-//        console.log('Received Change for listing', command.position);
+        console.log('Received...', command);
 /*        if( this.forgetIt) {
           this.forgetIt=false;
         } else {*/
           this.commands.push(command);
           this.ref.detectChanges();
 //        }
-      })).subscribe();
+      })).subscribe());
   }
 
   noCommands(): boolean {
@@ -44,9 +43,7 @@ export class ListCommandsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    // unsubscribe to all observables
-    this.unsubscriber.next();
-    this.unsubscriber.complete();
+    this.subscriptions.unsubscribe()
   }
 
 }

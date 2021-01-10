@@ -63,6 +63,7 @@ export class DevTemplate {
     if (tmpl.position !== undefined) {
       this.sequence=new Array({
         position:tmpl.position,
+        type:tmpl.type,
         value: tmpl.value
       });
     }
@@ -71,6 +72,7 @@ export class DevTemplate {
   name:string;
   sequence?: Array<{
     position:string,
+    type:string,
     value:any
   }>;
 
