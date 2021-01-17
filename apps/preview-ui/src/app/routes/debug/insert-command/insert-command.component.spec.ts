@@ -7,6 +7,8 @@ import { ReactiveFormsModule } from "@angular/forms";
 import { AutoCompleteModule } from "primeng/autocomplete";
 import { InputTextModule } from "primeng/inputtext";
 import { InputTextareaModule } from "primeng/inputtextarea";
+import { DropdownModule } from "primeng/dropdown";
+import { ButtonModule } from "primeng/button";
 
 describe('InsertCommandComponent', () => {
   let component: InsertCommandComponent;
@@ -15,7 +17,7 @@ describe('InsertCommandComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ InsertCommandComponent ],
-      imports: [ HttpClientTestingModule,ReactiveFormsModule,AutoCompleteModule, InputTextModule, InputTextareaModule ],
+      imports: [ HttpClientTestingModule,ReactiveFormsModule,AutoCompleteModule, InputTextModule, InputTextareaModule, DropdownModule, ButtonModule ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     })
     .compileComponents();
