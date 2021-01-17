@@ -68,7 +68,13 @@
   {
     "name": "Move Field b",
     "type": "MOVE",
-    "position": "creation/screens/b",
+    "position": "creation/entities/a/fields/b",
     "value": "a"
+  },
+  {
+    "name": "Move Field a",
+    "type": "MOVE",
+    "position": "creation/entities/a/fields/a",
+    "value": "c"
   }
 ]

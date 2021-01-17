@@ -28,10 +28,7 @@ export class ListCommandsComponent implements OnInit, OnDestroy {
     this.subscriptions.add(this.changeProvider.getAllCommands()
       .pipe(
         map ((command) => {
-        console.log('Received...', command);
-/*        if( this.forgetIt) {
-          this.forgetIt=false;
-        } else {*/
+        // console.log('Received...', command);
           this.commands.push(command);
           this.ref.detectChanges();
 //        }
