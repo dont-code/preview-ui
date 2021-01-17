@@ -27,7 +27,6 @@
             ],
             "styles": [
               "apps/preview-ui/src/styles.scss",
-              "./node_modules/@kor-ui/kor/kor-styles.css",
               "./node_modules/primeflex/primeflex.css",
               "./node_modules/primeng/resources/themes/saga-blue/theme.css",
               "./node_modules/primeng/resources/primeng.min.css",
