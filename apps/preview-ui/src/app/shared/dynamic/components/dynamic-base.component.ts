@@ -9,7 +9,7 @@ import {
   Type
 } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
-import { Observable, of, Subject } from "rxjs";
+import { Observable, of, Subject, Subscription } from "rxjs";
 import { DontCode, PluginModuleInterface, PreviewHandler } from "@dontcode/core";
 import { CommandProviderService } from "../../command/services/command-provider.service";
 import { DynamicInsertDirective } from "../directives/dynamic-insert.directive";
@@ -20,11 +20,12 @@ import { DynamicInsertDirective } from "../directives/dynamic-insert.directive";
   styleUrls: ['./dynamic-base.component.css']
 })
 export abstract class DynamicBaseComponent implements OnInit, OnDestroy {
-  protected unsubscriber = new Subject();
+//  protected unsubscriber = new Subject();
+  protected subscriptions = new Subscription();
 
-  constructor(protected route:ActivatedRoute,
-    protected componentFactoryResolver: ComponentFactoryResolver,
-    protected provider:CommandProviderService) { }
+  protected constructor(protected route:ActivatedRoute,
+                        protected componentFactoryResolver: ComponentFactoryResolver,
+                        protected provider:CommandProviderService) { }
 
   ngOnInit(): void {
   }
@@ -72,11 +73,7 @@ export abstract class DynamicBaseComponent implements OnInit, OnDestroy {
   }
 
   protected forceUnsubscribe(): void {
-    // unsubscribe to all observables
-    console.log("Unsubscribe");
-    this.unsubscriber.next();
-    this.unsubscriber.complete();
-    this.unsubscriber = new Subject();
+    this.subscriptions.unsubscribe();
   }
 
 }

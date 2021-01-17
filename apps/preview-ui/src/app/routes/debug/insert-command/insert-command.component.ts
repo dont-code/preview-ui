@@ -22,10 +22,19 @@ export class InsertCommandComponent implements OnInit, OnDestroy {
   templateForm = this.fb.group({
     template:[null],
     step:[null],
+    type:[null],
     position:[''],
     value:[null]
   });
   filteredSteps: Array<{ position, value }>;
+  valueFieldLabel = "Value";
+  changeTypes= [
+    {label:ChangeType.ADD },
+    {label:ChangeType.UPDATE },
+    {label:ChangeType.DELETE },
+    {label:ChangeType.MOVE },
+    {label:ChangeType.RESET }
+  ];
 
   constructor(protected pushService:DevChangePushService, protected templates:DevTemplateManagerService, private fb:FormBuilder) {
   }
@@ -39,13 +48,16 @@ export class InsertCommandComponent implements OnInit, OnDestroy {
     this.subscriptions.add(this.templateForm.get("template").valueChanges.pipe(
       map(templ => {
         let stepControl=this.templateForm.get("step");
+        let typeControl=this.templateForm.get("type");
         if (templ instanceof DevTemplate) {
           this.filteredSteps = templ.sequence;
           stepControl.setValue(templ.sequence[0]);
           stepControl.enable({emitEvent:false})
+          typeControl.setValue(templ.sequence[0].type);
         } else {
           stepControl.setValue(null);
           stepControl.disable({emitEvent:false})
+          typeControl.setValue(null);
         }
 
       })
@@ -54,16 +66,20 @@ export class InsertCommandComponent implements OnInit, OnDestroy {
     this.subscriptions.add(this.templateForm.get("step").valueChanges.pipe(
       map(step => {
         let valueControl=this.templateForm.get("value");
+        let typeControl=this.templateForm.get("type");
         if( step === null) {
           valueControl.disable({emitEvent:false});
+          typeControl.disable({emitEvent:false});
         } else {
           valueControl.enable({emitEvent:false});
+          typeControl.enable({emitEvent:false});
         }
 
         if (typeof step === 'string' || step instanceof String) {
 //          valueControl.setValue(null);
           this.templateForm.get("template").setValue(null,{emitEvent:false});
         } else {
+          typeControl.setValue(step.type);
           if (typeof step.value === 'string' || step.value instanceof String) {
             valueControl.setValue(step.value);
           } else {
@@ -88,6 +104,22 @@ export class InsertCommandComponent implements OnInit, OnDestroy {
         }
       })
     ).subscribe());
+    this.subscriptions.add(this.templateForm.get("type").valueChanges.pipe(
+      map(value => {
+        let step = this.getSelectedStep();
+        if( step) {
+          if( typeof step === 'string' || step instanceof String) {
+            return;
+          }
+          step.type=value;
+        }
+        if( value===ChangeType.MOVE) {
+          this.valueFieldLabel="Before";
+        } else {
+          this.valueFieldLabel="Value";
+        }
+      })
+    ).subscribe());
   }
 
 
@@ -99,7 +131,7 @@ export class InsertCommandComponent implements OnInit, OnDestroy {
     let tmpl = this.getSelectedTemplate();
     if (tmpl) {
       tmpl.sequence.forEach(step => {
-        this.pushService.pushChange(new Change (ChangeType.ADD, step.position, step.value));
+        this.pushChange(step.type, step.position,step.value);
       });
     } else {
       // It's just a step, not from any template
@@ -111,7 +143,7 @@ export class InsertCommandComponent implements OnInit, OnDestroy {
       } catch (error) {
         console.log("Value is not json ", jsonVal, error);
       }
-      this.pushService.pushChange(new Change (ChangeType.ADD, step as string, jsonVal));
+      this.pushChange(this.templateForm.get("type").value, step as string, jsonVal);
     }
   }
 
@@ -125,7 +157,7 @@ export class InsertCommandComponent implements OnInit, OnDestroy {
     return this.templateForm.get("template").value;
   }
 
-  protected getSelectedStep (): {position, value}|string {
+  protected getSelectedStep (): {position, type, value}|string {
     return this.templateForm.get("step").value;
   }
 
@@ -140,5 +172,16 @@ export class InsertCommandComponent implements OnInit, OnDestroy {
     } else {
       this.filteredSteps=[];
     }
+  }
+
+  private pushChange(type: string, position: string, valueOrBeforeKey: any) {
+    const toSend = new Change(ChangeType[type], position, valueOrBeforeKey);
+    if( type===ChangeType.MOVE) {
+      toSend.value=null;
+      toSend.oldPosition = position;
+      toSend.beforeKey=valueOrBeforeKey as string;
+    }
+    this.pushService.pushChange(toSend);
+
   }
 }

@@ -13,6 +13,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { ReactiveFormsModule } from '@angular/forms';
 import { InputTextareaModule } from "primeng/inputtextarea";
 import { ButtonModule } from "primeng/button";
+import { DropdownModule } from "primeng/dropdown";
 
 
 @NgModule({
@@ -26,7 +27,8 @@ import { ButtonModule } from "primeng/button";
     InputTextModule,
     ReactiveFormsModule,
     InputTextareaModule,
-    ButtonModule
+    ButtonModule,
+    DropdownModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

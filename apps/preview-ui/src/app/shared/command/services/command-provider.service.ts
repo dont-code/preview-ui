@@ -1,14 +1,13 @@
-import { ValueService } from '../../values/services/value.service';
+import { ValueService } from "../../values/services/value.service";
 import { Injectable } from "@angular/core";
 import { Observable, ReplaySubject, Subject } from "rxjs";
 import { filter } from "rxjs/operators";
 import {
   Change,
-  ChangeType,
   CommandProviderInterface,
   DontCode,
-  DontCodeModel,
-  DontCodeModelPointer
+  DontCodeModelPointer,
+  DontCodeSchemaManager
 } from "@dontcode/core";
 import { ChangeListenerService } from "../../change/services/change-listener.service";
 import dtcde = DontCode.dtcde;
@@ -19,14 +18,17 @@ import dtcde = DontCode.dtcde;
 export class CommandProviderService implements CommandProviderInterface {
 
   protected receivedCommands = new Subject<Change> ();
+  protected allCommands = new ReplaySubject<Change> ();
 
   constructor(protected changeListener: ChangeListenerService, protected valueService:ValueService) {
     valueService.receiveUpdatesFrom (this.receivedCommands);
     changeListener.getChangeEvents().subscribe(change => {
       // console.log ('Received Change ', change);
-      this.receivedCommands.next(new Change (
-        ChangeType.UPDATE, change.position,change.value,this.calculatePointerFor(change.position)
-      ));
+      if (!change.pointer) {
+        change.pointer = this.calculatePointerFor(change.position);
+      }
+      this.receivedCommands.next(change);
+      this.allCommands.next(change);
     });
   }
 
@@ -36,6 +38,11 @@ export class CommandProviderService implements CommandProviderInterface {
 
   pushCommand (newChange:Change) {
     this.receivedCommands.next(newChange);
+    this.allCommands.next(newChange);
+  }
+
+  getAllCommands (): Observable<Change> {
+    return this.allCommands;
   }
 
   receiveCommands (position?: string, lastItem?: string): Observable<Change> {
@@ -66,6 +73,10 @@ export class CommandProviderService implements CommandProviderInterface {
     }
     else
       return this.receivedCommands;
+  }
+
+  getSchemaManager (): DontCodeSchemaManager {
+    return dtcde.getSchemaManager();
   }
 
   calculatePointerFor (position:string): DontCodeModelPointer {

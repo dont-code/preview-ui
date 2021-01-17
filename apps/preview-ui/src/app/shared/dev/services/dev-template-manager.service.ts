@@ -34,12 +34,7 @@ export class DevTemplateManagerService {
   }
 
   filterTemplates (templateName:string): Observable<DevTemplate[]> {
-    console.log ("filter templates called", templateName);
-/*    if (templateName.length==0) {
-      let ret=this.getTemplates();
-      console.log("Filter templates returning full list");
-      return ret;
-    }*/
+    //console.log ("filter templates called", templateName);
     templateName=templateName.toLowerCase();
     return this.getTemplates().pipe(
      map(value => {
@@ -48,7 +43,7 @@ export class DevTemplateManagerService {
            return true;
          } else return false;
        });
-       console.log("filter templates returning",ret);
+       // console.log("filter templates returning",ret);
        return ret;
       }));
   }
@@ -63,6 +58,7 @@ export class DevTemplate {
     if (tmpl.position !== undefined) {
       this.sequence=new Array({
         position:tmpl.position,
+        type:tmpl.type,
         value: tmpl.value
       });
     }
@@ -71,6 +67,7 @@ export class DevTemplate {
   name:string;
   sequence?: Array<{
     position:string,
+    type:string,
     value:any
   }>;
 
