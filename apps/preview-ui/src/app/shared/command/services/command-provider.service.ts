@@ -4,7 +4,6 @@ import { Observable, ReplaySubject, Subject } from "rxjs";
 import { filter } from "rxjs/operators";
 import {
   Change,
-  ChangeType,
   CommandProviderInterface,
   DontCode,
   DontCodeModelPointer,
