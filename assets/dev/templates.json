@@ -1,15 +1,18 @@
 [{
   "name": "Change App Name",
+  "type": "ADD",
   "position": "creation/name",
   "value": "New Name"
 },
   {
     "name": "Change Entity A Name",
+    "type": "ADD",
     "position": "creation/entities/a/name",
     "value": "A Name"
   },
   {
     "name": "Create String Field",
+    "type": "ADD",
     "position": "creation/entities/a/fields/a",
     "value": {
       "name": "fieldString",
@@ -18,11 +21,13 @@
   },
   {
     "name": "Set Field Name",
+    "type": "UPDATE",
     "position": "creation/entities/a/fields/b/name",
     "value": "fieldName"
   },
   {
     "name": "Change Screen A Name",
+    "type": "UPDATE",
     "position": "creation/screens/a/name",
     "value": "SA Name"
   },
@@ -31,10 +36,12 @@
     "sequence": [
       {
         "position": "creation/entities/a/name",
+        "type": "ADD",
         "value": "A Name"
       },
       {
         "position": "creation/entities/a/fields/a",
+        "type": "ADD",
         "value": {
           "name": "id",
           "type": "string"
@@ -42,6 +49,7 @@
       },
       {
         "position": "creation/entities/a/fields/b",
+        "type": "ADD",
         "value": {
           "name": "check",
           "type": "boolean"
@@ -49,10 +57,24 @@
       },
       {
         "position": "creation/entities/a/fields/c",
+        "type": "ADD",
         "value": {
           "name": "count",
           "type": "number"
         }
       }
     ]
-  }]
+  },
+  {
+    "name": "Move Field b",
+    "type": "MOVE",
+    "position": "creation/entities/a/fields/b",
+    "value": "a"
+  },
+  {
+    "name": "Move Field a",
+    "type": "MOVE",
+    "position": "creation/entities/a/fields/a",
+    "value": "c"
+  }
+]
