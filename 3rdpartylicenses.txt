@@ -70,6 +70,8 @@ MIT
 
 @dontcode/plugin-basic
 
+@dontcode/plugin-common
+
 @dontcode/plugin-screen
 
 @fortawesome/angular-fontawesome
