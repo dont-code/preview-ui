@@ -40,7 +40,6 @@
     "@angular/router": "^10.2.1",
     "@dontcode/core": "^0.1.29",
     "@dontcode/plugin-basic": "^0.1.26",
-    "@dontcode/plugin-common": "file:dontcode-plugin-common-dev.tgz",
     "@dontcode/plugin-screen": "^0.1.26",
     "@fortawesome/angular-fontawesome": "^0.7.0",
     "@fortawesome/fontawesome-svg-core": "^1.2.32",
