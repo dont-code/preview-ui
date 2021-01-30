@@ -24,6 +24,11 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
+      - name: Merge Development
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email noreply@github.com
+          git merge origin/Development --strategy=recursive --strategy-option=theirs
       - name: Cache Node.js modules
         uses: actions/cache@v2
         with:
@@ -31,10 +36,7 @@ jobs:
           key: ${{ runner.OS }}-node-${{ hashFiles('**/package-lock.json') }}
       - name: Install
         run: |
-          git config user.name "GitHub Actions"
-          git config user.email noreply@github.com
-          git merge origin/Development
-          npm install @dontcode/core@latest @dontcode/plugin-basic@latest @dontcode/plugin-screen@latest
+          npm install @dontcode/core@latest @dontcode/plugin-common@latest @dontcode/plugin-basic@latest @dontcode/plugin-screen@latest
           npm ci
       - name: Build
         run: npm run build --if-present

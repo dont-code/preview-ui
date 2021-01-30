@@ -45,17 +45,28 @@ export class CommandProviderService implements CommandProviderInterface {
     return this.allCommands;
   }
 
-  receiveCommands (position?: string, lastItem?: string): Observable<Change> {
+  /**
+   * Be notified when something changes in the model at the following position
+   * for example:
+   * position: /creation/screens, property: name will be notified of all name changes for all screen
+   * position: /creation/screens, property: null will be notified of any change in any screen and subscreens
+   * position: /creation/screens/a, property: null will be notified on changes in screen a and below
+   * position: /creation/screens/?, property: null will be notified on changes in screen items (move, delete), and not below
+   * position: null, property: null will be notified on all changes
+   * @param position
+   * @param property
+   */
+  receiveCommands (position?: string, property?: string): Observable<Change> {
     if (position)
     {
       //console.log("Setting Commands updates for ", position);
       return this.receivedCommands.pipe(filter (command => {
         //console.log("Filtering position for pos,item:", command.position, position, lastItem);
         if ((command.position!=null) && (command.position.startsWith(position))) {
-          if (lastItem) {
+          if (property) {
             const next=command.position.indexOf('/', position.length+1);
             if( next != -1) {
-              if( command.position.startsWith(lastItem, next+1)) {
+              if( command.position.startsWith(property, next+1)) {
                 //console.log("Filtering ok");
                 return true;
               }

@@ -2,8 +2,9 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, NgZone, OnDestro
 import { CommandProviderService } from "../../shared/command/services/command-provider.service";
 import { Subscription } from "rxjs";
 import { map } from "rxjs/operators";
-import { Change, DontCodeModel } from "@dontcode/core";
+import { Change, ChangeType, DontCodeModel } from "@dontcode/core";
 import { Router } from "@angular/router";
+import { MenuItem } from 'primeng/api';
 
 @Component({
   selector: 'preview-ui-menu',
@@ -13,14 +14,14 @@ import { Router } from "@angular/router";
 })
 export class MenuComponent implements OnInit, OnDestroy {
 
-  menus:Array<any>;
-  templateMenus =[
+  menus:Array<MenuItem>;
+  templateMenus =new Array<MenuItem> (
     {label:'Main Menu', items:[
         {label:'Home', icon:'pi pi-home', routerLink:['/']},
         {label:'Dev', icon:'pi pi-book', routerLink: ['dev']}
       ]},
     {label:'Application Menu', items:new Array<any>()}
-  ];
+  );
   subscriptions = new Subscription();
 
   constructor(protected provider: CommandProviderService,
@@ -88,20 +89,33 @@ export class MenuComponent implements OnInit, OnDestroy {
 
   private updateMenu(command: Change, icon: string) {
     let key = this.cleanPosition(command.position);
-    let found=false;
-    this.getDynamicMenu().forEach(value => {
+    let pos=-1;
+    this.getDynamicMenu().forEach((value, index) => {
       if (value.routerLink[0]===key) {
-        value.label = command.value;
-        found=true;
+        pos = index;
       }
     });
 
-    if (!found) {
-      this.getDynamicMenu().push({
-        routerLink:[key],
-        label:command.value,
-        icon:'pi '+icon
-      });
+    switch (command.type) {
+      case ChangeType.UPDATE:
+      case ChangeType.ADD:
+        if (pos!=-1) {
+          this.getDynamicMenu()[pos].label = command.value;
+        } else {
+          this.getDynamicMenu().push({
+            routerLink:[key],
+            label:command.value,
+            icon:'pi '+icon
+          });
+        }
+      break;
+      case ChangeType.DELETE:
+        this.getDynamicMenu().splice(pos, 1);
+        break;
+      case ChangeType.MOVE:
+        let beforeKey = this.cleanPosition(command.beforeKey);
+
+        break;
     }
     this.menus = this.generateMenu();
   }
