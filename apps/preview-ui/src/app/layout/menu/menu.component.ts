@@ -30,17 +30,22 @@ export class MenuComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.menus = this.generateMenu ();
-    this.subscriptions.add (this.provider.receiveCommands (DontCodeModel.APP_ENTITIES, DontCodeModel.APP_ENTITIES_NAME_NODE).pipe (
+    this.handleEntitiesMenu (DontCodeModel.APP_ENTITIES, DontCodeModel.APP_ENTITIES_NAME_NODE, 'pi-ticket');
+    this.handleEntitiesMenu (DontCodeModel.APP_SCREENS, DontCodeModel.APP_SCREENS_NAME_NODE, 'pi-desktop');
+  }
+
+  handleEntitiesMenu (entity:string, nameKey:string, icon:string) {
+    this.subscriptions.add (this.provider.receiveCommands (entity, nameKey).pipe (
       map(command => {
-        this.updateMenu (command, 'pi-ticket');
+        this.updateMenuName (command, icon);
         this.ref.detectChanges();
       })
     ).subscribe());
-    this.subscriptions.add(this.provider.receiveCommands (DontCodeModel.APP_SCREENS, DontCodeModel.APP_SCREENS_NAME_NODE).pipe(
+    this.subscriptions.add (this.provider.receiveCommands (entity+"/?", null).pipe (
       map(command => {
-        this.updateMenu (command, 'pi-desktop');
+        this.updateMenu (command, icon);
         this.ref.detectChanges();
-    })
+      })
     ).subscribe());
 
   }
@@ -88,13 +93,47 @@ export class MenuComponent implements OnInit, OnDestroy {
   }
 
   private updateMenu(command: Change, icon: string) {
-    let key = this.cleanPosition(command.position);
-    let pos=-1;
-    this.getDynamicMenu().forEach((value, index) => {
-      if (value.routerLink[0]===key) {
-        pos = index;
+    let key = command.position;
+    let pos = this.findMenuPosOf(key);
+    let menu;
+
+    if (pos==-1)
+    {
+      menu= {
+        routerLink: [key],
+        label: command.value.name,
+        icon: 'pi ' + icon
       }
-    });
+    } else {
+      menu = this.getDynamicMenu()[pos];
+    }
+
+    switch (command.type) {
+      case ChangeType.UPDATE:
+      case ChangeType.ADD:
+        if (pos!=-1) {
+          this.getDynamicMenu()[pos] = menu;
+        } else {
+          this.getDynamicMenu().push(menu);
+        }
+        break;
+      case ChangeType.DELETE:
+        this.getDynamicMenu().splice(pos, 1);
+        break;
+      case ChangeType.MOVE:
+        let beforeKeyPos = this.findMenuPosOf(command.pointer.containerPosition+'/'+command.beforeKey);
+        if( pos!=-1) {
+          this.getDynamicMenu().splice(pos, 1);
+        }
+        this.getDynamicMenu().splice(beforeKeyPos, 0, menu);
+        break;
+    }
+    this.menus = this.generateMenu();
+  }
+
+  private updateMenuName(command: Change, icon: string) {
+    let key = this.cleanPosition (command.position);
+    let pos = this.findMenuPosOf (key);
 
     switch (command.type) {
       case ChangeType.UPDATE:
@@ -108,16 +147,22 @@ export class MenuComponent implements OnInit, OnDestroy {
             icon:'pi '+icon
           });
         }
-      break;
+        break;
       case ChangeType.DELETE:
         this.getDynamicMenu().splice(pos, 1);
         break;
-      case ChangeType.MOVE:
-        let beforeKey = this.cleanPosition(command.beforeKey);
-
-        break;
     }
     this.menus = this.generateMenu();
+  }
+
+  private findMenuPosOf (key: string): number {
+    let pos = -1;
+    this.getDynamicMenu().forEach((value, index) => {
+      if (value.routerLink[0] === key) {
+        pos = index;
+      }
+    });
+    return pos;
   }
 }
 
