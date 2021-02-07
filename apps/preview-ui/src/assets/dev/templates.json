@@ -5,10 +5,18 @@
   "value": "New Name"
 },
   {
-    "name": "Change Entity A Name",
+    "name": "Create Entity A",
     "type": "ADD",
+    "position": "creation/entities/a",
+    "value": {
+      "name":"A Name"
+    }
+  },
+  {
+    "name": "Change Entity A Name",
+    "type": "UPDATE",
     "position": "creation/entities/a/name",
-    "value": "A Name"
+    "value": "An Updated Name"
   },
   {
     "name": "Create String Field",
