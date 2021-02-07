@@ -19,6 +19,12 @@
     "value": "An Updated Name"
   },
   {
+    "name": "Move Entity b",
+    "type": "MOVE",
+    "position": "creation/entities/b",
+    "value": "a"
+  },
+  {
     "name": "Create String Field",
     "type": "ADD",
     "position": "creation/entities/a/fields/a",
