@@ -125,7 +125,10 @@ export class MenuComponent implements OnInit, OnDestroy {
         if( pos!=-1) {
           this.getDynamicMenu().splice(pos, 1);
         }
-        this.getDynamicMenu().splice(beforeKeyPos, 0, menu);
+        if( beforeKeyPos!=-1)
+          this.getDynamicMenu().splice(beforeKeyPos, 0, menu);
+        else
+          this.getDynamicMenu().push(menu);
         break;
     }
     this.menus = this.generateMenu();
