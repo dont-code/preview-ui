@@ -46,7 +46,7 @@
     "value": "SA Name"
   },
   {
-    "name": "Create Entity A",
+    "name": "Create Complete Entity A",
     "sequence": [
       {
         "position": "creation/entities/a/name",
