@@ -40,7 +40,7 @@ export abstract class DynamicBaseComponent implements OnInit, OnDestroy {
       console.log("Importing from ", handler.class.source);
       try {
         // First lets try if the plugin is imported during the compilation
-        let module:PluginModuleInterface=getModuleFactory('dontcode-plugin/'+handler.class.source).create(null).instance;
+        const module:PluginModuleInterface=getModuleFactory('dontcode-plugin/'+handler.class.source).create(null).instance;
         return of(this.applyComponent(module.exposedPreviewHandlers().get(handler.class.name), host));
       } catch (e) {
         // Nope, fallback to dynamically loading it
