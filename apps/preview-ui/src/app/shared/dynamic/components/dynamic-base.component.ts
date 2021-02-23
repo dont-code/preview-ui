@@ -10,7 +10,7 @@ import {
 } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { Observable, of, Subject, Subscription } from "rxjs";
-import { DontCode, PluginModuleInterface, PreviewHandler } from "@dontcode/core";
+import {dtcde, PluginModuleInterface, PreviewHandler, PreviewHandlerConfig} from "@dontcode/core";
 import { CommandProviderService } from "../../command/services/command-provider.service";
 import { DynamicInsertDirective } from "../directives/dynamic-insert.directive";
 
@@ -31,7 +31,7 @@ export abstract class DynamicBaseComponent implements OnInit, OnDestroy {
   }
 
   protected loadComponent (position:string, host:DynamicInsertDirective): Observable<PreviewHandler> {
-    const previewMgr = DontCode.dtcde.getPreviewManager ();
+    const previewMgr = dtcde.getPreviewManager ();
     const currentJson = this.provider.getJsonAt (position);
 
     const handler = previewMgr.retrieveHandlerConfig(position, currentJson);
@@ -52,7 +52,7 @@ export abstract class DynamicBaseComponent implements OnInit, OnDestroy {
     }
 
   }
-  protected applyComponentFromConfig (module:any, handlerConfig:DontCode.PreviewHandlerConfig, host:DynamicInsertDirective): PreviewHandler  {
+  protected applyComponentFromConfig (module:any, handlerConfig:PreviewHandlerConfig, host:DynamicInsertDirective): PreviewHandler  {
     return this.applyComponent (module[handlerConfig.class.name], host);
   }
 

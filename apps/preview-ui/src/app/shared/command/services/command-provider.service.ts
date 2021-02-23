@@ -5,12 +5,11 @@ import { filter } from "rxjs/operators";
 import {
   Change,
   CommandProviderInterface,
-  DontCode,
   DontCodeModelPointer,
+  dtcde,
   DontCodeSchemaManager
 } from "@dontcode/core";
 import { ChangeListenerService } from "../../change/services/change-listener.service";
-import dtcde = DontCode.dtcde;
 
 @Injectable({
   providedIn: 'root'
@@ -140,7 +139,7 @@ export class CommandProviderService implements CommandProviderInterface {
     }
 
     let value=null;
-    if( posSlash!=-1)
+    if( posSlash!==-1)
       value = position.substring(from, posSlash+1);
 
     return {
