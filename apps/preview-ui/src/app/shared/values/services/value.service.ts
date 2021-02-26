@@ -44,7 +44,7 @@ export class ValueService {
    * @param create
    */
   findAtPosition(position: string, create?: boolean): any {
-    this.model.findAtPosition(position, create);
+    return this.model.findAtPosition(position, create);
   }
 
 }
