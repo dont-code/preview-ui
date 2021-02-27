@@ -3,9 +3,6 @@ import {IndexedDbStorageService} from "./indexed-db-storage.service";
 import {ValueService} from "../../values/services/value.service";
 import {map, takeLast} from "rxjs/operators";
 
-require("fake-indexeddb/auto");
-
-
 describe('DevTemplateManagerService', () => {
   let service: IndexedDbStorageService;
   let valueService: ValueService;
@@ -57,7 +54,7 @@ describe('DevTemplateManagerService', () => {
       expect(entity).toBeFalsy(); // loadEntity returns undefined for a non-existant key;
       done();
     }).catch (reason => {
-      done(reason);
+      done(reason.name+':'+reason.message);
     })
   });
 

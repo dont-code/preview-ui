@@ -12,10 +12,12 @@ import {ValueService} from "../../values/services/value.service";
 })
 export class IndexedDbStorageService implements DontCodeStoreProvider{
 
+  protected static globalDb: Dexie;
+
   protected db: Dexie;
 
   constructor(protected values:ValueService) {
-    this.db = new Dexie("Preview-UI");
+    this.createDatabase();
   }
 
   deleteEntity(position: string, key: any): Promise<boolean> {
@@ -64,9 +66,10 @@ export class IndexedDbStorageService implements DontCodeStoreProvider{
 
     if( create) {
       const tableDescription = {};
+      const version = this.db.verno;
       tableDescription[description.name] = '++id';
       this.db.close();
-      this.db.version(this.db.verno + 1).stores(tableDescription);
+      this.db.version(version + 1).stores(tableDescription);
       this.db.open();
 
       return this.db.table(description.name);
@@ -75,4 +78,9 @@ export class IndexedDbStorageService implements DontCodeStoreProvider{
     }
   }
 
+  createDatabase () {
+    if(!IndexedDbStorageService.globalDb)
+      IndexedDbStorageService.globalDb = new Dexie("Preview-UI");
+    this.db=IndexedDbStorageService.globalDb;
+  }
 }
