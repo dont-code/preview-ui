@@ -67,7 +67,7 @@ export class IndexedDbStorageService implements DontCodeStoreProvider{
     if( create) {
       const tableDescription = {};
       const version = this.db.verno;
-      tableDescription[description.name] = '++id';
+      tableDescription[description.name] = '++_id';
       this.db.close();
       this.db.version(version + 1).stores(tableDescription);
       this.db.open();
