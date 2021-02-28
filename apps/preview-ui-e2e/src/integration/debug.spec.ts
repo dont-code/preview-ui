@@ -1,12 +1,18 @@
 import {
-  clickAutoComplete, getHeaderMenu, getPageTitle,
-  getSendButton, getStep,
-  getSubMenu, getSubMenus, getSubMenuWithText,
+  clickAutoComplete,
+  getHeaderMenu,
+  getPageTitle,
+  getSendButton,
+  getStep,
+  getSubMenu,
+  getSubMenus,
+  getSubMenuWithText,
   getToolbar,
   getValueTextArea,
-  selectPopupChoice, selectPopupChoiceWithText, selectType
+  selectPopupChoice,
+  selectPopupChoiceWithText,
+  selectType
 } from "../support/app.po";
-import { MainComponent } from '../../../preview-ui/src/app/layout/main/main.component';
 
 describe('debug', () => {
   beforeEach(() => {
