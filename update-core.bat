@@ -1,5 +1,5 @@
 cd ..\core\node
-call nx run core:build --prod
+call nx run core:build
 call npm pack dist/libs/core
 cd ..\..\preview-ui
 move ..\core\node\dontcode-core-*.tgz .

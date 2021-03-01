@@ -54,7 +54,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "extractLicenses": true,
               "vendorChunk": false,
@@ -72,7 +71,10 @@
                 }
               ]
             }
-          }
+          },
+          "outputs": [
+            "{options.outputPath}"
+          ]
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -102,7 +104,10 @@
               "apps/preview-ui/tsconfig.app.json",
               "apps/preview-ui/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!apps/preview-ui/**/*"]
+            "exclude": [
+              "**/node_modules/**",
+              "!apps/preview-ui/**/*"
+            ]
           }
         },
         "test": {
@@ -110,7 +115,10 @@
           "options": {
             "jestConfig": "apps/preview-ui/jest.config.js",
             "passWithNoTests": true
-          }
+          },
+          "outputs": [
+            "coverage/apps/preview-ui"
+          ]
         }
       }
     },
@@ -135,8 +143,13 @@
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
-            "tsConfig": ["apps/preview-ui-e2e/tsconfig.e2e.json"],
-            "exclude": ["**/node_modules/**", "!apps/preview-ui-e2e/**/*"]
+            "tsConfig": [
+              "apps/preview-ui-e2e/tsconfig.e2e.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!apps/preview-ui-e2e/**/*"
+            ]
           }
         }
       }
