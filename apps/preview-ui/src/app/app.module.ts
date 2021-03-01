@@ -28,7 +28,8 @@ const appRoutes: Routes = [
   imports: [BrowserModule, BrowserAnimationsModule, HttpClientModule, LayoutModule, SharedModule,
     RoutesModule, RouterModule.forRoot(
       appRoutes,
-      { enableTracing: false,useHash:true } // <-- debugging purposes only
+      { enableTracing: false, useHash: true, relativeLinkResolution: 'legacy' } // <-- debugging purposes only
+ // <-- debugging purposes only
     ), FontAwesomeModule
     ,ScreenModule
     ,BasicModule

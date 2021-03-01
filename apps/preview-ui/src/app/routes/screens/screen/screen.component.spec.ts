@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 
 import { ScreenComponent } from "./screen.component";
 import { of } from "rxjs";
@@ -11,7 +11,7 @@ describe('ScreenComponent', () => {
   let component: ScreenComponent;
   let fixture: ComponentFixture<ScreenComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ ScreenComponent, DefaultViewerComponent, DynamicInsertDirective],
       providers: [{
