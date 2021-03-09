@@ -1,18 +1,18 @@
 cd ..\plugins
 call nx run common:build --prod
-call nx run screen:build --prod
 call nx run basic:build --prod
+call nx run screen:build --prod
+call nx run fields:build --prod
 call npm pack dist/libs/common
-call npm pack dist/libs/screen
 call npm pack dist/libs/basic
+call npm pack dist/libs/screen
+call npm pack dist/libs/fields
 cd ..\preview-ui
+del dontcode-plugin-*.tgz
 move ..\plugins\dontcode-plugin-common-*.tgz .
-move ..\plugins\dontcode-plugin-screen-*.tgz .
 move ..\plugins\dontcode-plugin-basic-*.tgz .
-del dontcode-plugin-common-dev.tgz
-del dontcode-plugin-screen-dev.tgz
-del dontcode-plugin-basic-dev.tgz
-ren dontcode-plugin-common-*.tgz dontcode-plugin-common-dev.tgz
-ren dontcode-plugin-screen-*.tgz dontcode-plugin-screen-dev.tgz
-ren dontcode-plugin-basic-*.tgz dontcode-plugin-basic-dev.tgz
-call npm install dontcode-plugin-common-dev.tgz dontcode-plugin-screen-dev.tgz dontcode-plugin-basic-dev.tgz
+move ..\plugins\dontcode-plugin-screen-*.tgz .
+move ..\plugins\dontcode-plugin-fields-*.tgz .
+rem forfiles /M dontcode-plugin-*.tgz /C "cmd /c npm install @file"
+call npm install dontcode-plugin-common-1.31.tgz
+call npm install dontcode-plugin-basic-1.31.tgz
