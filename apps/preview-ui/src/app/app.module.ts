@@ -15,6 +15,7 @@ import { ScreenComponent } from "./routes/screens/screen/screen.component";
 import { ScreenModule } from "@dontcode/plugin-screen";
 import { BasicModule } from "@dontcode/plugin-basic";
 import { HttpClientModule } from "@angular/common/http";
+import {FieldsModule} from "../../../../libs/fields/src";
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent },
@@ -33,6 +34,7 @@ const appRoutes: Routes = [
     ), FontAwesomeModule
     ,ScreenModule
     ,BasicModule
+    ,FieldsModule
   ],
   providers: [],
   bootstrap: [AppComponent],
