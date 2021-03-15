@@ -40,6 +40,15 @@
     "value": "fieldName"
   },
   {
+    "name": "Create Country Field",
+    "type": "ADD",
+    "position": "creation/entities/a/fields/c",
+    "value": {
+      "name": "Country",
+      "type": "Country"
+    }
+  },
+  {
     "name": "Change Screen A Name",
     "type": "UPDATE",
     "position": "creation/screens/a/name",
