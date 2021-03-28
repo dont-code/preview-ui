@@ -48,7 +48,13 @@ describe('edit', () => {
 
     getSubMenuWithText('Dev').click();// Move to dev page
     getSubMenuWithText('A Name').click();// Returns to list page
-    // Stuff should be reloaded from browser's DB, however due to some bugs ? in Dexie or Cypress it's not saving to IndexedDb
     getListRowWithText( "NEWID1");
+
+    // Delete ID2
+    getListRowWithText ("ID2").click();
+    getButtonWithName('delete').click();
+    // It should have automatically switched back to the list, however I can't test that ID2 is gone.
+    getListRowWithText( "NEWID1");
+
   });
 });
