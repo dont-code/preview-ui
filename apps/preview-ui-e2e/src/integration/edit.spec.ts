@@ -2,7 +2,7 @@ import {clickAutoComplete, getSendButton, getSubMenuWithText, selectPopupChoiceW
 import {
   getButtonWithName,
   getCheckWithName,
-  getInputWithName, getListRow,
+  getInputWithName, getListRow, getListRowWithText,
   getTableHeader,
   getTabWithName
 } from "../support/edit.po";
@@ -30,7 +30,7 @@ describe('edit', () => {
     getButtonWithName ('save').click();
 
     getTabWithName ('List').click();
-    getListRow (1).should('contain.text', "ID1");
+    getListRowWithText ( "ID1");
 
     getButtonWithName ('new').click();
     getInputWithName('id').type('ID2');
@@ -38,18 +38,23 @@ describe('edit', () => {
     getButtonWithName ('save').click();
 
     getTabWithName ('List').click();
-    getListRow (2).should('contain.text', "ID2");
+    getListRowWithText ("ID2");
 
-    getListRow (1).click();
-    getInputWithName('id').should('have.attr', 'ng-reflect-model');
+    getListRowWithText ("ID1").click();
     getInputWithName('id').clear().type('NEWID1');
 
     getButtonWithName ('save').click();
-    getListRow (1).should('contain.text', "NEWID1");
+    getListRowWithText ( "NEWID1");
 
     getSubMenuWithText('Dev').click();// Move to dev page
     getSubMenuWithText('A Name').click();// Returns to list page
-    // Stuff should be reloaded from browser's DB, however due to some bugs ? in Dexie or Cypress it's not saving to IndexedDb
-    // getListRow (1).should('contain.text', "NEWID1");
+    getListRowWithText( "NEWID1");
+
+    // Delete ID2
+    getListRowWithText ("ID2").click();
+    getButtonWithName('delete').click();
+    // It should have automatically switched back to the list, however I can't test that ID2 is gone.
+    getListRowWithText( "NEWID1");
+
   });
 });
