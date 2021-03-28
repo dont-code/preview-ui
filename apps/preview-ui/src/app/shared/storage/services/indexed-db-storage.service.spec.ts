@@ -2,6 +2,7 @@ import {TestBed} from '@angular/core/testing';
 import {IndexedDbStorageService} from "./indexed-db-storage.service";
 import {ValueService} from "../../values/services/value.service";
 import {map, takeLast} from "rxjs/operators";
+import Dexie from "dexie";
 
 describe('DevTemplateManagerService', () => {
   let service: IndexedDbStorageService;
@@ -21,19 +22,20 @@ describe('DevTemplateManagerService', () => {
 
   it('should store and load entity', done => {
     valueService.resetContent(content);
-    service.storeEntity('creation/entities/a', {
-      dueDate:'2020-08-01',
-      code:'testA',
-      count:10,
-      valid:true
-    }).then (value => {
-      return service.loadEntity('creation/entities/a', value);
-    }).then(value => {
-      expect (value.code).toEqual('testA');
-      done();
-    }).catch(reason => {
-      done(reason);
-    })
+      service.storeEntity('creation/entities/a', {
+        dueDate:'2020-08-01',
+        code:'testA',
+        count:10,
+        valid:true
+      }).then (value => {
+        return service.loadEntity('creation/entities/a', value);
+      }).then(value => {
+        expect (value.code).toEqual('testA');
+        done();
+      }).catch((reason:Error) => {
+        done(reason.name+':'+reason.message);
+      });
+
   });
 
   it('should store and delete entity', done => {
@@ -53,7 +55,7 @@ describe('DevTemplateManagerService', () => {
     }).then (entity => {
       expect(entity).toBeFalsy(); // loadEntity returns undefined for a non-existant key;
       done();
-    }).catch (reason => {
+    }).catch ((reason:Error) => {
       done(reason.name+':'+reason.message);
     })
   });
@@ -84,8 +86,8 @@ describe('DevTemplateManagerService', () => {
     ).then (values => {
       expect (values.length).toEqual(10);
       done();
-    }).catch(reason => {
-      done(reason);
+    }).catch((reason:Error) => {
+      done(reason.name+':'+reason.message);
     })
   });
 });
