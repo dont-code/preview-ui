@@ -52,6 +52,7 @@
     "broadcast-channel": "^3.4.1",
     "core-js": "^3.9.1",
     "dexie": "^3.0.3",
+    "flag-icon-css": "^3.5.0",
     "i18n-iso-countries": "^6.6.0",
     "primeflex": "^2.0.0",
     "primeicons": "^4.1.0",
