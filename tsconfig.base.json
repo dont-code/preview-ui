@@ -16,6 +16,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "esModuleInterop": true,
+    "resolveJsonModule": true,
     "paths": {
       "@dontcode/core": ["node_modules/@dontcode/core"],
       "rxjs": ["node_modules/rxjs"],
