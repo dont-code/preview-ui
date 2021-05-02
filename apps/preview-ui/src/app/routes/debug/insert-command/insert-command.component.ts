@@ -35,6 +35,8 @@ export class InsertCommandComponent implements OnInit, OnDestroy {
     {label:ChangeType.MOVE },
     {label:ChangeType.RESET }
   ];
+  openAddCommand = true;
+
 
   constructor(protected pushService:DevChangePushService, protected templates:DevTemplateManagerService, private fb:FormBuilder) {
   }
