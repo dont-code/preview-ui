@@ -1,7 +1,7 @@
-import {Change, ChangeType, dtcde} from "@dontcode/core";
-import { Injectable } from "@angular/core";
-import { Subject } from "rxjs";
-import {DontCodeModelManager} from "@dontcode/core/lib/model/dont-code-model-manager";
+import {Change, dtcde} from "@dontcode/core";
+import {Injectable} from "@angular/core";
+import {Subject} from "rxjs";
+import {DontCodeModelManager} from "@dontcode/core";
 
 /**
  * Stores and constantly updates the json (as an instance of the DontCodeSchema) as it is being edited / modified through Change events

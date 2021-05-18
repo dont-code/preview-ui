@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, NgZone, OnDestroy, OnInit } from "@angular/core";
-import { CommandProviderService } from "../../shared/command/services/command-provider.service";
+import { ChangeProviderService } from "../../shared/command/services/change-provider.service";
 import { Subscription } from "rxjs";
 import { map } from "rxjs/operators";
 import { Change, ChangeType, DontCodeModel } from "@dontcode/core";
@@ -24,7 +24,7 @@ export class MenuComponent implements OnInit, OnDestroy {
   );
   subscriptions = new Subscription();
 
-  constructor(protected provider: CommandProviderService,
+  constructor(protected provider: ChangeProviderService,
               private ref: ChangeDetectorRef, public router: Router,
               public ngZone:NgZone) { }
 

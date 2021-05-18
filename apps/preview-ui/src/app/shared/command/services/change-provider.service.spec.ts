@@ -1,16 +1,16 @@
 import { ChangeType } from '@dontcode/core';
 import { TestBed } from '@angular/core/testing';
 
-import { CommandProviderService } from './command-provider.service';
+import { ChangeProviderService } from './change-provider.service';
 import { Change } from '@dontcode/core';
 import { Subscription } from 'rxjs';
 
 describe('CommandProviderService', () => {
-  let service: CommandProviderService;
+  let service: ChangeProviderService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(CommandProviderService);
+    service = TestBed.inject(ChangeProviderService);
   });
 
   it('should be created', () => {
@@ -18,7 +18,7 @@ describe('CommandProviderService', () => {
   });
 
   it('should calculate next item', () => {
-    let testPosition="creation/screens/a/components/b";
+    const testPosition="creation/screens/a/components/b";
     expect(service.nextItemEndPosition(testPosition, 0)).toEqual({pos:7, value:"creation"});
     let result=service.nextItemEndPosition(testPosition, "creation".length);
     expect(result).toEqual({pos:15, value:"screens"});

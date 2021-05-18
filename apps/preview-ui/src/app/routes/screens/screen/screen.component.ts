@@ -4,7 +4,7 @@ import { map, takeUntil } from "rxjs/operators";
 import { Observable } from "rxjs";
 import { CommandProviderInterface } from "@dontcode/core";
 import { DynamicBaseComponent } from "../../../shared/dynamic/components/dynamic-base.component";
-import { CommandProviderService } from "../../../shared/command/services/command-provider.service";
+import { ChangeProviderService } from "../../../shared/command/services/change-provider.service";
 import { DynamicInsertDirective } from "../../../shared/dynamic/directives/dynamic-insert.directive";
 
 @Component({
@@ -19,7 +19,7 @@ export class ScreenComponent extends DynamicBaseComponent implements OnInit, Aft
 
   constructor(route:ActivatedRoute,
               componentFactoryResolver: ComponentFactoryResolver,
-              provider:CommandProviderService) {
+              provider:ChangeProviderService) {
     super(route, componentFactoryResolver, provider);
   }
 

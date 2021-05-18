@@ -14,21 +14,21 @@ import { ChangeListenerService } from "../../change/services/change-listener.ser
 @Injectable({
   providedIn: 'root'
 })
-export class CommandProviderService implements CommandProviderInterface {
+export class ChangeProviderService implements CommandProviderInterface {
 
   protected subscriptions = new Subscription();
-  protected receivedCommands = new Subject<Change> ();
-  protected allCommands = new ReplaySubject<Change> ();
+  protected receivedChanges = new Subject<Change> ();
+  protected allChanges = new ReplaySubject<Change> ();
 
   constructor(protected changeListener: ChangeListenerService, protected valueService:ValueService) {
-    valueService.receiveUpdatesFrom (this.receivedCommands);
+    valueService.receiveUpdatesFrom (this.receivedChanges);
     this.subscriptions.add(changeListener.getChangeEvents().subscribe(change => {
       // console.log ('Received Change ', change);
       if (!change.pointer) {
         change.pointer = this.calculatePointerFor(change.position);
       }
-      this.receivedCommands.next(change);
-      this.allCommands.next(change);
+      this.receivedChanges.next(change);
+      this.allChanges.next(change);
     })
     );
   }
@@ -38,12 +38,12 @@ export class CommandProviderService implements CommandProviderInterface {
   }
 
   pushCommand (newChange:Change) {
-    this.receivedCommands.next(newChange);
-    this.allCommands.next(newChange);
+    this.receivedChanges.next(newChange);
+    this.allChanges.next(newChange);
   }
 
   getAllCommands (): Observable<Change> {
-    return this.allCommands;
+    return this.allChanges;
   }
 
   /**
@@ -69,7 +69,7 @@ export class CommandProviderService implements CommandProviderInterface {
         position=position.substring (0, position.length-1);
       }
       //console.log("Setting Commands updates for ", position);
-      return this.receivedCommands.pipe(filter (command => {
+      return this.receivedChanges.pipe(filter (command => {
         //console.log("Filtering position for pos,item:", command.position, position, lastItem);
         if ((command.position!=null) && (command.position.startsWith(position))) {
           let nextPosition=this.nextItemEndPosition (command.position, position.length+1)
@@ -105,7 +105,7 @@ export class CommandProviderService implements CommandProviderInterface {
       }));
     }
     else
-      return this.receivedCommands;
+      return this.receivedChanges;
   }
 
   getSchemaManager (): DontCodeSchemaManager {
@@ -118,7 +118,7 @@ export class CommandProviderService implements CommandProviderInterface {
   }
 
   close() {
-    this.receivedCommands.complete();
+    this.receivedChanges.complete();
     this.subscriptions.unsubscribe();
   }
 

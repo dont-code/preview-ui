@@ -3,7 +3,7 @@ import { MainComponent } from '../../../preview-ui/src/app/layout/main/main.comp
 
 describe('commands', () => {
   beforeEach(() => {
-    /*cy.getService(CommandProviderService).then ((service:CommandProviderService) => {
+    /*cy.getService(ChangeProviderService).then ((service:ChangeProviderService) => {
       console.log('stubbing');
       cy.stub(service, 'receiveCommands', () => {
         console.log('stubbed');

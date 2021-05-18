@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from "@angular/core";
 import { combineLatest, Observable, Subject } from "rxjs";
 import { map, takeUntil } from "rxjs/operators";
-import { CommandProviderService } from "../../shared/command/services/command-provider.service";
+import { ChangeProviderService } from "../../shared/command/services/change-provider.service";
 import { ChangeListenerService } from "../../shared/change/services/change-listener.service";
 import { DontCodeModel } from "@dontcode/core";
 
@@ -24,7 +24,7 @@ export class MainComponent implements OnInit, OnDestroy {
   sidePanelVisible: boolean;
 
   constructor(
-    protected provider:CommandProviderService,
+    protected provider:ChangeProviderService,
     protected listenerService:ChangeListenerService,
     private ref: ChangeDetectorRef
   ) {}

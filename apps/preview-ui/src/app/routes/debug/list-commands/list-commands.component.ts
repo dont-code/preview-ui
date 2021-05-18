@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnIni
 import { Subscription } from "rxjs";
 import { map } from "rxjs/operators";
 import { Change } from "@dontcode/core";
-import { CommandProviderService } from "../../../shared/command/services/command-provider.service";
+import { ChangeProviderService } from "../../../shared/command/services/change-provider.service";
 
 @Component({
   selector: 'preview-ui-list-commands',
@@ -21,7 +21,7 @@ export class ListCommandsComponent implements OnInit, OnDestroy {
   protected forgetIt = true;
 
 
-  constructor(    protected changeProvider:CommandProviderService,
+  constructor(    protected changeProvider:ChangeProviderService,
                   protected ref:ChangeDetectorRef) { }
 
   ngOnInit(): void {

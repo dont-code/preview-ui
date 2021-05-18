@@ -11,7 +11,7 @@ import {
 import { ActivatedRoute } from "@angular/router";
 import { Observable, of, Subject, Subscription } from "rxjs";
 import {dtcde, PluginModuleInterface, PreviewHandler, PreviewHandlerConfig} from "@dontcode/core";
-import { CommandProviderService } from "../../command/services/command-provider.service";
+import { ChangeProviderService } from "../../command/services/change-provider.service";
 import { DynamicInsertDirective } from "../directives/dynamic-insert.directive";
 
 @Component({
@@ -25,7 +25,7 @@ export abstract class DynamicBaseComponent implements OnInit, OnDestroy {
 
   protected constructor(protected route:ActivatedRoute,
                         protected componentFactoryResolver: ComponentFactoryResolver,
-                        protected provider:CommandProviderService) { }
+                        protected provider:ChangeProviderService) { }
 
   ngOnInit(): void {
   }
