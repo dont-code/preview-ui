@@ -1,15 +1,8 @@
-import { ValueService } from "../../values/services/value.service";
-import { Injectable } from "@angular/core";
-import { Observable, ReplaySubject, Subject, Subscription } from "rxjs";
-import { filter } from "rxjs/operators";
-import {
-  Change,
-  CommandProviderInterface,
-  DontCodeModelPointer,
-  dtcde,
-  DontCodeSchemaManager
-} from "@dontcode/core";
-import { ChangeListenerService } from "../../change/services/change-listener.service";
+import {ValueService} from "../../values/services/value.service";
+import {Injectable} from "@angular/core";
+import {Observable, ReplaySubject, Subject, Subscription} from "rxjs";
+import {Change, CommandProviderInterface, DontCodeModelPointer, DontCodeSchemaManager, dtcde} from "@dontcode/core";
+import {ChangeListenerService} from "../../change/services/change-listener.service";
 
 @Injectable({
   providedIn: 'root'
@@ -20,29 +13,117 @@ export class ChangeProviderService implements CommandProviderInterface {
   protected receivedChanges = new Subject<Change> ();
   protected allChanges = new ReplaySubject<Change> ();
 
+  protected listeners = new Map<{position:string, property:string}, Subject<Change>>();
+  protected listenerCachePerPosition = new Map<string, Array<Subject<Change>>>();
+
   constructor(protected changeListener: ChangeListenerService, protected valueService:ValueService) {
     valueService.receiveUpdatesFrom (this.receivedChanges);
     this.subscriptions.add(changeListener.getChangeEvents().subscribe(change => {
       // console.log ('Received Change ', change);
-      if (!change.pointer) {
-        change.pointer = this.calculatePointerFor(change.position);
-      }
-      this.receivedChanges.next(change);
-      this.allChanges.next(change);
+      this.pushChange(change);
     })
     );
+  }
+
+  /**
+   * Check if the change affects the given position
+   * @param pos
+   * @param change
+   * @protected
+   */
+  protected isInterestedIn (position:string, property:string, change:Change) :boolean {
+    let onlyLevel=false;
+    if (position[position.length-1]==='?') {
+      onlyLevel=true;
+      position=position.substring(0, position.length-1);
+    }
+    if (position[position.length-1]==='/') {
+      position=position.substring (0, position.length-1);
+    }
+    //console.log("Setting Commands updates for ", position);
+      //console.log("Filtering position for pos,item:", command.position, position, lastItem);
+    if ((change.position!=null) && (change.position.startsWith(position))) {
+      let nextPosition=this.nextItemEndPosition (change.position, position.length+1)
+      const nextItem=nextPosition.value;
+      if (property) {
+        if( nextItem===property) {
+          //console.log("Filtering ok");
+          return true;
+        } else {
+          nextPosition = this.nextItemEndPosition(change.position, nextPosition.pos+1);
+          if (nextPosition.value===property) {
+            return true;
+          }
+        }
+        //console.log("Filtering no");
+        return false;
+      } else if (onlyLevel) {
+        //console.log("Filtering ok");
+        if( nextItem!=null) {
+          // Check if its the last item
+          nextPosition = this.nextItemEndPosition(change.position, nextPosition.pos + 1);
+          if (nextPosition.value === "")
+            return true;
+        }
+        return false;
+      } else {
+        return true;
+      }
+    } else {
+      //console.log("Filtering no");
+      return false;
+    }
+  }
+
+  protected createNewListener (position:string, property:string): Observable<Change> {
+    const key = {position, property};
+    let item = this.listeners.get(key);
+    if (!item) {
+      item = new Subject<Change> ();
+      this.listeners.set(key, item);
+      this.listenerCachePerPosition.clear();
+    }
+    return item;
+  }
+
+  protected addToListenerCache (position:string, who: Subject<Change>) {
+    let interesteds = this.listenerCachePerPosition.get(position);
+    if (!interesteds) {
+      interesteds = new Array<Subject<Change>>();
+      this.listenerCachePerPosition.set(position, interesteds);
+    }
+
+    interesteds.push(who);
   }
 
   getJsonAt(position: string): any {
     return this.valueService.findAtPosition (position, false);
   }
 
-  pushCommand (newChange:Change) {
-    this.receivedChanges.next(newChange);
-    this.allChanges.next(newChange);
+  pushChange (change:Change) {
+    if (!change.pointer) {
+      change.pointer = this.calculatePointerFor(change.position);
+    }
+
+    this.receivedChanges.next(change);
+
+    // First resolve the position and cache it
+    if ( !this.listenerCachePerPosition.get(change.position)) {
+      this.listeners.forEach((value, key) => {
+        if (this.isInterestedIn (key.position,key.property, change)) {
+          this.addToListenerCache (change.position, value);
+        }
+      });
+    }
+
+    const affected = this.listenerCachePerPosition.get(change.position);
+    affected?.forEach(subject => {
+      subject.next(change);
+    });
+    this.allChanges.next(change);
   }
 
-  getAllCommands (): Observable<Change> {
+  getAllChanges (): Observable<Change> {
     return this.allChanges;
   }
 
@@ -60,49 +141,7 @@ export class ChangeProviderService implements CommandProviderInterface {
   receiveCommands (position?: string, property?: string): Observable<Change> {
     if (position)
     {
-      let onlyLevel=false;
-      if (position[position.length-1]==='?') {
-        onlyLevel=true;
-        position=position.substring(0, position.length-1);
-      }
-      if (position[position.length-1]==='/') {
-        position=position.substring (0, position.length-1);
-      }
-      //console.log("Setting Commands updates for ", position);
-      return this.receivedChanges.pipe(filter (command => {
-        //console.log("Filtering position for pos,item:", command.position, position, lastItem);
-        if ((command.position!=null) && (command.position.startsWith(position))) {
-          let nextPosition=this.nextItemEndPosition (command.position, position.length+1)
-          const nextItem=nextPosition.value;
-          if (property) {
-              if( nextItem===property) {
-                //console.log("Filtering ok");
-                return true;
-              } else {
-                nextPosition = this.nextItemEndPosition(command.position, nextPosition.pos+1);
-                if (nextPosition.value===property) {
-                  return true;
-                }
-              }
-            //console.log("Filtering no");
-            return false;
-          } else if (onlyLevel) {
-          //console.log("Filtering ok");
-            if( nextItem!=null) {
-                // Check if its the last item
-              nextPosition = this.nextItemEndPosition(command.position, nextPosition.pos + 1);
-              if (nextPosition.value === "")
-                return true;
-              }
-            return false;
-          } else {
-            return true;
-          }
-        } else {
-          //console.log("Filtering no");
-          return false;
-        }
-      }));
+      return this.createNewListener (position, property);
     }
     else
       return this.receivedChanges;

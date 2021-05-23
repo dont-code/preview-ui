@@ -25,7 +25,7 @@ export class ListCommandsComponent implements OnInit, OnDestroy {
                   protected ref:ChangeDetectorRef) { }
 
   ngOnInit(): void {
-    this.subscriptions.add(this.changeProvider.getAllCommands()
+    this.subscriptions.add(this.changeProvider.getAllChanges()
       .pipe(
         map ((command) => {
         // console.log('Received...', command);

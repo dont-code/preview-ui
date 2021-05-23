@@ -33,7 +33,7 @@ describe('CommandProviderService', () => {
   });
 
   it('should updates content from changes', () => {
-    service.pushCommand (new Change (ChangeType.UPDATE, 'creation/name', 'NewName'));
+    service.pushChange (new Change (ChangeType.UPDATE, 'creation/name', 'NewName'));
     expect (service.getJsonAt('creation')).toHaveProperty ('name', "NewName");
   });
 
@@ -44,9 +44,9 @@ describe('CommandProviderService', () => {
       subscriptions.add(service.receiveCommands('creation/screens', 'name').subscribe(
         notified
       ));
-      service.pushCommand (new Change (ChangeType.UPDATE, 'creation/name', 'NewName'));
+      service.pushChange (new Change (ChangeType.UPDATE, 'creation/name', 'NewName'));
       expect(notified).toHaveBeenCalledTimes(0);
-      service.pushCommand (new Change (ChangeType.ADD, 'creation/screens/a/name', 'NewName'));
+      service.pushChange (new Change (ChangeType.ADD, 'creation/screens/a/name', 'NewName'));
       expect(notified).toHaveBeenCalledTimes(1);
       subscriptions.unsubscribe();
 
@@ -54,11 +54,11 @@ describe('CommandProviderService', () => {
       subscriptions.add(service.receiveCommands('creation/screens').subscribe(
         notified
       ));
-      service.pushCommand (new Change (ChangeType.ADD, 'creation/screens/b', '{\"name\"=\"NewName\"}'));
+      service.pushChange (new Change (ChangeType.ADD, 'creation/screens/b', '{\"name\"=\"NewName\"}'));
       expect(notified).toHaveBeenCalledTimes(2);
-      service.pushCommand (new Change (ChangeType.UPDATE, 'creation/screens/b/name', 'NewName'));
+      service.pushChange (new Change (ChangeType.UPDATE, 'creation/screens/b/name', 'NewName'));
       expect(notified).toHaveBeenCalledTimes(3);
-      service.pushCommand (new Change (ChangeType.ADD, 'creation/screens/b/components/b/name', '{\"name\"=\"NewComp\"}'));
+      service.pushChange (new Change (ChangeType.ADD, 'creation/screens/b/components/b', '{\"type\"=\"edit\"}'));
       expect(notified).toHaveBeenCalledTimes(4);
       subscriptions.unsubscribe();
 
@@ -66,9 +66,9 @@ describe('CommandProviderService', () => {
       subscriptions.add(service.receiveCommands('creation/screens/?').subscribe(
         notified
       ));
-      service.pushCommand (new Change (ChangeType.ADD, 'creation/screens/a/name', 'NewName'));
+      service.pushChange (new Change (ChangeType.ADD, 'creation/screens/a/name', 'NewName'));
       expect(notified).toHaveBeenCalledTimes(4);
-      service.pushCommand (new Change (ChangeType.DELETE, 'creation/screens/b', null));
+      service.pushChange (new Change (ChangeType.DELETE, 'creation/screens/b', null));
       expect(notified).toHaveBeenCalledTimes(5);
       subscriptions.unsubscribe();
 
@@ -76,11 +76,11 @@ describe('CommandProviderService', () => {
       subscriptions.add(service.receiveCommands('creation/screens/?', 'name').subscribe(
         notified
       ));
-      service.pushCommand (new Change (ChangeType.ADD, 'creation/screens/a/name', 'NewName'));
+      service.pushChange (new Change (ChangeType.ADD, 'creation/screens/a/name', 'NewName'));
       expect(notified).toHaveBeenCalledTimes(6);
-      service.pushCommand (new Change (ChangeType.DELETE, 'creation/screens/b', null));
+      service.pushChange (new Change (ChangeType.DELETE, 'creation/screens/b', null));
       expect(notified).toHaveBeenCalledTimes(6);
-      service.pushCommand (new Change (ChangeType.ADD, 'creation/screens/b/components/c/name', 'CompName'));
+      service.pushChange (new Change (ChangeType.ADD, 'creation/screens/b/components/c/type', 'view'));
       expect(notified).toHaveBeenCalledTimes(6);
     } finally {
       subscriptions.unsubscribe();
