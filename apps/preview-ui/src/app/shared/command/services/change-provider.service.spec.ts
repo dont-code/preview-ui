@@ -87,4 +87,42 @@ describe('CommandProviderService', () => {
       service.close();
     }
   });
+
+  it('support reset properly', () => {
+    const subscriptions = new Subscription();
+    const notified = jest.fn();
+    const notifiedQuestionMark = jest.fn();
+    try {
+      subscriptions.add(service.receiveCommands('creation', 'name').subscribe(
+        notified
+      ));
+      subscriptions.add(service.receiveCommands('creation/entities', 'name').subscribe(
+        notified
+      ));
+      subscriptions.add(service.receiveCommands('creation/entities/?', null).subscribe(value => {
+          notifiedQuestionMark();
+      }
+      ));
+
+      service.pushChange (new Change (ChangeType.RESET, '/', {
+        creation: {
+          name:'CreationName',
+          entities: {
+            'a': {
+              name:'entityA'
+            },
+            'b': {
+              name:'entityB'
+            }
+          }
+        }
+      }));
+      expect(notified).toHaveBeenCalledTimes(3);
+      expect(notifiedQuestionMark).toHaveBeenCalledTimes(3);
+    } finally {
+      subscriptions.unsubscribe();
+      service.close();
+    }
+  });
+
 });

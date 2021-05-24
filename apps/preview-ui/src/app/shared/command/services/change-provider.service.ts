@@ -107,6 +107,13 @@ export class ChangeProviderService implements CommandProviderInterface {
 
     this.receivedChanges.next(change);
 
+    this.findAndNotify ( change);
+
+    this.allChanges.next(change);
+  }
+
+  findAndNotify ( change:Change) {
+
     // First resolve the position and cache it
     if ( !this.listenerCachePerPosition.get(change.position)) {
       this.listeners.forEach((value, key) => {
@@ -120,7 +127,23 @@ export class ChangeProviderService implements CommandProviderInterface {
     affected?.forEach(subject => {
       subject.next(change);
     });
-    this.allChanges.next(change);
+
+      // Notify the elements that are listening to children
+    if( typeof (change.value)==='object') {
+      for (const subProp in change.value) {
+        if (change.value.hasOwnProperty(subProp)) {
+          this.findAndNotify( this.morphChangeToChild(change, subProp));
+        }
+      }
+    }
+
+  }
+
+  morphChangeToChild (change:Change, child:string ): Change {
+    const newPointer = this.getSchemaManager().generateSubSchemaPointer(change.pointer, child);
+    const newChange=new Change(change.type, newPointer.position, change.value[child], newPointer );
+
+    return newChange;
   }
 
   getAllChanges (): Observable<Change> {

@@ -43,8 +43,11 @@ export class MenuComponent implements OnInit, OnDestroy {
     ).subscribe());
     this.subscriptions.add (this.provider.receiveCommands (entity+"/?", null).pipe (
       map(command => {
-        this.updateMenu (command, icon);
-        this.ref.detectChanges();
+        if (command.position.length>(entity.length+1))  // Avoid adding empty entities (received due to reset)
+        {
+          this.updateMenu (command, icon);
+          this.ref.detectChanges();
+        }
       })
     ).subscribe());
 
@@ -110,6 +113,7 @@ export class MenuComponent implements OnInit, OnDestroy {
 
     switch (command.type) {
       case ChangeType.UPDATE:
+      case ChangeType.RESET:
       case ChangeType.ADD:
         if (pos!==-1) {
           this.getDynamicMenu()[pos] = menu;
