@@ -17,7 +17,7 @@ export class DevChangePushService {
   }
 
   pushChange (toPush:Change): void {
-    console.log('Pushing changes');
+    //console.log('Pushing changes');
     this.channel.postMessage(toPush);
   }
 

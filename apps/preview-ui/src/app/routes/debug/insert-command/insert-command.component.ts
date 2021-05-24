@@ -12,8 +12,8 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./insert-command.component.css']
 })
 export class InsertCommandComponent implements OnInit, OnDestroy {
-  position: string = 'creation/name';
-  value:string = 'New Test';
+  position = 'creation/name';
+  value = 'New Test';
 
   subscriptions = new Subscription();
 
@@ -35,6 +35,8 @@ export class InsertCommandComponent implements OnInit, OnDestroy {
     {label:ChangeType.MOVE },
     {label:ChangeType.RESET }
   ];
+  openAddCommand = true;
+
 
   constructor(protected pushService:DevChangePushService, protected templates:DevTemplateManagerService, private fb:FormBuilder) {
   }
@@ -47,8 +49,8 @@ export class InsertCommandComponent implements OnInit, OnDestroy {
 
     this.subscriptions.add(this.templateForm.get("template").valueChanges.pipe(
       map(templ => {
-        let stepControl=this.templateForm.get("step");
-        let typeControl=this.templateForm.get("type");
+        const stepControl=this.templateForm.get("step");
+        const typeControl=this.templateForm.get("type");
         if (templ instanceof DevTemplate) {
           this.filteredSteps = templ.sequence;
           stepControl.setValue(templ.sequence[0]);
@@ -65,8 +67,8 @@ export class InsertCommandComponent implements OnInit, OnDestroy {
 
     this.subscriptions.add(this.templateForm.get("step").valueChanges.pipe(
       map(step => {
-        let valueControl=this.templateForm.get("value");
-        let typeControl=this.templateForm.get("type");
+        const valueControl=this.templateForm.get("value");
+        const typeControl=this.templateForm.get("type");
         if( step === null) {
           valueControl.disable({emitEvent:false});
           typeControl.disable({emitEvent:false});
@@ -90,7 +92,7 @@ export class InsertCommandComponent implements OnInit, OnDestroy {
     ).subscribe());
     this.subscriptions.add(this.templateForm.get("value").valueChanges.pipe(
       map(value => {
-        let step = this.getSelectedStep();
+        const step = this.getSelectedStep();
         if( step) {
           if( typeof step === 'string' || step instanceof String) {
             return;
@@ -106,7 +108,7 @@ export class InsertCommandComponent implements OnInit, OnDestroy {
     ).subscribe());
     this.subscriptions.add(this.templateForm.get("type").valueChanges.pipe(
       map(value => {
-        let step = this.getSelectedStep();
+        const step = this.getSelectedStep();
         if( step) {
           if( typeof step === 'string' || step instanceof String) {
             return;
@@ -128,14 +130,14 @@ export class InsertCommandComponent implements OnInit, OnDestroy {
   }
 
   sendCommand() {
-    let tmpl = this.getSelectedTemplate();
+    const tmpl = this.getSelectedTemplate();
     if (tmpl) {
       tmpl.sequence.forEach(step => {
         this.pushChange(step.type, step.position,step.value);
       });
     } else {
       // It's just a step, not from any template
-      let step = this.getSelectedStep();
+      const step = this.getSelectedStep();
       // Is the value Json or not ?
       let jsonVal=this.templateForm.get("value").value;
       try {
@@ -162,7 +164,7 @@ export class InsertCommandComponent implements OnInit, OnDestroy {
   }
 
   searchStep($event: any) {
-    let query = $event.query.toLowerCase();
+    const query = $event.query.toLowerCase();
     if (this.getSelectedTemplate()?.sequence) {
       this.filteredSteps = this.getSelectedTemplate().sequence.filter(step => {
         if (step.position.toLowerCase().startsWith(query)) {

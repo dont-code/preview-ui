@@ -1,16 +1,16 @@
 import { ChangeType } from '@dontcode/core';
 import { TestBed } from '@angular/core/testing';
 
-import { CommandProviderService } from './command-provider.service';
+import { ChangeProviderService } from './change-provider.service';
 import { Change } from '@dontcode/core';
 import { Subscription } from 'rxjs';
 
 describe('CommandProviderService', () => {
-  let service: CommandProviderService;
+  let service: ChangeProviderService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(CommandProviderService);
+    service = TestBed.inject(ChangeProviderService);
   });
 
   it('should be created', () => {
@@ -18,7 +18,7 @@ describe('CommandProviderService', () => {
   });
 
   it('should calculate next item', () => {
-    let testPosition="creation/screens/a/components/b";
+    const testPosition="creation/screens/a/components/b";
     expect(service.nextItemEndPosition(testPosition, 0)).toEqual({pos:7, value:"creation"});
     let result=service.nextItemEndPosition(testPosition, "creation".length);
     expect(result).toEqual({pos:15, value:"screens"});
@@ -33,7 +33,7 @@ describe('CommandProviderService', () => {
   });
 
   it('should updates content from changes', () => {
-    service.pushCommand (new Change (ChangeType.UPDATE, 'creation/name', 'NewName'));
+    service.pushChange (new Change (ChangeType.UPDATE, 'creation/name', 'NewName'));
     expect (service.getJsonAt('creation')).toHaveProperty ('name', "NewName");
   });
 
@@ -44,9 +44,9 @@ describe('CommandProviderService', () => {
       subscriptions.add(service.receiveCommands('creation/screens', 'name').subscribe(
         notified
       ));
-      service.pushCommand (new Change (ChangeType.UPDATE, 'creation/name', 'NewName'));
+      service.pushChange (new Change (ChangeType.UPDATE, 'creation/name', 'NewName'));
       expect(notified).toHaveBeenCalledTimes(0);
-      service.pushCommand (new Change (ChangeType.ADD, 'creation/screens/a/name', 'NewName'));
+      service.pushChange (new Change (ChangeType.ADD, 'creation/screens/a/name', 'NewName'));
       expect(notified).toHaveBeenCalledTimes(1);
       subscriptions.unsubscribe();
 
@@ -54,11 +54,11 @@ describe('CommandProviderService', () => {
       subscriptions.add(service.receiveCommands('creation/screens').subscribe(
         notified
       ));
-      service.pushCommand (new Change (ChangeType.ADD, 'creation/screens/b', '{\"name\"=\"NewName\"}'));
+      service.pushChange (new Change (ChangeType.ADD, 'creation/screens/b', '{\"name\"=\"NewName\"}'));
       expect(notified).toHaveBeenCalledTimes(2);
-      service.pushCommand (new Change (ChangeType.UPDATE, 'creation/screens/b/name', 'NewName'));
+      service.pushChange (new Change (ChangeType.UPDATE, 'creation/screens/b/name', 'NewName'));
       expect(notified).toHaveBeenCalledTimes(3);
-      service.pushCommand (new Change (ChangeType.ADD, 'creation/screens/b/components/b/name', '{\"name\"=\"NewComp\"}'));
+      service.pushChange (new Change (ChangeType.ADD, 'creation/screens/b/components/b', '{\"type\"=\"edit\"}'));
       expect(notified).toHaveBeenCalledTimes(4);
       subscriptions.unsubscribe();
 
@@ -66,9 +66,9 @@ describe('CommandProviderService', () => {
       subscriptions.add(service.receiveCommands('creation/screens/?').subscribe(
         notified
       ));
-      service.pushCommand (new Change (ChangeType.ADD, 'creation/screens/a/name', 'NewName'));
+      service.pushChange (new Change (ChangeType.ADD, 'creation/screens/a/name', 'NewName'));
       expect(notified).toHaveBeenCalledTimes(4);
-      service.pushCommand (new Change (ChangeType.DELETE, 'creation/screens/b', null));
+      service.pushChange (new Change (ChangeType.DELETE, 'creation/screens/b', null));
       expect(notified).toHaveBeenCalledTimes(5);
       subscriptions.unsubscribe();
 
@@ -76,15 +76,53 @@ describe('CommandProviderService', () => {
       subscriptions.add(service.receiveCommands('creation/screens/?', 'name').subscribe(
         notified
       ));
-      service.pushCommand (new Change (ChangeType.ADD, 'creation/screens/a/name', 'NewName'));
+      service.pushChange (new Change (ChangeType.ADD, 'creation/screens/a/name', 'NewName'));
       expect(notified).toHaveBeenCalledTimes(6);
-      service.pushCommand (new Change (ChangeType.DELETE, 'creation/screens/b', null));
+      service.pushChange (new Change (ChangeType.DELETE, 'creation/screens/b', null));
       expect(notified).toHaveBeenCalledTimes(6);
-      service.pushCommand (new Change (ChangeType.ADD, 'creation/screens/b/components/c/name', 'CompName'));
+      service.pushChange (new Change (ChangeType.ADD, 'creation/screens/b/components/c/type', 'view'));
       expect(notified).toHaveBeenCalledTimes(6);
     } finally {
       subscriptions.unsubscribe();
       service.close();
     }
   });
+
+  it('support reset properly', () => {
+    const subscriptions = new Subscription();
+    const notified = jest.fn();
+    const notifiedQuestionMark = jest.fn();
+    try {
+      subscriptions.add(service.receiveCommands('creation', 'name').subscribe(
+        notified
+      ));
+      subscriptions.add(service.receiveCommands('creation/entities', 'name').subscribe(
+        notified
+      ));
+      subscriptions.add(service.receiveCommands('creation/entities/?', null).subscribe(value => {
+          notifiedQuestionMark();
+      }
+      ));
+
+      service.pushChange (new Change (ChangeType.RESET, '/', {
+        creation: {
+          name:'CreationName',
+          entities: {
+            'a': {
+              name:'entityA'
+            },
+            'b': {
+              name:'entityB'
+            }
+          }
+        }
+      }));
+      expect(notified).toHaveBeenCalledTimes(3);
+      expect(notifiedQuestionMark).toHaveBeenCalledTimes(3);
+    } finally {
+      subscriptions.unsubscribe();
+      service.close();
+    }
+  });
+
 });
