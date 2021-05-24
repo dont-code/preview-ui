@@ -3,6 +3,7 @@ import {Injectable} from "@angular/core";
 import {Observable, ReplaySubject, Subject, Subscription} from "rxjs";
 import {Change, CommandProviderInterface, DontCodeModelPointer, DontCodeSchemaManager, dtcde} from "@dontcode/core";
 import {ChangeListenerService} from "../../change/services/change-listener.service";
+import {ChangeType} from "../../../../../../../../core/node/dist/libs/core";
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,7 @@ export class ChangeProviderService implements CommandProviderInterface {
 
   protected subscriptions = new Subscription();
   protected receivedChanges = new Subject<Change> ();
-  protected allChanges = new ReplaySubject<Change> ();
+  protected changesHistory = new ReplaySubject<Change> ();
 
   protected listeners = new Map<{position:string, property:string}, Subject<Change>>();
   protected listenerCachePerPosition = new Map<string, Array<Subject<Change>>>();
@@ -109,7 +110,7 @@ export class ChangeProviderService implements CommandProviderInterface {
 
     this.findAndNotify ( change);
 
-    this.allChanges.next(change);
+    this.changesHistory.next(change);
   }
 
   findAndNotify ( change:Change) {
@@ -128,11 +129,23 @@ export class ChangeProviderService implements CommandProviderInterface {
       subject.next(change);
     });
 
-      // Notify the elements that are listening to children
-    if( typeof (change.value)==='object') {
-      for (const subProp in change.value) {
-        if (change.value.hasOwnProperty(subProp)) {
-          this.findAndNotify( this.morphChangeToChild(change, subProp));
+    if( change.type===ChangeType.RESET) {
+        // Notify the elements that are listening to children
+      if (!change.value) {
+        // We are resetting from a certain position, so all listeners after this position must be tell there are no values anymore
+        let resetPosition = change.position;
+        if (resetPosition==="/") resetPosition="creation";
+
+        this.listeners.forEach((value, key) => {
+          if (key.position.startsWith(resetPosition)) {
+            value.next(new Change (ChangeType.RESET, key.position.endsWith('?')?key.position.substring(0, key.position.length-1):key.position, null));
+          }
+        });
+      } else if( typeof (change.value)==='object') {
+        for (const subProp in change.value) {
+          if (change.value.hasOwnProperty(subProp)) {
+            this.findAndNotify( this.morphChangeToChild(change, subProp));
+          }
         }
       }
     }
@@ -146,8 +159,8 @@ export class ChangeProviderService implements CommandProviderInterface {
     return newChange;
   }
 
-  getAllChanges (): Observable<Change> {
-    return this.allChanges;
+  getChangesHistory (): Observable<Change> {
+    return this.changesHistory;
   }
 
   /**

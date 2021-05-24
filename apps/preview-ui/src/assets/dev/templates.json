@@ -101,6 +101,12 @@
     "value": "c"
   },
   {
+    "name": "Empty Application",
+    "type": "RESET",
+    "position": "creation",
+    "value": null
+  },
+  {
     "name": "Task Manager Application",
     "type": "RESET",
     "position": "/",
@@ -121,6 +127,27 @@
               "c": {
                 "name": "Country",
                 "type": "Country"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  {
+    "name": "Note Editor Application",
+    "type": "RESET",
+    "position": "/",
+    "value": {
+      "creation": {
+        "name": "Note Editor",
+        "entities": {
+          "a": {
+            "name": "Note",
+            "fields": {
+              "a": {
+                "name": "Content",
+                "type": "string"
               }
             }
           }
