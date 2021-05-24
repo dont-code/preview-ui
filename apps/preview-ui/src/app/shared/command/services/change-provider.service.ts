@@ -138,7 +138,7 @@ export class ChangeProviderService implements CommandProviderInterface {
 
         this.listeners.forEach((value, key) => {
           if (key.position.startsWith(resetPosition)) {
-            value.next(new Change (ChangeType.RESET, key.position.endsWith('?')?key.position.substring(0, key.position.length-1):key.position, null));
+            value.next(new Change (ChangeType.RESET, this.cleanPosition (key.position), null));
           }
         });
       } else if( typeof (change.value)==='object') {
@@ -221,5 +221,16 @@ export class ChangeProviderService implements CommandProviderInterface {
       pos: posSlash,
       value: value
     }
+  }
+
+  /**
+   * Removes ? or / from end of position
+   * @param position
+   * @private
+   */
+  private cleanPosition(position: string): string {
+    position = position.endsWith('?')?position.substring(0, position.length-1):position;
+    position = position.endsWith('/')?position.substring(0, position.length-1):position;
+    return position;
   }
 }
