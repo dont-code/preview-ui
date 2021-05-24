@@ -99,5 +99,33 @@
     "type": "MOVE",
     "position": "creation/entities/a/fields/a",
     "value": "c"
+  },
+  {
+    "name": "Task Manager Application",
+    "type": "RESET",
+    "position": "/",
+    "value": {
+      "creation": {
+        "name": "Task Manager",
+        "entities": {
+          "a": {
+            "name": "Task",
+            "fields": {
+              "a": {
+                "name": "Name"
+              },
+              "b": {
+                "name": "Done",
+                "type": "boolean"
+              },
+              "c": {
+                "name": "Country",
+                "type": "Country"
+              }
+            }
+          }
+        }
+      }
+    }
   }
 ]
