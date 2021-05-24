@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from "@angular/core";
-import { combineLatest, Observable, Subject } from "rxjs";
+import {combineLatest, Observable, Subject, Subscription} from "rxjs";
 import { map, takeUntil } from "rxjs/operators";
 import { ChangeProviderService } from "../../shared/command/services/change-provider.service";
 import { ChangeListenerService } from "../../shared/change/services/change-listener.service";
@@ -17,7 +17,7 @@ export class MainComponent implements OnInit, OnDestroy {
     status:string
   }>;
 
-  unsubscriber = new Subject();
+  protected subscriptions = new Subscription();
 
   appName = 'No Name';
 
@@ -31,11 +31,14 @@ export class MainComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.sidePanelVisible = true;
-    this.provider.receiveCommands (DontCodeModel.APP_NAME).pipe(
-      takeUntil(this.unsubscriber)).subscribe(command => {
+    this.subscriptions.add(this.provider.receiveCommands (DontCodeModel.APP_NAME).subscribe(command => {
+      if( command.value) {
         this.appName = command.value;
+      } else {
+        this.appName = 'No Name';
+      }
         this.ref.detectChanges();
-    });
+    }));
     this.context$ = combineLatest([this.listenerService.getConnectionStatus()])
       .pipe(map ((status) => {
         return {status:status[0]};
@@ -43,8 +46,7 @@ export class MainComponent implements OnInit, OnDestroy {
   }
   ngOnDestroy() {
       // unsubscribe to all observables
-    this.unsubscriber.next();
-    this.unsubscriber.complete();
+    this.subscriptions.unsubscribe();
   }
 
   logoClicked() {
