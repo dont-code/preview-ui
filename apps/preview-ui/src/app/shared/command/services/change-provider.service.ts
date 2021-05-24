@@ -1,9 +1,8 @@
 import {ValueService} from "../../values/services/value.service";
 import {Injectable} from "@angular/core";
 import {Observable, ReplaySubject, Subject, Subscription} from "rxjs";
-import {Change, CommandProviderInterface, DontCodeModelPointer, DontCodeSchemaManager, dtcde} from "@dontcode/core";
+import {Change, CommandProviderInterface, DontCodeModelPointer, DontCodeSchemaManager, dtcde, ChangeType} from "@dontcode/core";
 import {ChangeListenerService} from "../../change/services/change-listener.service";
-import {ChangeType} from "../../../../../../../../core/node/dist/libs/core";
 
 @Injectable({
   providedIn: 'root'
