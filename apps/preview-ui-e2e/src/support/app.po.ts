@@ -7,8 +7,8 @@ export const getSubMenus = () => cy.get("#mainMenu > .p-grid > .p-col > .ng-trig
 export const getPageTitle = () => cy.get('h1');
 
 export const clickAutoComplete = (name:string) => cy.get("#"+name+" > .p-autocomplete > .p-autocomplete-dropdown").click();
-export const selectPopupChoice = (pos:number) => cy.get("#pr_id_1_list > :nth-child("+pos+")").click();
-export const selectPopupChoiceWithText = (text:string) => cy.get("#pr_id_1_list").contains(text).click();
+export const selectPopupChoice = (pos:number) => cy.get(".p-autocomplete-items > :nth-child("+pos+")").click();
+export const selectPopupChoiceWithText = (text:string) => cy.get(".p-autocomplete-items").contains(text).click();
 export const getSendButton = () => cy.get("#sendButton");
 export const getValueTextArea = () => cy.get("#value");
 export const getStep = () => cy.get("#step > .p-autocomplete > .p-autocomplete-input");
