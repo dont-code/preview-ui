@@ -21,6 +21,9 @@ export class ChangeListenerService {
   protected changeEmitter = new Subject<Change> ();
   protected connectionStatus: ReplaySubject<string>=new ReplaySubject<string>(1);
 
+  protected sessionId: string;
+  protected sessionIdSubject: ReplaySubject<string>=new ReplaySubject<string>(1);
+
   protected channel: BroadcastChannel<Change>;
 
   constructor() {
@@ -64,6 +67,19 @@ export class ChangeListenerService {
   }
   getConnectionStatus (): Observable<string> {
     return this.connectionStatus;
+  }
+
+  setSessionId (newId:string): void {
+    this.sessionId=newId;
+    this.sessionIdSubject.next(newId);
+  }
+
+  getSessionId (): string  {
+    return this.sessionId;
+  }
+
+  getSessionIdSubject(): Observable<string> {
+    return this.sessionIdSubject;
   }
 
 }
