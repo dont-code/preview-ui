@@ -1,12 +1,11 @@
 import { Injectable } from "@angular/core";
-import { Change, Message } from "@dontcode/core";
+import { Change, Message, MessageType } from "@dontcode/core";
 import { Observable, ReplaySubject, Subject } from "rxjs";
 import { WebSocketSubject } from "rxjs/internal-compatibility";
 import { webSocket } from "rxjs/webSocket";
 import { environment } from "../../../../environments/environment";
 import { BroadcastChannel } from "broadcast-channel";
 import { DevChangePushService } from "../../dev/services/dev-change-push.service";
-import {MessageType} from "../../../../../../../../core/node/dist/libs/core";
 
 
 @Injectable({
