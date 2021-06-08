@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { PrimeNGConfig } from 'primeng/api';
+import {Component, Input, OnInit} from '@angular/core';
+import {PrimeNGConfig} from 'primeng/api';
 import {dtcde} from "@dontcode/core";
 import {IndexedDbStorageService} from "./shared/storage/services/indexed-db-storage.service";
+import {ChangeListenerService} from "./shared/change/services/change-listener.service";
 
 @Component({
   selector: 'preview-ui-root',
@@ -11,13 +12,19 @@ import {IndexedDbStorageService} from "./shared/storage/services/indexed-db-stor
 export class AppComponent implements OnInit{
   title = 'preview-ui';
 
-  constructor(private primengConfig: PrimeNGConfig, protected storage:IndexedDbStorageService) {
+  sessionId:string;
+
+  constructor(private primengConfig: PrimeNGConfig, protected storage:IndexedDbStorageService, protected listener: ChangeListenerService) {
+
 
   }
 
   ngOnInit(): void {
     this.primengConfig.ripple=true;
     dtcde.getStoreManager().setProvider(this.storage);
+    this.sessionId = window['dontCodeId'];
+    console.log("Browser opened with SessionId =", this.sessionId)
+    this.listener.setSessionId(this.sessionId);
   }
 
   mainTab(): boolean {

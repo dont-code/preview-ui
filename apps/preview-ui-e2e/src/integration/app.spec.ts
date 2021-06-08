@@ -1,9 +1,11 @@
 import {
+  clickAutoComplete,
   getHeaderMenu,
-  getMainMenu, getPageTitle,
-  getSubMenu,
-  getToolbar
+  getMainMenu, getPageTitle, getSendButton,
+  getSubMenu, getSubMenus, getSubMenuWithText,
+  getToolbar, getValueTextArea, selectPopupChoiceWithText
 } from "../support/app.po";
+import {getTableHeader} from "../support/edit.po";
 
 describe('preview-ui', () => {
   beforeEach(() => cy.visit('/'));
@@ -17,4 +19,40 @@ describe('preview-ui', () => {
     getSubMenu(3).click();    // Move to dev page
     getPageTitle ().should('contain.text','Debug Page');
   });
+
+  it('should load and reset apps', () => {
+      // First load the Task Manager app
+    getSubMenuWithText('Dev').click();// Move to dev page
+    clickAutoComplete("template");
+    selectPopupChoiceWithText("Task Manager Application"); // Create Entity name
+    getSendButton().click();
+    getToolbar().should('contain.text','Task Manager');
+    getSubMenus().should('have.length', 5);
+    getSubMenuWithText( 'Task').click();
+    getPageTitle().should('contain.text',"Task");
+    getTableHeader('Name').should('contain.text', "Name");
+
+      // Then load the Note Editor app
+    getSubMenuWithText('Dev').click();// Move to dev page
+
+    clickAutoComplete("template");
+    selectPopupChoiceWithText("Note Editor Application"); // Create Entity name
+    getSendButton().click();
+    getToolbar().should('contain.text','Note Editor');
+    getSubMenus().should('have.length', 5);
+    getSubMenuWithText( 'Note').click();
+    getPageTitle().should('contain.text',"Note");
+    getTableHeader('Content').should('contain.text', "Content");
+
+      // Then reset the app
+    getSubMenuWithText('Dev').click();// Move to dev page
+
+    clickAutoComplete("template");
+    selectPopupChoiceWithText("Empty Application"); // Create Entity name
+    getSendButton().click();
+    getToolbar().should('contain.text','No Name');
+    getSubMenus().should('have.length', 4);
+
+  });
+
 });

@@ -4,6 +4,7 @@ import { map, takeUntil } from "rxjs/operators";
 import { ChangeProviderService } from "../../shared/command/services/change-provider.service";
 import { ChangeListenerService } from "../../shared/change/services/change-listener.service";
 import { DontCodeModel } from "@dontcode/core";
+import {environment} from "../../../environments/environment";
 
 @Component({
   selector: 'preview-ui-main',
@@ -14,7 +15,8 @@ import { DontCodeModel } from "@dontcode/core";
 export class MainComponent implements OnInit, OnDestroy {
 
   context$: Observable<{
-    status:string
+    status:string,
+    sessionId:string
   }>;
 
   protected subscriptions = new Subscription();
@@ -22,6 +24,7 @@ export class MainComponent implements OnInit, OnDestroy {
   appName = 'No Name';
 
   sidePanelVisible: boolean;
+  serverUrl = environment.webSocketUrl;
 
   constructor(
     protected provider:ChangeProviderService,
@@ -39,9 +42,9 @@ export class MainComponent implements OnInit, OnDestroy {
       }
         this.ref.detectChanges();
     }));
-    this.context$ = combineLatest([this.listenerService.getConnectionStatus()])
+    this.context$ = combineLatest([this.listenerService.getConnectionStatus(), this.listenerService.getSessionIdSubject()])
       .pipe(map ((status) => {
-        return {status:status[0]};
+        return {status:status[0], sessionId:status[1]};
       }));
   }
   ngOnDestroy() {

@@ -8,6 +8,13 @@
     <link rel="icon" type="image/x-icon" href="favicon.ico" />
 </head>
   <body class="p-input-filled">
+    <script language="JavaScript">
+        // Storing the sessionId parameter before Angular removes it
+    const queryString = location.search;
+    let params = new URLSearchParams(queryString)
+    window.dontCodeId = params.get("sessionId");
+    // console.log("Request =",window.dontCodeId);
+    </script>
     <preview-ui-root></preview-ui-root>
   </body>
 </html>
