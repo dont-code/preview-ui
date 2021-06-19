@@ -154,5 +154,12 @@
         }
       }
     }
+  },
+  {
+    "name": "StoreManager Change",
+    "type": "UPDATE",
+    "position": "creation/sharing/with",
+    "value": "Dont-code users"
+
   }
 ]
