@@ -4,8 +4,8 @@ import {ChangeType, DontCodeModel, DontCodeStoreProvider, dtcde, PluginModuleInt
 import {IndexedDbStorageService} from "./shared/storage/services/indexed-db-storage.service";
 import {ChangeListenerService} from "./shared/change/services/change-listener.service";
 import {ChangeProviderService} from "./shared/command/services/change-provider.service";
-import {Observable, of, Subscription} from "rxjs";
-import {mergeMap} from "rxjs/operators";
+import {EMPTY, empty, Observable, of, Subscription} from "rxjs";
+import {map, mergeMap} from "rxjs/operators";
 
 @Component({
   selector: 'preview-ui-root',
@@ -34,18 +34,25 @@ export class AppComponent implements OnInit, OnDestroy{
       if (change.type!== ChangeType.DELETE) {
         if (change.value==="no-one") {
           dtcde.getStoreManager().setProvider(this.storage);
+          return EMPTY;
         } else if (change.value) {
           return this.loadStoreManager(DontCodeModel.APP_SHARING_WITH);
+        } else {
+          return EMPTY;
         }
       }
-    })).subscribe (storeProvider => {
-      dtcde.getStoreManager().setProvider(this.injector.get(storeProvider));
-    }, error => {
+    }), map (storeProvider => {
+      if( storeProvider) {
+        Injector.create({providers:[storeProvider]});
+        dtcde.getStoreManager().setProvider(this.injector.get(storeProvider));
+      }
+      return storeProvider;
+    })).subscribe({ error (error) {
       console.log ("Cannot load StoreProvider due to", error);
-    }));
+    }}));
   }
 
-  loadStoreManager (position: string) : Observable<string> {
+  loadStoreManager (position: string) : Observable<any> {
     const previewMgr = dtcde.getPreviewManager();
     const currentJson = this.provider.getJsonAt(position);
 
@@ -66,6 +73,7 @@ export class AppComponent implements OnInit, OnDestroy{
       }
 
     }
+    return EMPTY;
   }
 
   mainTab(): boolean {
