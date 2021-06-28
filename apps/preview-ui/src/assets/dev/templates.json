@@ -30,7 +30,7 @@
     "position": "creation/entities/a/fields/a",
     "value": {
       "name": "fieldString",
-      "type": "text"
+      "type": "Text"
     }
   },
   {
@@ -67,7 +67,7 @@
         "type": "ADD",
         "value": {
           "name": "id",
-          "type": "text"
+          "type": "Text"
         }
       },
       {
@@ -75,7 +75,7 @@
         "type": "ADD",
         "value": {
           "name": "check",
-          "type": "boolean"
+          "type": "Boolean"
         }
       },
       {
@@ -83,7 +83,7 @@
         "type": "ADD",
         "value": {
           "name": "count",
-          "type": "number"
+          "type": "Number"
         }
       }
     ]
@@ -122,11 +122,43 @@
               },
               "b": {
                 "name": "Done",
-                "type": "boolean"
+                "type": "Boolean"
               },
               "c": {
-                "name": "Country",
-                "type": "Country"
+                "name": "Due Date",
+                "type": "Date"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  {
+    "name": "Recipe Collection",
+    "type": "RESET",
+    "position": "/",
+    "value": {
+      "creation": {
+        "name": "My Recipes",
+        "entities": {
+          "a": {
+            "name": "Recipe",
+            "fields": {
+              "a": {
+                "name": "Name"
+              },
+              "b": {
+                "name": "Image",
+                "type": "Image"
+              },
+              "c": {
+                "name": "Link",
+                "type": "Website (url)"
+              },
+              "d": {
+                "name": "Stars",
+                "type": "Numeric"
               }
             }
           }
@@ -147,7 +179,7 @@
             "fields": {
               "a": {
                 "name": "Content",
-                "type": "text"
+                "type": "Text"
               }
             }
           }
