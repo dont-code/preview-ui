@@ -15,6 +15,7 @@ declare namespace Cypress {
     findNgComponent (selector:string): Chainable<any>;
     applyChanges (component: any):void;
     getAngular (): Chainable<any>;
+    clearPreviewUIDbCollection (collection:string): Promise<void>;
     //Doesn't work getService (service:any): Chainable<any>;
   }
 }
@@ -72,6 +73,31 @@ Cypress.Commands.add('findNgComponent', (selector: string) => {
       return componentInstance;
     });
 });
+
+Cypress.Commands.add('clearPreviewUIDbCollection', (collection:string) => {
+
+  return new Promise((resolve, reject) => {
+    const request = window.indexedDB.open('Preview-UI');
+
+    request.onsuccess = function  ( event)  {
+      const transaction = request.result.transaction(collection, 'readwrite');
+      transaction.objectStore(collection).clear();
+      transaction.oncomplete = function () {
+        resolve(event);
+      };
+      transaction.onerror = function () {
+        reject(event);
+      }
+    };
+
+    // Note: we need to also listen to the "blocked" event
+    // (and resolve the promise) due to https://stackoverflow.com/a/35141818
+    request.addEventListener('blocked', resolve);
+    request.addEventListener('error', reject);
+
+  });
+});
+
 //
 // -- This is a child command --
 // Cypress.Commands.add("drag", { prevSubject: 'element'}, (subject, options) => { ... })

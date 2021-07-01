@@ -112,10 +112,10 @@
     "position": "/",
     "value": {
       "creation": {
-        "name": "Task Manager",
+        "name": "Test Task Manager",
         "entities": {
           "a": {
-            "name": "Task",
+            "name": "Test Task",
             "fields": {
               "a": {
                 "name": "Name"
