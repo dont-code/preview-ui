@@ -77,18 +77,43 @@ Cypress.Commands.add('findNgComponent', (selector: string) => {
 Cypress.Commands.add('clearPreviewUIDbCollection', (collection:string) => {
 
   return new Promise((resolve, reject) => {
-    const request = window.indexedDB.open('Preview-UI');
+    const request = window.indexedDB.open('Preview-UI', 4);
 
-    request.onsuccess = function  ( event)  {
-      const transaction = request.result.transaction(collection, 'readwrite');
-      transaction.objectStore(collection).clear();
-      transaction.oncomplete = function () {
-        resolve(event);
-      };
-      transaction.onerror = function () {
-        reject(event);
+    request.onupgradeneeded = function  ( event)  {
+      const db:IDBDatabase = (event.target as any).result;
+      const txn:IDBTransaction = (event.target as any).transaction;
+
+      if (db.objectStoreNames.contains( "A Name" )) {
+        txn.objectStore("A Name").clear();
+      } else {
+        db.createObjectStore( "A Name",{keyPath:'_id', autoIncrement:true} );
       }
-    };
+      if (db.objectStoreNames.contains( "Book" )) {
+        txn.objectStore("Book").clear();
+      } else {
+        db.createObjectStore( "Book",{keyPath:'_id', autoIncrement:true} );
+      }
+      if (db.objectStoreNames.contains( "Recipe" )) {
+        txn.objectStore("Recipe").clear();
+      } else {
+        db.createObjectStore( "Recipe",{keyPath:'_id', autoIncrement:true} );
+      }
+      if (db.objectStoreNames.contains( "Test Task" )) {
+        txn.objectStore("Test Task").clear();
+      } else {
+        db.createObjectStore( "Test Task", {keyPath:'_id', autoIncrement:true} );
+      }
+    }
+
+    request.onsuccess = (evt) =>  {
+      const txn = request.result.transaction(["A Name", "Book", "Recipe","Test Task"], 'readwrite');
+      txn.objectStore("A Name").clear();
+      txn.objectStore("Book").clear();
+      txn.objectStore("Recipe").clear();
+      txn.objectStore("Test Task").clear();
+      txn.oncomplete = resolve;
+      txn.onerror = reject;
+    }
 
     // Note: we need to also listen to the "blocked" event
     // (and resolve the promise) due to https://stackoverflow.com/a/35141818
