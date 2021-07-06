@@ -188,6 +188,43 @@
     }
   },
   {
+    "name": "International Bookstore",
+    "type": "RESET",
+    "position": "/",
+    "value": {
+      "creation": {
+        "name": "Bookstore Test",
+        "entities": {
+          "a": {
+            "name": "Book",
+            "fields": {
+              "a": {
+                "name": "Name",
+                "type": "Text"
+              },
+              "b": {
+                "name": "USD",
+                "type": "Dollar"
+              },
+              "c": {
+                "name": "EUR",
+                "type": "Euro"
+              },
+              "d": {
+                "name": "Other",
+                "type": "Other currency"
+              },
+              "e": {
+                "name": "ConvertTo",
+                "type": "Currency"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  {
     "name": "StoreManager Change",
     "type": "UPDATE",
     "position": "creation/sharing/with",
