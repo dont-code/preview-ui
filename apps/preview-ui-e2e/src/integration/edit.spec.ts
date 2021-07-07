@@ -56,6 +56,8 @@ describe('edit', () => {
       getButtonWithName('delete').click();
       // It should have automatically switched back to the list, however I can't test that ID2 is gone.
       getListRowWithText( "NEWID1");
+    },(reason) => {
+      console.log ("Erreur", reason);
     });
   });
 

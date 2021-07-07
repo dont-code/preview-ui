@@ -77,41 +77,39 @@ Cypress.Commands.add('findNgComponent', (selector: string) => {
 Cypress.Commands.add('clearPreviewUIDbCollection', (collection:string) => {
 
   return new Promise((resolve, reject) => {
-    const request = window.indexedDB.open('Preview-UI', 4);
+    console.log("Checking DB Version");
+    const checkversionrequest = window.indexedDB.open('Preview-UI');
 
-    request.onupgradeneeded = function  ( event)  {
-      const db:IDBDatabase = (event.target as any).result;
-
-      if (!db.objectStoreNames.contains( "A Name" )) {
-        db.createObjectStore( "A Name",{keyPath:'_id', autoIncrement:true} );
+    checkversionrequest.addEventListener('success', (evt) =>{
+      console.log("In Check Version");
+      const db:IDBDatabase = (evt.target as any).result;
+      if (!db.objectStoreNames.contains( collection )) {
+        console.log("Need to upgrade");
+        const version = db.version;
+        db.close();
+        resolve (version);
+      }else {
+        const txn = db.transaction(collection, 'readwrite');
+        txn.objectStore(collection).clear();
+        resolve (-1);
       }
-      if (!db.objectStoreNames.contains( "Book" )) {
-        db.createObjectStore( "Book",{keyPath:'_id', autoIncrement:true} );
-      }
-      if (!db.objectStoreNames.contains( "Recipe" )) {
-        db.createObjectStore( "Recipe",{keyPath:'_id', autoIncrement:true} );
-      }
-      if (!db.objectStoreNames.contains( "Test Task" )) {
-        db.createObjectStore( "Test Task", {keyPath:'_id', autoIncrement:true} );
-      }
-    };
-
-    request.onsuccess = (evt) =>  {
-      const txn = request.result.transaction(collection, 'readwrite');
-      txn.objectStore(collection).clear();
-      txn.oncomplete = resolve;
-      txn.onerror = reject;
-    };
-
-    // Note: we need to also listen to the "blocked" event
-    // (and resolve the promise) due to https://stackoverflow.com/a/35141818
-    request.addEventListener('blocked', resolve);
-    request.addEventListener('error', ev => {
-      console.log ('Error', ev);
-      reject(ev);
     });
+  }).then((version:number) => {
+    if (version!==-1) {
+      // We need to create the collection, so force the upgrade....
+      const upgraderequest = window.indexedDB.open('Preview-UI', version+1);
 
-  });
+      console.log("Upgrade Request created");
+      upgraderequest.addEventListener('upgradeneeded', ( event) => {
+        console.log("upgrading");
+        const db2:IDBDatabase = (event.target as any).result;
+        db2.createObjectStore( collection,{keyPath:'_id', autoIncrement:true} );
+        console.log("upgraded");
+
+      });
+    }
+  })
+
 });
 
 //
