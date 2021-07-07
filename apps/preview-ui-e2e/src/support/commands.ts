@@ -81,7 +81,6 @@ Cypress.Commands.add('clearPreviewUIDbCollection', (collection:string) => {
 
     request.onupgradeneeded = function  ( event)  {
       const db:IDBDatabase = (event.target as any).result;
-      const txn:IDBTransaction = (event.target as any).transaction;
 
       if (!db.objectStoreNames.contains( "A Name" )) {
         db.createObjectStore( "A Name",{keyPath:'_id', autoIncrement:true} );
@@ -95,19 +94,22 @@ Cypress.Commands.add('clearPreviewUIDbCollection', (collection:string) => {
       if (!db.objectStoreNames.contains( "Test Task" )) {
         db.createObjectStore( "Test Task", {keyPath:'_id', autoIncrement:true} );
       }
-    }
+    };
 
     request.onsuccess = (evt) =>  {
-      const txn = request.result.transaction([collection], 'readwrite');
+      const txn = request.result.transaction(collection, 'readwrite');
       txn.objectStore(collection).clear();
       txn.oncomplete = resolve;
       txn.onerror = reject;
-    }
+    };
 
     // Note: we need to also listen to the "blocked" event
     // (and resolve the promise) due to https://stackoverflow.com/a/35141818
     request.addEventListener('blocked', resolve);
-    request.addEventListener('error', reject);
+    request.addEventListener('error', ev => {
+      console.log ('Error', ev);
+      reject(ev);
+    });
 
   });
 });
