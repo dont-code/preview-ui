@@ -47,6 +47,10 @@ export class MenuComponent implements OnInit, OnDestroy {
         {
           this.updateMenu (command, icon);
           this.ref.detectChanges();
+        } else if (!command.value) {
+          // Reset all menus
+          this.getDynamicMenu().length=0;
+          this.ref.detectChanges();
         }
       })
     ).subscribe());
@@ -144,10 +148,11 @@ export class MenuComponent implements OnInit, OnDestroy {
 
     switch (command.type) {
       case ChangeType.UPDATE:
+      case ChangeType.RESET:
       case ChangeType.ADD:
         if (pos!==-1) {
           this.getDynamicMenu()[pos].label = command.value;
-        } else {
+        } else if (command.value) {
           this.getDynamicMenu().push({
             routerLink:[key],
             label:command.value,

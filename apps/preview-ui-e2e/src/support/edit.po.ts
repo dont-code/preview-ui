@@ -6,3 +6,8 @@ export const getCheckWithName = (name:string) => cy.get('p-checkbox[ng-reflect-n
 export const getTabWithName = (name:string) => cy.get('a[role="tab"] > span').contains(name);
 export const getListRow = (row:number) => cy.get('table > tbody > :nth-child('+row+')');
 export const getListRowWithText = (text:string) => cy.get('table > tbody > tr').contains('tr', text);
+
+export const getImageWithClass = (clazz:string) => cy.get('img[class*="'+clazz+'"]');
+export const getLinkWithUrl = (url:string) => cy.get ('a[href="'+url+'"]')
+
+export const getDatePicker = (dayOfMonth:string) => cy.get('table[class*="p-datepicker-calendar"] > tbody > tr').contains('td', dayOfMonth);

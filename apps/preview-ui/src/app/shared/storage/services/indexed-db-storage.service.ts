@@ -58,7 +58,7 @@ export class IndexedDbStorageService implements DontCodeStoreProvider{
     if (description)
       return this.ensureEntityCanBeStored(description, create);
     else{
-      Promise.reject("Error called with null description");
+      return Promise.reject("Error called with null description");
     }
   }
 

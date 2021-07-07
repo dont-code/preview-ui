@@ -30,7 +30,7 @@
     "position": "creation/entities/a/fields/a",
     "value": {
       "name": "fieldString",
-      "type": "string"
+      "type": "Text"
     }
   },
   {
@@ -67,7 +67,7 @@
         "type": "ADD",
         "value": {
           "name": "id",
-          "type": "string"
+          "type": "Text"
         }
       },
       {
@@ -75,7 +75,7 @@
         "type": "ADD",
         "value": {
           "name": "check",
-          "type": "boolean"
+          "type": "Boolean"
         }
       },
       {
@@ -83,7 +83,7 @@
         "type": "ADD",
         "value": {
           "name": "count",
-          "type": "number"
+          "type": "Number"
         }
       }
     ]
@@ -101,31 +101,134 @@
     "value": "c"
   },
   {
+    "name": "Empty Application",
+    "type": "RESET",
+    "position": "creation",
+    "value": null
+  },
+  {
     "name": "Task Manager Application",
     "type": "RESET",
     "position": "/",
     "value": {
       "creation": {
-        "name": "Task Manager",
+        "name": "Test Task Manager",
         "entities": {
           "a": {
-            "name": "Task",
+            "name": "Test Task",
             "fields": {
               "a": {
                 "name": "Name"
               },
               "b": {
                 "name": "Done",
-                "type": "boolean"
+                "type": "Boolean"
               },
               "c": {
-                "name": "Country",
-                "type": "Country"
+                "name": "Due Date",
+                "type": "Date"
               }
             }
           }
         }
       }
     }
+  },
+  {
+    "name": "Recipe Collection",
+    "type": "RESET",
+    "position": "/",
+    "value": {
+      "creation": {
+        "name": "My Recipes",
+        "entities": {
+          "a": {
+            "name": "Recipe",
+            "fields": {
+              "a": {
+                "name": "Name"
+              },
+              "b": {
+                "name": "Image",
+                "type": "Image"
+              },
+              "c": {
+                "name": "Link",
+                "type": "Website (url)"
+              },
+              "d": {
+                "name": "Stars",
+                "type": "Numeric"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  {
+    "name": "Note Editor Application",
+    "type": "RESET",
+    "position": "/",
+    "value": {
+      "creation": {
+        "name": "Note Editor",
+        "entities": {
+          "a": {
+            "name": "Note",
+            "fields": {
+              "a": {
+                "name": "Content",
+                "type": "Text"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  {
+    "name": "International Bookstore",
+    "type": "RESET",
+    "position": "/",
+    "value": {
+      "creation": {
+        "name": "Bookstore Test",
+        "entities": {
+          "a": {
+            "name": "Book",
+            "fields": {
+              "a": {
+                "name": "Name",
+                "type": "Text"
+              },
+              "b": {
+                "name": "USD",
+                "type": "Dollar"
+              },
+              "c": {
+                "name": "EUR",
+                "type": "Euro"
+              },
+              "d": {
+                "name": "Other",
+                "type": "Other currency"
+              },
+              "e": {
+                "name": "ConvertTo",
+                "type": "Currency"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  {
+    "name": "StoreManager Change",
+    "type": "UPDATE",
+    "position": "creation/sharing/with",
+    "value": "Dont-code users"
+
   }
 ]

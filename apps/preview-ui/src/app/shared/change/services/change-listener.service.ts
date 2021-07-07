@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Change } from "@dontcode/core";
+import { Change, Message, MessageType } from "@dontcode/core";
 import { Observable, ReplaySubject, Subject } from "rxjs";
 import { WebSocketSubject } from "rxjs/internal-compatibility";
 import { webSocket } from "rxjs/webSocket";
@@ -17,9 +17,12 @@ export class ChangeListenerService {
 
 //  protected listOfEntities: Map<string, string> = new Map();
 
-  previewServiceWebSocket: WebSocketSubject<Change>;
+  previewServiceWebSocket: WebSocketSubject<Message>;
   protected changeEmitter = new Subject<Change> ();
   protected connectionStatus: ReplaySubject<string>=new ReplaySubject<string>(1);
+
+  protected sessionId: string;
+  protected sessionIdSubject: ReplaySubject<string>=new ReplaySubject<string>(1);
 
   protected channel: BroadcastChannel<Change>;
 
@@ -29,19 +32,23 @@ export class ChangeListenerService {
     this.previewServiceWebSocket.subscribe(
       msg => {
         //console.log('message received: ' + msg);
-        this.listOfChanges.push(msg);
-        this.changeEmitter.next(msg);
+        if( msg.type===MessageType.CHANGE) {
+          this.listOfChanges.push(msg.change);
+          this.changeEmitter.next(msg.change);
+        }
       },
       // Called whenever there is a message from the server
       err => {
         //console.log(err);
         this.connectionStatus.next("ERROR:"+err);
+        this.sessionIdSubject.next(null);
 
       },
       // Called if WebSocket API signals some kind of error
       () => {
         //console.log('complete');
         this.connectionStatus.next("closed");
+        this.sessionIdSubject.next(null);
       }
       // Called when connection is closed (for whatever reason)
     );
@@ -64,6 +71,20 @@ export class ChangeListenerService {
   }
   getConnectionStatus (): Observable<string> {
     return this.connectionStatus;
+  }
+
+  setSessionId (newId:string): void {
+    this.sessionId=newId;
+    this.sessionIdSubject.next(newId);
+    this.previewServiceWebSocket.next(new Message(MessageType.INIT, this.sessionId));
+  }
+
+  getSessionId (): string  {
+    return this.sessionId;
+  }
+
+  getSessionIdSubject(): Observable<string> {
+    return this.sessionIdSubject;
   }
 
 }

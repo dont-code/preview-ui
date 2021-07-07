@@ -7,6 +7,8 @@ import { SidebarModule } from "primeng/sidebar";
 import { ToolbarModule } from "primeng/toolbar";
 import { ButtonModule } from "primeng/button";
 import { MenuModule } from "primeng/menu";
+import {TooltipModule} from "primeng/tooltip";
+import {OverlayPanelModule} from "primeng/overlaypanel";
 
 @NgModule({
   declarations: [MainComponent, MenuComponent],
@@ -14,7 +16,7 @@ import { MenuModule } from "primeng/menu";
     MainComponent
   ],
   imports: [
-    CommonModule, RouterModule, SidebarModule, ToolbarModule, ButtonModule, MenuModule
+    CommonModule, RouterModule, SidebarModule, ToolbarModule, ButtonModule, MenuModule, TooltipModule, OverlayPanelModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
