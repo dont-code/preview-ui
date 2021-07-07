@@ -83,34 +83,23 @@ Cypress.Commands.add('clearPreviewUIDbCollection', (collection:string) => {
       const db:IDBDatabase = (event.target as any).result;
       const txn:IDBTransaction = (event.target as any).transaction;
 
-      if (db.objectStoreNames.contains( "A Name" )) {
-        txn.objectStore("A Name").clear();
-      } else {
+      if (!db.objectStoreNames.contains( "A Name" )) {
         db.createObjectStore( "A Name",{keyPath:'_id', autoIncrement:true} );
       }
-      if (db.objectStoreNames.contains( "Book" )) {
-        txn.objectStore("Book").clear();
-      } else {
+      if (!db.objectStoreNames.contains( "Book" )) {
         db.createObjectStore( "Book",{keyPath:'_id', autoIncrement:true} );
       }
-      if (db.objectStoreNames.contains( "Recipe" )) {
-        txn.objectStore("Recipe").clear();
-      } else {
+      if (!db.objectStoreNames.contains( "Recipe" )) {
         db.createObjectStore( "Recipe",{keyPath:'_id', autoIncrement:true} );
       }
-      if (db.objectStoreNames.contains( "Test Task" )) {
-        txn.objectStore("Test Task").clear();
-      } else {
+      if (!db.objectStoreNames.contains( "Test Task" )) {
         db.createObjectStore( "Test Task", {keyPath:'_id', autoIncrement:true} );
       }
     }
 
     request.onsuccess = (evt) =>  {
-      const txn = request.result.transaction(["A Name", "Book", "Recipe","Test Task"], 'readwrite');
-      txn.objectStore("A Name").clear();
-      txn.objectStore("Book").clear();
-      txn.objectStore("Recipe").clear();
-      txn.objectStore("Test Task").clear();
+      const txn = request.result.transaction([collection], 'readwrite');
+      txn.objectStore(collection).clear();
       txn.oncomplete = resolve;
       txn.onerror = reject;
     }

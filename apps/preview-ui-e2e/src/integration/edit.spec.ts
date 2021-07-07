@@ -13,7 +13,7 @@ describe('edit', () => {
   });
 
   it ('should display list', () => {
-    /*cy.clearPreviewUIDbCollection('A Name').then (() => {
+    cy.clearPreviewUIDbCollection('A Name').then (() => {
       getSubMenuWithText('Dev').click();// Move to dev page
 
       clickAutoComplete("template");
@@ -56,7 +56,7 @@ describe('edit', () => {
       getButtonWithName('delete').click();
       // It should have automatically switched back to the list, however I can't test that ID2 is gone.
       getListRowWithText( "NEWID1");
-    });*/
+    });
   });
 
   it ('should manage currency & money', () => {
