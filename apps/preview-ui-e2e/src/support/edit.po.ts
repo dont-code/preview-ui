@@ -7,6 +7,9 @@ export const getTabWithName = (name:string) => cy.get('a[role="tab"] > span').co
 export const getListRow = (row:number) => cy.get('table > tbody > :nth-child('+row+')');
 export const getListRowWithText = (text:string) => cy.get('table > tbody > tr').contains('tr', text);
 
+export const getDropdownWithName = (name:string) => cy.get('p-dropdown[ng-reflect-name="'+name+'"], p-dropdown[name="'+name+'"]');
+export const getDropdownFilter = () => cy.get('input[class*="p-dropdown-filter"]');
+export const getDropdownListItemWithName = (content: string) => cy.get('.p-dropdown-item').contains(content);
 export const getImageWithClass = (clazz:string) => cy.get('img[class*="'+clazz+'"]');
 export const getLinkWithUrl = (url:string) => cy.get ('a[href="'+url+'"]')
 

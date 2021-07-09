@@ -1,7 +1,7 @@
 import {clickAutoComplete, getSendButton, getSubMenuWithText, selectPopupChoiceWithText} from "../support/app.po";
 import {
   getButtonWithName,
-  getCheckWithName,
+  getCheckWithName, getDropdownFilter, getDropdownListItemWithName, getDropdownWithName,
   getInputWithName, getListRow, getListRowWithText,
   getTableHeader,
   getTabWithName
@@ -74,34 +74,53 @@ describe('edit', () => {
       getInputWithName('Name').type('Book 1');
       getInputWithName('USD').type('1234');
       getInputWithName('EUR').type('4321');
+      getInputWithName('Other').type('2121');
+      getDropdownWithName('currencyCode').click();
+      getDropdownFilter().type ('canadi');
+      getDropdownListItemWithName('Canadian Dollar - CAD').click();
+      getDropdownWithName('ConvertTo').click();
+      getDropdownFilter().type ('peso');
+      getDropdownListItemWithName('Cuban Peso - CUP').click();
       getButtonWithName ('save').click();
 
       getTabWithName ('List').click();
       getListRowWithText ( "Book 1");
       getListRowWithText ( "$1,234");
+      getListRowWithText ("CA$2,121");
+      getListRowWithText ("CUP");
 
       getButtonWithName ('new').click();
       getInputWithName('Name').type('Book 2');
       getInputWithName('USD').type('5678');
       getInputWithName('EUR').type('8765');
+      getInputWithName('Other').type('9090');
+      getDropdownWithName('currencyCode').click();
+      getDropdownFilter().type ('canadi');
+      getDropdownListItemWithName('Canadian Dollar - CAD').click();
       //getButtonWithName ('save').click();
 
       getTabWithName ('List').click();
       getListRowWithText ("$1,234");
       getListRowWithText ("€8,765");
+      getListRowWithText ("CA$9,090");
 
       getListRowWithText ("Book 2").click();
       getListRowWithText ("Book 2").click();
       getInputWithName('EUR').clear().type('9870');
+      getDropdownWithName('currencyCode').click();
+      getDropdownFilter().type ('dinar');
+      getDropdownListItemWithName('Algerian Dinar - DZD').click();
 
       getButtonWithName ('save').click();
       getListRowWithText ("€4,321");
-      getListRowWithText ( "€9,870");
+      getListRowWithText ( "DZD9,090");
 
       getSubMenuWithText('Dev').click();// Move to dev page
       getSubMenuWithText('Book').click();// Returns to list page
       getListRowWithText( "€4,321");
       getListRowWithText ( "€9,870");
+      getListRowWithText ( "DZD9,090");
+      getListRowWithText ( "CUP");
 
     },(reason) => {
       console.log ("Erreur", reason);
