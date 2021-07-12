@@ -52,8 +52,9 @@ Cypress.Commands.add('getAngular', () => {
 });
 
 Cypress.Commands.add('applyChanges', (component: any) => {
-    getAngular().then((ng) =>{
-      ng.applyChanges(component);
+    getAngular().then((ng:any) =>{
+      if( ng.applyChanges)
+        ng.applyChanges(component);
     });
 });
 
