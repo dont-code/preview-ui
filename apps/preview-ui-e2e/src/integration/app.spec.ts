@@ -1,9 +1,14 @@
 import {
   clickAutoComplete,
   getHeaderMenu,
-  getMainMenu, getPageTitle, getSendButton,
-  getSubMenu, getSubMenus, getSubMenuWithText,
-  getToolbar, getValueTextArea, selectPopupChoiceWithText
+  getMainMenu,
+  getPageTitle,
+  getSendButton,
+  getSubMenu,
+  getSubMenus,
+  getSubMenuWithText,
+  getToolbar,
+  selectPopupChoiceWithText
 } from "../support/app.po";
 import {getTableHeader} from "../support/edit.po";
 
