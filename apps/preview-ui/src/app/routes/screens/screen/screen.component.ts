@@ -1,11 +1,11 @@
-import { AfterViewInit, Component, ComponentFactoryResolver, OnInit, ViewChild } from "@angular/core";
-import { ActivatedRoute, Params } from "@angular/router";
-import { map, takeUntil } from "rxjs/operators";
-import { Observable } from "rxjs";
-import { CommandProviderInterface } from "@dontcode/core";
-import { DynamicBaseComponent } from "../../../shared/dynamic/components/dynamic-base.component";
-import { ChangeProviderService } from "../../../shared/command/services/change-provider.service";
-import { DynamicInsertDirective } from "../../../shared/dynamic/directives/dynamic-insert.directive";
+import {AfterViewInit, Component, ComponentFactoryResolver, OnInit, ViewChild} from "@angular/core";
+import {ActivatedRoute, Params} from "@angular/router";
+import {map} from "rxjs/operators";
+import {EMPTY, Observable} from "rxjs";
+import {CommandProviderInterface} from "@dontcode/core";
+import {DynamicBaseComponent} from "../../../shared/dynamic/components/dynamic-base.component";
+import {ChangeProviderService} from "../../../shared/command/services/change-provider.service";
+import {DynamicInsertDirective} from "../../../shared/dynamic/directives/dynamic-insert.directive";
 
 @Component({
   selector: 'preview-ui-screen',
@@ -13,9 +13,9 @@ import { DynamicInsertDirective } from "../../../shared/dynamic/directives/dynam
   styleUrls: ['./screen.component.css']
 })
 export class ScreenComponent extends DynamicBaseComponent implements OnInit, AfterViewInit {
-  screenName$:Observable<Params>;
+  screenName$:Observable<Params> = EMPTY;
 
-  @ViewChild(DynamicInsertDirective, {static:true}) host: DynamicInsertDirective;
+  @ViewChild(DynamicInsertDirective, {static:true}) host!: DynamicInsertDirective;
 
   constructor(route:ActivatedRoute,
               componentFactoryResolver: ComponentFactoryResolver,
@@ -33,7 +33,7 @@ export class ScreenComponent extends DynamicBaseComponent implements OnInit, Aft
 
     this.subscriptions.add(this.route.url.pipe (
       map (segments => {
-        let position = null;
+        let position:string|null = null;
         segments.forEach(value => {
           if (position === null)
             position = value.path;
@@ -42,6 +42,7 @@ export class ScreenComponent extends DynamicBaseComponent implements OnInit, Aft
         });
         console.log("Searching for component handling route ", position);
 
+        if(!position) throw new Error ("No position in route to screen");
         const schemaPointer = this.provider.calculatePointerFor(position);
         this.subscriptions.add(this.loadComponent(schemaPointer.schemaPosition, this.host).pipe(
           map(component => {

@@ -9,8 +9,8 @@ import { ChangeDetectionStrategy, Component, OnInit } from "@angular/core";
 })
 export class DefaultViewerComponent implements OnInit, PreviewHandler {
 
-  position: string;
-  schemaPosition: string;
+  position: string|null=null;
+  schemaPosition: string|null=null;
 
   constructor() {
     }

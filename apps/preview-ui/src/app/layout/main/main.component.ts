@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from "@angular/core";
-import {combineLatest, Observable, Subject, Subscription} from "rxjs";
+import {combineLatest, EMPTY, Observable, Subject, Subscription} from "rxjs";
 import { map, takeUntil } from "rxjs/operators";
 import { ChangeProviderService } from "../../shared/command/services/change-provider.service";
 import { ChangeListenerService } from "../../shared/change/services/change-listener.service";
@@ -17,7 +17,7 @@ export class MainComponent implements OnInit, OnDestroy {
   context$: Observable<{
     status:string,
     sessionId:string
-  }>;
+  }> = EMPTY;
 
   protected subscriptions = new Subscription();
 
@@ -30,10 +30,12 @@ export class MainComponent implements OnInit, OnDestroy {
     protected provider:ChangeProviderService,
     protected listenerService:ChangeListenerService,
     private ref: ChangeDetectorRef
-  ) {}
+  ) {
+
+    this.sidePanelVisible = true;
+  }
 
   ngOnInit() {
-    this.sidePanelVisible = true;
     this.subscriptions.add(this.provider.receiveCommands (DontCodeModel.APP_NAME).subscribe(command => {
       if( command.value) {
         this.appName = command.value;
@@ -68,6 +70,7 @@ export class MainComponent implements OnInit, OnDestroy {
   connectedClass(ctx: { status: string }): string {
     if( ctx.status!=="connected") {
       return "p-button-danger";
-    }
+    }else
+      return '';
   }
 }

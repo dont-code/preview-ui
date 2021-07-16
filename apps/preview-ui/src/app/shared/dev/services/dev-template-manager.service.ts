@@ -8,12 +8,12 @@ import { from, Observable, of } from "rxjs";
 })
 export class DevTemplateManagerService {
 
-  protected templates:DevTemplate[] ;
+  protected templates:DevTemplate[]=[];
 
   constructor(protected http:HttpClient) { }
 
   getTemplates () : Observable<DevTemplate[]> {
-    if (this.templates)
+    if (this.templates.length>0)
       return of(this.templates);
     else {
       return this.http.get('assets/dev/templates.json', { responseType: "json" }).pipe(
@@ -72,7 +72,10 @@ export class DevTemplate {
   }>;
 
   isSequence():boolean {
-    return (this.sequence.length>1);
+    if( this.sequence)
+      return (this.sequence.length>1);
+    else
+      return false;
   }
 }
 

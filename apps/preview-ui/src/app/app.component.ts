@@ -1,10 +1,10 @@
-import {Component, getModuleFactory, InjectionToken, Injector, OnDestroy, OnInit} from '@angular/core';
+import {Component, getModuleFactory, Injector, OnDestroy, OnInit} from '@angular/core';
 import {PrimeNGConfig} from 'primeng/api';
-import {ChangeType, DontCodeModel, DontCodeStoreProvider, dtcde, PluginModuleInterface} from "@dontcode/core";
+import {ChangeType, DontCodeModel, dtcde, PluginModuleInterface} from "@dontcode/core";
 import {IndexedDbStorageService} from "./shared/storage/services/indexed-db-storage.service";
 import {ChangeListenerService} from "./shared/change/services/change-listener.service";
 import {ChangeProviderService} from "./shared/command/services/change-provider.service";
-import {EMPTY, empty, Observable, of, Subscription} from "rxjs";
+import {EMPTY, from, Observable, of, Subscription} from "rxjs";
 import {map, mergeMap} from "rxjs/operators";
 
 @Component({
@@ -17,7 +17,7 @@ export class AppComponent implements OnInit, OnDestroy{
   protected subscription = new Subscription();
   title = 'preview-ui';
 
-  sessionId:string;
+  sessionId:string|null = null;
 
   constructor(private primengConfig: PrimeNGConfig, protected storage:IndexedDbStorageService, protected listener: ChangeListenerService, protected provider: ChangeProviderService, protected injector:Injector) {
 
@@ -27,7 +27,7 @@ export class AppComponent implements OnInit, OnDestroy{
   ngOnInit(): void {
     this.primengConfig.ripple=true;
     dtcde.getStoreManager().setProvider(this.storage);
-    this.sessionId = window['dontCodeId'];
+    this.sessionId = (window as any).dontCodeId;
     console.log("Browser opened with SessionId =", this.sessionId)
     this.listener.setSessionId(this.sessionId);
     this.subscription.add(this.provider.receiveCommands(DontCodeModel.APP_SHARING, DontCodeModel.APP_SHARING_WITH_NODE).pipe (mergeMap(change => {
@@ -41,6 +41,7 @@ export class AppComponent implements OnInit, OnDestroy{
           return EMPTY;
         }
       }
+      return from([change]);
     }), map (storeProvider => {
       if( storeProvider) {
         Injector.create({providers:[storeProvider]});

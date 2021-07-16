@@ -13,7 +13,7 @@ export class ChangeProviderService implements CommandProviderInterface {
   protected receivedChanges = new Subject<Change> ();
   protected changesHistory = new ReplaySubject<Change> ();
 
-  protected listeners = new Map<{position:string, property:string}, Subject<Change>>();
+  protected listeners = new Map<{position:string, property?:string}, Subject<Change>>();
   protected listenerCachePerPosition = new Map<string, Array<Subject<Change>>>();
 
   constructor(protected changeListener: ChangeListenerService, protected valueService:ValueService) {
@@ -31,7 +31,7 @@ export class ChangeProviderService implements CommandProviderInterface {
    * @param change
    * @protected
    */
-  protected isInterestedIn (position:string, property:string, change:Change) :boolean {
+  protected isInterestedIn (position:string, property:string|undefined, change:Change) :boolean {
     let onlyLevel=false;
     if (position[position.length-1]==='?') {
       onlyLevel=true;
@@ -75,7 +75,7 @@ export class ChangeProviderService implements CommandProviderInterface {
     }
   }
 
-  protected createNewListener (position:string, property:string): Observable<Change> {
+  protected createNewListener (position:string, property?:string): Observable<Change> {
     const key = {position, property};
     let item = this.listeners.get(key);
     if (!item) {
@@ -152,6 +152,7 @@ export class ChangeProviderService implements CommandProviderInterface {
   }
 
   morphChangeToChild (change:Change, child:string ): Change {
+    if( !change.pointer) throw new Error('Missing pointer in change to morph');
     const newPointer = this.getSchemaManager().generateSubSchemaPointer(change.pointer, child);
     const newChange=new Change(change.type, newPointer.position, change.value[child], newPointer );
 
@@ -196,7 +197,7 @@ export class ChangeProviderService implements CommandProviderInterface {
     this.subscriptions.unsubscribe();
   }
 
-  nextItemEndPosition(position: string, from: number): {pos:number, value:string} {
+  nextItemEndPosition(position: string, from: number): {pos:number, value:string|null} {
     let posSlash = position.indexOf("/", from);
     if (posSlash===from) {
       from = from +1;

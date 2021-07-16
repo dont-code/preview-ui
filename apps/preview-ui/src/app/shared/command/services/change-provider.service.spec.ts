@@ -99,7 +99,7 @@ describe('CommandProviderService', () => {
       subscriptions.add(service.receiveCommands('creation/entities', 'name').subscribe(
         notified
       ));
-      subscriptions.add(service.receiveCommands('creation/entities/?', null).subscribe(value => {
+      subscriptions.add(service.receiveCommands('creation/entities/?').subscribe(value => {
           notifiedQuestionMark();
       }
       ));

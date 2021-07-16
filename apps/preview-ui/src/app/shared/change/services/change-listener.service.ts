@@ -21,7 +21,7 @@ export class ChangeListenerService {
   protected changeEmitter = new Subject<Change> ();
   protected connectionStatus: ReplaySubject<string>=new ReplaySubject<string>(1);
 
-  protected sessionId: string;
+  protected sessionId: string|null = null;
   protected sessionIdSubject: ReplaySubject<string>=new ReplaySubject<string>(1);
 
   protected channel: BroadcastChannel<Change>;
@@ -33,22 +33,26 @@ export class ChangeListenerService {
       msg => {
         //console.log('message received: ' + msg);
         if( msg.type===MessageType.CHANGE) {
-          this.listOfChanges.push(msg.change);
-          this.changeEmitter.next(msg.change);
+          if (msg.change) {
+            this.listOfChanges.push(msg.change);
+            this.changeEmitter.next(msg.change);
+          } else {
+            console.error ('Received change message without a change...');
+          }
         }
       },
       // Called whenever there is a message from the server
       err => {
         //console.log(err);
         this.connectionStatus.next("ERROR:"+err);
-        this.sessionIdSubject.next(null);
+        this.sessionIdSubject.next();
 
       },
       // Called if WebSocket API signals some kind of error
       () => {
         //console.log('complete');
         this.connectionStatus.next("closed");
-        this.sessionIdSubject.next(null);
+        this.sessionIdSubject.next();
       }
       // Called when connection is closed (for whatever reason)
     );
@@ -73,13 +77,13 @@ export class ChangeListenerService {
     return this.connectionStatus;
   }
 
-  setSessionId (newId:string): void {
+  setSessionId (newId:string|null): void {
     this.sessionId=newId;
-    this.sessionIdSubject.next(newId);
-    this.previewServiceWebSocket.next(new Message(MessageType.INIT, this.sessionId));
+    this.sessionIdSubject.next(newId?newId:undefined);
+    this.previewServiceWebSocket.next(new Message(MessageType.INIT, newId?newId:undefined));
   }
 
-  getSessionId (): string  {
+  getSessionId (): string|null  {
     return this.sessionId;
   }
 

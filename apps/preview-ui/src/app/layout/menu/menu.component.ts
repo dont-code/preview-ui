@@ -26,10 +26,11 @@ export class MenuComponent implements OnInit, OnDestroy {
 
   constructor(protected provider: ChangeProviderService,
               private ref: ChangeDetectorRef, public router: Router,
-              public ngZone:NgZone) { }
+              public ngZone:NgZone) {
+    this.menus = this.generateMenu ();
+  }
 
   ngOnInit(): void {
-    this.menus = this.generateMenu ();
     this.handleEntitiesMenu (DontCodeModel.APP_ENTITIES, DontCodeModel.APP_ENTITIES_NAME_NODE, 'pi-ticket');
     this.handleEntitiesMenu (DontCodeModel.APP_SCREENS, DontCodeModel.APP_SCREENS_NAME_NODE, 'pi-desktop');
   }
@@ -41,7 +42,7 @@ export class MenuComponent implements OnInit, OnDestroy {
         this.ref.detectChanges();
       })
     ).subscribe());
-    this.subscriptions.add (this.provider.receiveCommands (entity+"/?", null).pipe (
+    this.subscriptions.add (this.provider.receiveCommands (entity+"/?").pipe (
       map(command => {
         if (command.position.length>(entity.length+1))  // Avoid adding empty entities (received due to reset)
         {
@@ -57,8 +58,11 @@ export class MenuComponent implements OnInit, OnDestroy {
 
   }
 
-  getDynamicMenu (): Array<any> {
-    return this.templateMenus[1].items;
+  getDynamicMenu (): Array<MenuItem> {
+    if( this.templateMenus[1].items)
+      return this.templateMenus[1].items;
+    else
+      return [];
   }
 
   generateMenu (): Array<any> {
@@ -99,8 +103,8 @@ export class MenuComponent implements OnInit, OnDestroy {
     return position;
   }
 
-  private updateMenu(command: Change, icon: string) {
-    const key = command.position;
+  private updateMenu(change: Change, icon: string) {
+    const key = change.position;
     const pos = this.findMenuPosOf(key);
     let menu;
 
@@ -108,14 +112,14 @@ export class MenuComponent implements OnInit, OnDestroy {
     {
       menu= {
         routerLink: [key],
-        label: command.value.name,
+        label: change.value.name,
         icon: 'pi ' + icon
       }
     } else {
       menu = this.getDynamicMenu()[pos];
     }
 
-    switch (command.type) {
+    switch (change.type) {
       case ChangeType.UPDATE:
       case ChangeType.RESET:
       case ChangeType.ADD:
@@ -129,10 +133,12 @@ export class MenuComponent implements OnInit, OnDestroy {
         this.getDynamicMenu().splice(pos, 1);
         break;
       case ChangeType.MOVE:
-        const beforeKeyPos = this.findMenuPosOf(command.pointer.containerPosition+'/'+command.beforeKey);
         if( pos!==-1) {
           this.getDynamicMenu().splice(pos, 1);
         }
+        let beforeKeyPos = -1;
+        if(change.pointer) beforeKeyPos = this.findMenuPosOf(change.pointer.containerPosition+'/'+change.beforeKey);
+
         if( beforeKeyPos!==-1)
           this.getDynamicMenu().splice(beforeKeyPos, 0, menu);
         else
