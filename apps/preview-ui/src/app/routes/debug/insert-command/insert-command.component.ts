@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from "@angular/core";
 import { Change, ChangeType } from "@dontcode/core";
 import { DevChangePushService } from "../../../shared/dev/services/dev-change-push.service";
 import { DevTemplate, DevTemplateManagerService } from "../../../shared/dev/services/dev-template-manager.service";
-import { FormBuilder } from '@angular/forms';
+import {AbstractControl, FormBuilder} from '@angular/forms';
 import { map } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 
@@ -17,8 +17,8 @@ export class InsertCommandComponent implements OnInit, OnDestroy {
 
   subscriptions = new Subscription();
 
-  listTemplates: DevTemplate[];
-  filteredTemplates: DevTemplate[];
+  listTemplates: DevTemplate[]=[];
+  filteredTemplates: DevTemplate[]=[];
   templateForm = this.fb.group({
     template:[null],
     step:[null],
@@ -26,7 +26,7 @@ export class InsertCommandComponent implements OnInit, OnDestroy {
     position:[''],
     value:[null]
   });
-  filteredSteps: Array<{ position, value }>;
+  filteredSteps: Array<{ position:string, value:any }> = new Array();
   valueFieldLabel = "Value";
   changeTypes= [
     {label:ChangeType.ADD },
@@ -47,11 +47,11 @@ export class InsertCommandComponent implements OnInit, OnDestroy {
         this.listTemplates=allTemplates;
       })).subscribe());
 
-    this.subscriptions.add(this.templateForm.get("template").valueChanges.pipe(
+    this.subscriptions.add(this.templateForm.get("template")!.valueChanges.pipe(
       map(templ => {
-        const stepControl=this.templateForm.get("step");
-        const typeControl=this.templateForm.get("type");
-        if (templ instanceof DevTemplate) {
+        const stepControl:AbstractControl=this.templateForm.get("step")!;
+        const typeControl:AbstractControl=this.templateForm.get("type")!;
+        if ((templ instanceof DevTemplate)&&(templ.sequence)) {
           this.filteredSteps = templ.sequence;
           stepControl.setValue(templ.sequence[0]);
           stepControl.enable({emitEvent:false})
@@ -65,10 +65,10 @@ export class InsertCommandComponent implements OnInit, OnDestroy {
       })
     ).subscribe());
 
-    this.subscriptions.add(this.templateForm.get("step").valueChanges.pipe(
+    this.subscriptions.add(this.templateForm.get("step")!.valueChanges.pipe(
       map(step => {
-        const valueControl=this.templateForm.get("value");
-        const typeControl=this.templateForm.get("type");
+        const valueControl=this.templateForm.get("value")!;
+        const typeControl=this.templateForm.get("type")!;
         if( step === null) {
           valueControl.disable({emitEvent:false});
           typeControl.disable({emitEvent:false});
@@ -79,7 +79,7 @@ export class InsertCommandComponent implements OnInit, OnDestroy {
 
         if (typeof step === 'string' || step instanceof String) {
 //          valueControl.setValue(null);
-          this.templateForm.get("template").setValue(null,{emitEvent:false});
+          this.templateForm.get("template")!.setValue(null,{emitEvent:false});
         } else {
           typeControl.setValue(step.type);
           if (typeof step.value === 'string' || step.value instanceof String) {
@@ -90,7 +90,7 @@ export class InsertCommandComponent implements OnInit, OnDestroy {
         }
       })
     ).subscribe());
-    this.subscriptions.add(this.templateForm.get("value").valueChanges.pipe(
+    this.subscriptions.add(this.templateForm.get("value")!.valueChanges.pipe(
       map(value => {
         const step = this.getSelectedStep();
         if( step) {
@@ -106,7 +106,7 @@ export class InsertCommandComponent implements OnInit, OnDestroy {
         }
       })
     ).subscribe());
-    this.subscriptions.add(this.templateForm.get("type").valueChanges.pipe(
+    this.subscriptions.add(this.templateForm.get("type")!.valueChanges.pipe(
       map(value => {
         const step = this.getSelectedStep();
         if( step) {
@@ -131,7 +131,7 @@ export class InsertCommandComponent implements OnInit, OnDestroy {
 
   sendCommand() {
     const tmpl = this.getSelectedTemplate();
-    if (tmpl) {
+    if (tmpl?.sequence) {
       tmpl.sequence.forEach(step => {
         this.pushChange(step.type, step.position,step.value);
       });
@@ -139,13 +139,13 @@ export class InsertCommandComponent implements OnInit, OnDestroy {
       // It's just a step, not from any template
       const step = this.getSelectedStep();
       // Is the value Json or not ?
-      let jsonVal=this.templateForm.get("value").value;
+      let jsonVal=this.templateForm.get("value")!.value;
       try {
         jsonVal = JSON.parse(jsonVal);
       } catch (error) {
         console.log("Value is not json ", jsonVal, error);
       }
-      this.pushChange(this.templateForm.get("type").value, step as string, jsonVal);
+      this.pushChange(this.templateForm.get("type")!.value, step as string, jsonVal);
     }
   }
 
@@ -156,17 +156,18 @@ export class InsertCommandComponent implements OnInit, OnDestroy {
   }
 
   protected getSelectedTemplate (): DevTemplate {
-    return this.templateForm.get("template").value;
+    return this.templateForm.get("template")!.value;
   }
 
-  protected getSelectedStep (): {position, type, value}|string {
-    return this.templateForm.get("step").value;
+  protected getSelectedStep (): {position:string, type:string, value:any}|string {
+    return this.templateForm.get("step")!.value;
   }
 
   searchStep($event: any) {
     const query = $event.query.toLowerCase();
-    if (this.getSelectedTemplate()?.sequence) {
-      this.filteredSteps = this.getSelectedTemplate().sequence.filter(step => {
+    const seq =this.getSelectedTemplate()?.sequence;
+    if (seq) {
+      this.filteredSteps = seq.filter(step => {
         if (step.position.toLowerCase().startsWith(query)) {
           return true;
         } else return false;
@@ -177,7 +178,7 @@ export class InsertCommandComponent implements OnInit, OnDestroy {
   }
 
   private pushChange(type: string, position: string, valueOrBeforeKey: any) {
-    const toSend = new Change(ChangeType[type], position, valueOrBeforeKey);
+    const toSend = new Change(ChangeType[type as keyof typeof ChangeType], position, valueOrBeforeKey);
     if( type===ChangeType.MOVE) {
       toSend.value=null;
       toSend.oldPosition = position;

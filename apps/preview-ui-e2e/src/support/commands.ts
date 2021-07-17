@@ -77,7 +77,7 @@ Cypress.Commands.add('findNgComponent', (selector: string) => {
 
 Cypress.Commands.add('clearPreviewUIDbCollection', (collection:string) => {
 
-  return new Promise((resolve, reject) => {
+  return new Promise<number>((resolve, reject) => {
     console.log("Checking DB Version");
     const checkversionrequest = window.indexedDB.open('Preview-UI');
 

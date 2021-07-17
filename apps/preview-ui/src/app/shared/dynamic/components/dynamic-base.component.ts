@@ -9,7 +9,7 @@ import {
   Type
 } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
-import { Observable, of, Subject, Subscription } from "rxjs";
+import {Observable, of, Subject, Subscription, throwError} from "rxjs";
 import {dtcde, PluginModuleInterface, PreviewHandler, PreviewHandlerConfig} from "@dontcode/core";
 import { ChangeProviderService } from "../../command/services/change-provider.service";
 import { DynamicInsertDirective } from "../directives/dynamic-insert.directive";
@@ -44,6 +44,7 @@ export abstract class DynamicBaseComponent implements OnInit, OnDestroy {
         return of(this.applyComponent(module.exposedPreviewHandlers().get(handler.class.name), host));
       } catch (e) {
         // Nope, fallback to dynamically loading it
+        return throwError(e);
       }
     } else {
       console.log("No handler found, using default ");

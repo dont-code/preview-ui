@@ -14,7 +14,7 @@ export class IndexedDbStorageService implements DontCodeStoreProvider{
 
   protected static globalDb: Dexie;
 
-  protected db: Dexie;
+  protected db!: Dexie;
 
   constructor(protected values:ValueService) {
     this.createDatabase();
@@ -74,7 +74,7 @@ export class IndexedDbStorageService implements DontCodeStoreProvider{
       if (table) return Promise.resolve(table);
 
       if( create) {
-        const tableDescription = {};
+        const tableDescription:{[key:string]:string} = {};
         tableDescription[description.name] = '++_id';
         return this.changeSchema(this.db, tableDescription).then(newdb => {
           this.db = newdb;
@@ -87,7 +87,7 @@ export class IndexedDbStorageService implements DontCodeStoreProvider{
     })
   }
 
-  protected changeSchema(db, schemaChanges): Promise<Dexie> {
+  protected changeSchema(db:Dexie, schemaChanges:any): Promise<Dexie> {
     db.close();
     const newDb = new Dexie(db.name);
 
@@ -102,7 +102,7 @@ export class IndexedDbStorageService implements DontCodeStoreProvider{
     }
 
     // Extract current schema in dexie format:
-    const currentSchema = db.tables.reduce((result,{name, schema}) => {
+    const currentSchema = db.tables.reduce((result:{[key:string]:any},{name, schema}) => {
       result[name] = [
         schema.primKey.src,
         ...schema.indexes.map(idx => idx.src)
