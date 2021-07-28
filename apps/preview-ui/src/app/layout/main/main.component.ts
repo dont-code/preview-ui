@@ -1,9 +1,9 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from "@angular/core";
-import {combineLatest, EMPTY, Observable, Subject, Subscription} from "rxjs";
-import { map, takeUntil } from "rxjs/operators";
-import { ChangeProviderService } from "../../shared/command/services/change-provider.service";
-import { ChangeListenerService } from "../../shared/change/services/change-listener.service";
-import { DontCodeModel } from "@dontcode/core";
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit} from "@angular/core";
+import {combineLatest, EMPTY, Observable, Subscription} from "rxjs";
+import {map} from "rxjs/operators";
+import {ChangeProviderService} from "../../shared/command/services/change-provider.service";
+import {ChangeListenerService} from "../../shared/change/services/change-listener.service";
+import {DontCodeModel} from "@dontcode/core";
 import {environment} from "../../../environments/environment";
 
 @Component({
