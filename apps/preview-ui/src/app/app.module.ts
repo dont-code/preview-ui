@@ -7,7 +7,7 @@ import {SandboxModule} from "@dontcode/sandbox";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {environment} from "../environments/environment";
 import {HttpClientModule} from "@angular/common/http";
-import {BasicModule} from "@dontcode/plugin-basic";
+import {BasicModule, DONTCODE_STORE_API_URL} from "@dontcode/plugin-basic";
 import {FieldsModule} from "@dontcode/plugin-fields";
 import {ScreenModule} from "@dontcode/plugin-screen";
 
@@ -25,13 +25,13 @@ import {ScreenModule} from "@dontcode/plugin-screen";
     }),
     SandboxModule.forRoot({
       webSocketUrl: environment.webSocketUrl,
-      indexedDbName: 'Dont-code Plugin Tester'
+      indexedDbName: 'Dont-code Previewer'
     }),
     BasicModule,
     FieldsModule,
     ScreenModule
   ],
-  providers: [],
+  providers: [{provide: DONTCODE_STORE_API_URL, useValue: environment.storeApiUrl}],
   bootstrap: [AppComponent]
 })
 export class AppModule {}
