@@ -1,46 +1,37 @@
-import {BrowserModule} from "@angular/platform-browser";
-import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from "@angular/core";
+import {NgModule} from '@angular/core';
+import {BrowserModule} from '@angular/platform-browser';
 
-import {AppComponent} from "./app.component";
+import {AppComponent} from './app.component';
+import {RouterModule} from '@angular/router';
+import {SandboxModule} from "@dontcode/sandbox";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
-import {LayoutModule} from "./layout/layout.module";
-import {SharedModule} from "./shared/shared.module";
-import {RoutesModule} from "./routes/routes.module";
-import {RouterModule, Routes} from "@angular/router";
-import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
-
-import {HomeComponent} from "./routes/home/home.component";
-import {DebugPageComponent} from "./routes/debug/debug-page/debug-page.component";
-import {ScreenComponent} from "./routes/screens/screen/screen.component";
-import {ScreenModule} from "@dontcode/plugin-screen";
-import {BasicModule, DONTCODE_STORE_API_URL} from "@dontcode/plugin-basic";
-import {HttpClientModule} from "@angular/common/http";
-import {FieldsModule} from "@dontcode/plugin-fields";
 import {environment} from "../environments/environment";
-
-const appRoutes: Routes = [
-  { path: '', component: HomeComponent },
-  { path: 'dev', component: DebugPageComponent },
-  { path: 'newTabDev', component: DebugPageComponent},
-  { path: 'creation/:type/:id', component: ScreenComponent
-  }];
+import {HttpClientModule} from "@angular/common/http";
+import {BasicModule, DONTCODE_STORE_API_URL} from "@dontcode/plugin-basic";
+import {FieldsModule} from "@dontcode/plugin-fields";
+import {ScreenModule} from "@dontcode/plugin-screen";
 
 @NgModule({
   declarations: [AppComponent],
-  imports: [BrowserModule, BrowserAnimationsModule, HttpClientModule, LayoutModule, SharedModule,
-    RoutesModule, RouterModule.forRoot(
-      appRoutes,
-      { enableTracing: false, useHash: true, relativeLinkResolution: 'legacy' } // <-- debugging purposes only
- // <-- debugging purposes only
-    ), FontAwesomeModule
-    ,ScreenModule
-    ,BasicModule
-    ,FieldsModule
+  imports: [
+    BrowserModule,
+    BrowserAnimationsModule,
+    HttpClientModule,
+    RouterModule.forRoot([], {
+      enableTracing: false,   // <-- debugging purposes only
+      useHash: true,
+      relativeLinkResolution: 'corrected',
+      initialNavigation: 'enabledBlocking'
+    }),
+    SandboxModule.forRoot({
+      webSocketUrl: environment.webSocketUrl,
+      indexedDbName: 'Dont-code Previewer'
+    }),
+    BasicModule,
+    FieldsModule,
+    ScreenModule
   ],
-  providers: [
-    { provide: DONTCODE_STORE_API_URL, useValue: environment.storeApiUrl}],
-  bootstrap: [AppComponent],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+  providers: [{provide: DONTCODE_STORE_API_URL, useValue: environment.storeApiUrl}],
+  bootstrap: [AppComponent]
 })
-
 export class AppModule {}

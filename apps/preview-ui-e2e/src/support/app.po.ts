@@ -8,7 +8,7 @@ export const getPageTitle = () => cy.get('h1');
 
 export const clickAutoComplete = (name:string) => cy.get("#"+name+" > .p-autocomplete > .p-autocomplete-dropdown").click();
 export const selectPopupChoice = (pos:number) => cy.get(".p-autocomplete-items > :nth-child("+pos+")").click();
-export const selectPopupChoiceWithText = (text:string) => cy.get(".p-autocomplete-items", {timeout:9000}).contains(text).click();
+export const selectPopupChoiceWithText = (text:string) => cy.get(".p-autocomplete-items", {timeout:15000}).contains(text).click();
 export const getSendButton = () => cy.get("#sendButton");
 export const getValueTextArea = () => cy.get("#value");
 export const getStep = () => cy.get("#step > .p-autocomplete > .p-autocomplete-input");
@@ -17,3 +17,4 @@ export const selectType = (type:string) => {
   cy.get("[ng-reflect-label="+type+"] > .p-dropdown-item").click();
   }
 
+export const getTableHeader = (name:string) => cy.get('[ng-reflect-field="'+name+'"][tabindex="0"]');
