@@ -8,9 +8,9 @@ import {
   getSubMenus,
   getSubMenuWithText,
   getToolbar,
-  selectPopupChoiceWithText
+  selectPopupChoiceWithText,
+  getTableHeader
 } from "../support/app.po";
-import {getTableHeader} from "../support/edit.po";
 
 describe('preview-ui', () => {
   beforeEach(() => cy.visit('/'));
