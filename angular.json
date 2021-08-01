@@ -129,7 +129,7 @@
           }
         },
         "test": {
-          "builder": "ngx-build-plus:karma",
+          "builder": "@nrwl/jest:jest",
           "options": {
             "jestConfig": "apps/preview-ui/jest.config.js",
             "passWithNoTests": true,
