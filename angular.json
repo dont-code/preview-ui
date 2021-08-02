@@ -13,7 +13,7 @@
       "prefix": "preview-ui",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "ngx-build-plus:browser",
           "options": {
             "outputPath": "dist/apps/preview-ui",
             "index": "apps/preview-ui/src/index.html",
@@ -44,7 +44,9 @@
             "buildOptimizer": false,
             "sourceMap": true,
             "optimization": false,
-            "namedChunks": true
+            "namedChunks": true,
+            "extraWebpackConfig": "apps/preview-ui/webpack.config.js",
+            "commonChunk": false
           },
           "configurations": {
             "online": {
@@ -80,7 +82,8 @@
                   "maximumWarning": "6kb",
                   "maximumError": "10kb"
                 }
-              ]
+              ],
+              "extraWebpackConfig": "apps/preview-ui/webpack.prod.config.js"
             }
           },
           "outputs": [
@@ -89,24 +92,27 @@
           "defaultConfiguration": ""
         },
         "serve": {
-          "builder": "@angular-devkit/build-angular:dev-server",
+          "builder": "ngx-build-plus:dev-server",
           "options": {
             "browserTarget": "preview-ui:build",
-            "port": 4201
+            "port": 5001,
+            "extraWebpackConfig": "apps/preview-ui/webpack.config.js"
           },
           "configurations": {
             "online": {
               "browserTarget": "preview-ui:build:online"
             },
             "production": {
-              "browserTarget": "preview-ui:build:production"
+              "browserTarget": "preview-ui:build:production",
+              "extraWebpackConfig": "apps/preview-ui/webpack.prod.config.js"
             }
           }
         },
         "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "builder": "ngx-build-plus:extract-i18n",
           "options": {
-            "browserTarget": "preview-ui:build"
+            "browserTarget": "preview-ui:build",
+            "extraWebpackConfig": "apps/preview-ui/webpack.config.js"
           }
         },
         "lint": {
@@ -126,7 +132,8 @@
           "builder": "@nrwl/jest:jest",
           "options": {
             "jestConfig": "apps/preview-ui/jest.config.js",
-            "passWithNoTests": true
+            "passWithNoTests": true,
+            "extraWebpackConfig": "apps/preview-ui/webpack.config.js"
           },
           "outputs": [
             "coverage/apps/preview-ui"
@@ -144,7 +151,7 @@
           "options": {
             "cypressConfig": "apps/preview-ui-e2e/cypress.json",
             "tsConfig": "apps/preview-ui-e2e/tsconfig.e2e.json",
-            "devServerTarget": "preview-ui:serve"
+            "devServerTarget": "preview-ui:serve:online"
           },
           "configurations": {
             "production": {

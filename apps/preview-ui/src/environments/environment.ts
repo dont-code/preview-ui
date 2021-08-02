@@ -5,6 +5,7 @@
 export const environment = {
   production: false,
   webSocketUrl: 'ws://localhost:8081/preview',
+  standardPluginsUrl:'http://localhost:3000',
   storeApiUrl: 'http://localhost:8084/data'
 };
 

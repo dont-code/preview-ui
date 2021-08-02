@@ -25,7 +25,8 @@
       "@dontcode/core": ["node_modules/@dontcode/core"],
       "@dontcode/plugin-common": ["node_modules/@dontcode/plugin-common"],
       "rxjs": ["node_modules/rxjs"],
-      "rxjs/*": ["node_modules/rxjs/*"]
+      "rxjs/*": ["node_modules/rxjs/*"],
+      "@angular/*": [ "node_modules/@angular/*" ]
     }
   },
   "exclude": ["node_modules", "tmp"]

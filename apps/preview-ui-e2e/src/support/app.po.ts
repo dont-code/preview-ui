@@ -17,4 +17,4 @@ export const selectType = (type:string) => {
   cy.get("[ng-reflect-label="+type+"] > .p-dropdown-item").click();
   }
 
-export const getTableHeader = (name:string) => cy.get('[ng-reflect-field="'+name+'"][tabindex="0"]');
+export const getTableHeader = (name:string) => cy.get('th[id="header-'+name+'"]');

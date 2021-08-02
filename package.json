@@ -25,10 +25,12 @@
     "workspace-schematic": "nx workspace-schematic",
     "dep-graph": "nx dep-graph",
     "help": "nx help",
-    "postinstall": "ngcc --properties es2015 browser module main && node ./decorate-angular-cli.js"
+    "postinstall": "ngcc --properties es2015 browser module main && node ./decorate-angular-cli.js",
+    "run:all": "node node_modules/@angular-architects/module-federation/src/server/mf-dev-server.js"
   },
   "private": true,
   "dependencies": {
+    "@angular-architects/module-federation-runtime": "^12.4.0",
     "@angular/animations": "^12.1.1",
     "@angular/cdk": "^12.1.1",
     "@angular/common": "^12.1.1",
@@ -38,12 +40,8 @@
     "@angular/platform-browser": "^12.1.1",
     "@angular/platform-browser-dynamic": "^12.1.1",
     "@angular/router": "^12.1.1",
-    "@dontcode/core": "^0.3.6",
-    "@dontcode/plugin-basic": "^0.3.13",
-    "@dontcode/plugin-common": "^0.3.13",
-    "@dontcode/plugin-fields": "^0.3.13",
-    "@dontcode/plugin-screen": "^0.3.13",
-    "@dontcode/sandbox": "^0.3.9",
+    "@dontcode/core": "^0.3.8",
+    "@dontcode/sandbox": "^0.3.10",
     "@fortawesome/angular-fontawesome": "^0.9.0",
     "@fortawesome/fontawesome-svg-core": "^1.2.35",
     "@fortawesome/free-regular-svg-icons": "^5.15.3",
@@ -63,6 +61,7 @@
     "zone.js": "~0.11.4"
   },
   "devDependencies": {
+    "@angular-architects/module-federation": "^12.4.0",
     "@angular-devkit/build-angular": "^12.1.1",
     "@angular-eslint/eslint-plugin": "^12.2.2",
     "@angular-eslint/eslint-plugin-template": "^12.2.2",
