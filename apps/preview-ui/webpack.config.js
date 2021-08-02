@@ -43,7 +43,7 @@ module.exports = {
           "@angular/forms": { singleton: true, strictVersion: true, requiredVersion: 'auto' },
           "@dontcode/core": { singleton: true, strictVersion: true},
           "@dontcode/plugin-common": { singleton: true, strictVersion: true},
-
+          "@dontcode/sandbox": { singleton: true, strictVersion: true},
           ...sharedMappings.getDescriptors()
         })
 

@@ -1,9 +1,10 @@
 import {Compiler, Component, ComponentFactoryResolver, Injector, ViewChild} from '@angular/core';
-import {BaseAppComponent, DynamicInsertDirective} from "@dontcode/sandbox";
 import {PrimeNGConfig} from "primeng/api";
-import {mergeMap} from "rxjs/internal/operators";
-import {loadRemoteModule} from "@angular-architects/module-federation";
-import { PluginModuleInterface, PreviewHandler } from '@dontcode/core';
+import {loadRemoteModule} from "@angular-architects/module-federation-runtime";
+import {PluginModuleInterface} from '@dontcode/core';
+import {BaseAppComponent} from '@dontcode/sandbox';
+import {RemotePluginLoaderService} from "./shared/remote-plugin-loader.service";
+import {environment} from "../environments/environment";
 
 @Component({
   selector: 'preview-ui-root',
@@ -14,62 +15,29 @@ export class AppComponent extends BaseAppComponent{
 
   sessionId:string|null = null;
 
-  @ViewChild(DynamicInsertDirective, {static:true}) host!: DynamicInsertDirective;
-
-  constructor(private primengConfig: PrimeNGConfig, protected compiler: Compiler, injector:Injector, protected componentFactoryResolver: ComponentFactoryResolver ) {
+  constructor(private primengConfig: PrimeNGConfig, protected pluginLoader:RemotePluginLoaderService, injector:Injector) {
     super(injector);
   }
 
   ngOnInit(): void {
-    this.primengConfig.ripple=true;
+    this.primengConfig.ripple = true;
     super.ngOnInit();
 
-    Promise.all([
-,
-      loadRemoteModule({
-        exposedModule:'./Basic',
-        remoteEntry:'http://localhost:3000/remoteEntry.js',
-        remoteName:'dontCodeStandardPlugins'
-      }).then(module => {
-        console.log('Loaded Module:', module);
-        const mainModuleClass = module['BasicModule'];
-        const mainModule = this.compiler.compileModuleSync(mainModuleClass).create(this.injector).instance as PluginModuleInterface;
-        /*const mainModule = new mainModuleClass();
-        console.log (mainModule.exposedPreviewHandlers());
-        const componentFactory = this.componentFactoryResolver.resolveComponentFactory(mainModule.exposedPreviewHandlers().get('BasicEntityComponent'));
+    console.log('Loading plugins from '+environment.standardPluginsUrl);
+    this.pluginLoader.loadMultipleModules([{
+        exposedModule: './Basic',
+        remoteEntry: environment.standardPluginsUrl+'/remoteEntry.js',
+        remoteName: 'dontCodeStandardPlugins',
+        moduleName: 'BasicModule'
+      }, {
+        exposedModule: './Fields',
+        remoteEntry: environment.standardPluginsUrl+'/remoteEntry.js',
+        remoteName: 'dontCodeStandardPlugins',
+        moduleName: 'FieldsModule'
+      }
+    ]).then(module => {
+      console.log('All Plugins loaded');
+    });
 
-        const viewContainerRef = this.host.viewContainerRef;
-        viewContainerRef.clear();
-
-        const componentRef = viewContainerRef.createComponent(componentFactory,undefined,this.injector);
-        const handler = componentRef.instance as PreviewHandler;
-        return handler;*/
-
-      }).then (value => {
-        loadRemoteModule({
-          exposedModule:'./Fields',
-          remoteEntry:'http://localhost:3000/remoteEntry.js',
-          remoteName:'dontCodeStandardPlugins'
-        }).then(module => {
-          console.log('Loaded Module:', module);
-          const mainModuleClass = module['FieldsModule'];
-          const mainModule = this.compiler.compileModuleSync(mainModuleClass).create(this.injector).instance as PluginModuleInterface;
-          /* new mainModuleClass();
-          console.log (mainModule.exposedPreviewHandlers());
-          const componentFactory = this.componentFactoryResolver.resolveComponentFactory(mainModule.exposedPreviewHandlers().get('MoneyComponent'));
-
-          const viewContainerRef = this.host.viewContainerRef;
-          viewContainerRef.clear();
-
-          const componentRef = viewContainerRef.createComponent(componentFactory,undefined,this.injector);
-          const handler = componentRef.instance as PreviewHandler;
-          return handler;*/
-
-        })
-      })
-    ]).then(value => {
-      console.log('All loaded');
-    })
   }
-
 }
