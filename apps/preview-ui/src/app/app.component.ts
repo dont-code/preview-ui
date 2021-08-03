@@ -23,6 +23,7 @@ export class AppComponent extends BaseAppComponent{
     this.primengConfig.ripple = true;
     super.ngOnInit();
 
+      // To do: Get the list from the Plugin Marketplace: https://test.dont-code.net/data/Plugin%20Module
     console.log('Loading plugins from '+environment.standardPluginsUrl);
     this.pluginLoader.loadMultipleModules([{
         exposedModule: './Basic',
