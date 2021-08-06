@@ -23,7 +23,8 @@ import {HttpClientModule} from "@angular/common/http";
     SandboxModule.forRoot({
       webSocketUrl: environment.webSocketUrl,
       indexedDbName: 'Dont-code Previewer',
-      applicationName: 'Previewer'
+      applicationName: 'Previewer',
+      templateFileUrl: 'assets/dev/templates.json'
     })
   ],
 //  providers: [{provide: DONTCODE_STORE_API_URL, useValue: environment.storeApiUrl}],
