@@ -1,10 +1,9 @@
-import {Compiler, Component, ComponentFactoryResolver, Injector, ViewChild} from '@angular/core';
+import {Component, Injector} from '@angular/core';
 import {PrimeNGConfig} from "primeng/api";
-import {loadRemoteModule} from "@angular-architects/module-federation-runtime";
-import {PluginModuleInterface} from '@dontcode/core';
 import {BaseAppComponent} from '@dontcode/sandbox';
 import {RemotePluginLoaderService} from "./shared/remote-plugin-loader.service";
 import {environment} from "../environments/environment";
+import {ChangeListenerService} from "@dontcode/sandbox";
 
 @Component({
   selector: 'preview-ui-root',
@@ -15,7 +14,7 @@ export class AppComponent extends BaseAppComponent{
 
   sessionId:string|null = null;
 
-  constructor(private primengConfig: PrimeNGConfig, protected pluginLoader:RemotePluginLoaderService, injector:Injector) {
+  constructor(private primengConfig: PrimeNGConfig, protected pluginLoader:RemotePluginLoaderService, protected listener: ChangeListenerService, injector:Injector) {
     super(injector);
   }
 
@@ -38,6 +37,13 @@ export class AppComponent extends BaseAppComponent{
       }
     ]).then(module => {
       console.log('All Plugins loaded');
+        // Check if we need to load a project ?
+      const projectToLoad = (window as any).dontCodeConfig.projectId;
+      if (projectToLoad) {
+        this.listener.loadProject(projectToLoad).then( project => {
+          console.log("Loaded project ", project.name);
+        })
+      }
     });
 
   }
