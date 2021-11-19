@@ -14,17 +14,9 @@
     "default": {
       "runner": "@nrwl/workspace/tasks-runners/default",
       "options": {
-        "cacheableOperations": ["build", "lint", "test", "e2e"]
+        "cacheableOperations": ["build", "lint", "test", "e2e"],
+        "parallel": 3
       }
-    }
-  },
-  "projects": {
-    "preview-ui": {
-      "tags": []
-    },
-    "preview-ui-e2e": {
-      "tags": [],
-      "implicitDependencies": ["preview-ui"]
     }
   },
   "affected": {
@@ -37,5 +29,19 @@
         "projects": "dependencies"
       }
     ]
+  },
+  "cli": {
+    "defaultCollection": "@nrwl/angular",
+    "analytics": false
+  },
+  "defaultProject": "preview-ui",
+  "generators": {
+    "@nrwl/angular:application": {
+      "unitTestRunner": "jest",
+      "e2eTestRunner": "cypress"
+    },
+    "@nrwl/angular:library": {
+      "unitTestRunner": "jest"
+    }
   }
 }

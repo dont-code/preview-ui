@@ -31,7 +31,7 @@
             ],
             "styles": [
               "apps/preview-ui/src/styles.scss",
-              "./node_modules/flag-icon-css/css/flag-icon.css",
+              "./node_modules/flag-icon-css/css/flag-icons.css",
               "./node_modules/primeflex/primeflex.css",
               "./node_modules/primeng/resources/themes/saga-blue/theme.css",
               "./node_modules/primeng/resources/primeng.min.css",
@@ -86,9 +86,7 @@
               "extraWebpackConfig": "apps/preview-ui/webpack.prod.config.js"
             }
           },
-          "outputs": [
-            "{options.outputPath}"
-          ],
+          "outputs": ["{options.outputPath}"],
           "defaultConfiguration": ""
         },
         "serve": {
@@ -122,10 +120,7 @@
               "apps/preview-ui/tsconfig.app.json",
               "apps/preview-ui/tsconfig.spec.json"
             ],
-            "exclude": [
-              "**/node_modules/**",
-              "!apps/preview-ui/**/*"
-            ]
+            "exclude": ["**/node_modules/**", "!apps/preview-ui/**/*"]
           }
         },
         "test": {
@@ -135,11 +130,10 @@
             "passWithNoTests": true,
             "extraWebpackConfig": "apps/preview-ui/webpack.config.js"
           },
-          "outputs": [
-            "coverage/apps/preview-ui"
-          ]
+          "outputs": ["coverage/apps/preview-ui"]
         }
-      }
+      },
+      "tags": []
     },
     "preview-ui-e2e": {
       "root": "apps/preview-ui-e2e",
@@ -162,30 +156,13 @@
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
-            "tsConfig": [
-              "apps/preview-ui-e2e/tsconfig.e2e.json"
-            ],
-            "exclude": [
-              "**/node_modules/**",
-              "!apps/preview-ui-e2e/**/*"
-            ]
+            "tsConfig": ["apps/preview-ui-e2e/tsconfig.e2e.json"],
+            "exclude": ["**/node_modules/**", "!apps/preview-ui-e2e/**/*"]
           }
         }
-      }
+      },
+      "tags": [],
+      "implicitDependencies": ["preview-ui"]
     }
-  },
-  "cli": {
-    "defaultCollection": "@nrwl/angular",
-    "analytics": false
-  },
-  "schematics": {
-    "@nrwl/angular:application": {
-      "unitTestRunner": "jest",
-      "e2eTestRunner": "cypress"
-    },
-    "@nrwl/angular:library": {
-      "unitTestRunner": "jest"
-    }
-  },
-  "defaultProject": "preview-ui"
+  }
 }
