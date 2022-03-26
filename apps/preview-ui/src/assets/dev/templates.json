@@ -230,5 +230,41 @@
     "position": "creation/sharing/with",
     "value": "Dont-code users"
 
+  },
+  {
+    "name": "View movies",
+    "sequence": [
+      {
+        "position": "creation/sources/a",
+        "type": "ADD",
+        "value": {
+          "name": "Omdb Source",
+          "type": "Rest",
+          "url": "https://www.omdbapi.com/?apikey=5e2ca9f7&s=Potter"
+        }
+      },
+      {
+        "position": "creation/entities/f",
+        "type": "ADD",
+        "value": {
+          "name": "Movies",
+          "from": "Omdb Source",
+          "fields": {
+            "aa": {
+              "name": "Title",
+              "type": "Text"
+            },
+            "ac": {
+              "name":"Year",
+              "type": "Number"
+            },
+            "ad": {
+              "name":"Poster",
+              "type": "Image"
+            }
+          }
+        }
+      }
+    ]
   }
 ]

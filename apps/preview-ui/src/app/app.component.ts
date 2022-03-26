@@ -34,7 +34,12 @@ export class AppComponent extends BaseAppComponent{
         remoteEntry: environment.standardPluginsUrl+'/remoteEntry.js',
         remoteName: 'dontCodeStandardPlugins',
         moduleName: 'FieldsModule'
-      }
+      }, {
+      exposedModule: './Rest',
+      remoteEntry: (environment.otherPluginsUrl!=null?environment.otherPluginsUrl+'rest':environment.restPluginUrl)+'/remoteEntry.js',
+      remoteName: 'dontCodeRestPlugin',
+      moduleName: 'RestModule'
+    }
     ]).then(module => {
       console.log('All Plugins loaded');
         // Check if we need to load a project ?
