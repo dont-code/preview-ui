@@ -37,8 +37,12 @@ export class RemotePluginLoaderService {
   async loadMultipleModules (moduleDefs:Array<RemotePluginModuleOptions>) : Promise<Array<PluginModuleInterface>>{
     const ret = new Array<PluginModuleInterface>();
     for (const moduleDef of moduleDefs) {
+      try {
       const loaded = await this.loadModule(moduleDef);
       ret.push(loaded);
+      } catch (error) {
+        console.log ('Error loading plugin '+moduleDef.moduleName+' from '+moduleDef.remoteEntry, error);
+      }
     }
     return ret;
   }
