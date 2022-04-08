@@ -266,5 +266,45 @@
         }
       }
     ]
+  },
+  {
+    "name": "View Dont-code access",
+    "sequence": [
+      {
+        "position": "creation/sources/b",
+        "type": "ADD",
+        "value": {
+          "name": "Dont-Code Sessions Source",
+          "type": "Rest",
+          "url": "https://test.dont-code.net/preview/sessions"
+        }
+      },
+      {
+        "position": "creation/entities/g",
+        "type": "ADD",
+        "value": {
+          "name": "Session",
+          "from": "Dont-Code Sessions Source",
+          "fields": {
+            "aa": {
+              "name": "startTime",
+              "type": "Date & Time"
+            },
+            "ab": {
+              "name": "endTime",
+              "type": "Date & Time"
+            },
+            "ac": {
+              "name":"isDemo",
+              "type": "boolean"
+            },
+            "ad": {
+              "name":"elementsCount",
+              "type": "Number"
+            }
+          }
+        }
+      }
+    ]
   }
 ]
