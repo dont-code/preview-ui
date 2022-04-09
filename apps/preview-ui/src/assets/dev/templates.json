@@ -276,7 +276,7 @@
         "value": {
           "name": "Dont-Code Sessions Source",
           "type": "Rest",
-          "url": "https://test.dont-code.net/preview/sessions"
+          "url": "https://test.dont-code.net/preview/sessions?srcInfo=demo"
         }
       },
       {
