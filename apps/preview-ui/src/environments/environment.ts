@@ -5,12 +5,12 @@
 export const environment = {
   production: false,
   webSocketUrl: 'ws://localhost:8081/preview',
-  standardPluginsUrl:'http://localhost:3000',
-  otherPluginsUrl:null,
-  restPluginUrl:'http://localhost:3001',
+  standardPluginsUrl: 'http://localhost:3000',
+  otherPluginsUrl: null,
+  restPluginUrl: 'http://localhost:3001',
   storeApiUrl: 'http://localhost:8084/data',
   projectApiUrl: 'http://localhost:8083/project',
-  documentApiUrl: 'http://localhost:8084/documents'
+  documentApiUrl: 'http://localhost:8084/documents',
 };
 
 /*

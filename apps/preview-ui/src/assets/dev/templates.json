@@ -1,15 +1,16 @@
-[{
-  "name": "Change App Name",
-  "type": "ADD",
-  "position": "creation/name",
-  "value": "New Name"
-},
+[
+  {
+    "name": "Change App Name",
+    "type": "ADD",
+    "position": "creation/name",
+    "value": "New Name"
+  },
   {
     "name": "Create Entity A",
     "type": "ADD",
     "position": "creation/entities/a",
     "value": {
-      "name":"A Name"
+      "name": "A Name"
     }
   },
   {
@@ -229,7 +230,6 @@
     "type": "UPDATE",
     "position": "creation/sharing/with",
     "value": "Dont-code users"
-
   },
   {
     "name": "View movies",
@@ -255,11 +255,11 @@
               "type": "Text"
             },
             "ac": {
-              "name":"Year",
+              "name": "Year",
               "type": "Number"
             },
             "ad": {
-              "name":"Poster",
+              "name": "Poster",
               "type": "Image"
             }
           }
@@ -295,11 +295,11 @@
               "type": "Date & Time"
             },
             "ac": {
-              "name":"isDemo",
+              "name": "isDemo",
               "type": "boolean"
             },
             "ad": {
-              "name":"elementsCount",
+              "name": "elementsCount",
               "type": "Number"
             }
           }
