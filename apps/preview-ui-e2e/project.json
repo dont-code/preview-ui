@@ -1,0 +1,29 @@
+{
+  "root": "apps/preview-ui-e2e",
+  "sourceRoot": "apps/preview-ui-e2e/src",
+  "projectType": "application",
+  "targets": {
+    "e2e": {
+      "executor": "@nrwl/cypress:cypress",
+      "options": {
+        "cypressConfig": "apps/preview-ui-e2e/cypress.json",
+        "tsConfig": "apps/preview-ui-e2e/tsconfig.e2e.json",
+        "devServerTarget": "preview-ui:serve:online"
+      },
+      "configurations": {
+        "production": {
+          "devServerTarget": "preview-ui:serve:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@angular-devkit/build-angular:tslint",
+      "options": {
+        "tsConfig": ["apps/preview-ui-e2e/tsconfig.e2e.json"],
+        "exclude": ["**/node_modules/**", "!apps/preview-ui-e2e/**/*"]
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["preview-ui"]
+}

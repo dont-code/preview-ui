@@ -11,18 +11,18 @@ import { ChangeListenerService } from '@dontcode/sandbox';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent extends BaseAppComponent {
-  sessionId: string | null = null;
 
   constructor(
     private primengConfig: PrimeNGConfig,
     protected pluginLoader: RemotePluginLoaderService,
-    protected listener: ChangeListenerService,
+    listener: ChangeListenerService,
     injector: Injector
   ) {
     super(injector);
+    this.listener=listener;
   }
 
-  ngOnInit(): void {
+  override ngOnInit(): void {
     this.primengConfig.ripple = true;
     super.ngOnInit();
 

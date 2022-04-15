@@ -1,8 +1,6 @@
 module.exports = {
-  name: 'preview-ui',
+  displayName: 'preview-ui',
   preset: '../../jest.preset.js',
-  coverageDirectory: '../../coverage/apps/preview-ui',
-
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
   globals: {
     'ts-jest': {
@@ -10,18 +8,14 @@ module.exports = {
       stringifyContentPathRegex: '\\.(html|svg)$',
     },
   },
-
+  coverageDirectory: '../../coverage/apps/preview-ui',
   transform: {
-    '^.+.(ts|mjs|js|html)$': 'jest-preset-angular',
+    '^.+\\.(ts|mjs|js|html)$': 'jest-preset-angular',
   },
-  transformIgnorePatterns: ['node_modules/(?!.*.mjs$)'],
-  transformIgnorePatterns: ['node_modules/(?!.*.mjs$)'],
+  transformIgnorePatterns: ['node_modules/(?!.*\\.mjs$)'],
   snapshotSerializers: [
     'jest-preset-angular/build/serializers/no-ng-attributes',
     'jest-preset-angular/build/serializers/ng-snapshot',
     'jest-preset-angular/build/serializers/html-comment',
-  ],
-  transformIgnorePatterns: [
-    '/node_modules/(?!@angular-architects/module-federation/)',
   ],
 };

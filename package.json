@@ -4,29 +4,10 @@
   "license": "MIT",
   "scripts": {
     "ng": "nx",
-    "nx": "nx",
-    "start": "ng serve",
-    "build": "ng build",
-    "test": "ng test --detectOpenHandles=true",
-    "lint": "nx workspace-lint && ng lint",
-    "e2e": "ng e2e --browser chromium",
-    "affected:apps": "nx affected:apps",
-    "affected:libs": "nx affected:libs",
-    "affected:build": "nx affected:build",
-    "affected:e2e": "nx affected:e2e",
-    "affected:test": "nx affected:test",
-    "affected:lint": "nx affected:lint",
-    "affected:dep-graph": "nx affected:dep-graph",
-    "affected": "nx affected",
-    "format": "nx format:write",
-    "format:write": "nx format:write",
-    "format:check": "nx format:check",
-    "update": "ng update @nrwl/workspace",
-    "workspace-schematic": "nx workspace-schematic",
-    "dep-graph": "nx dep-graph",
-    "help": "nx help",
-    "postinstall": "ngcc --properties es2015 browser module main && node ./decorate-angular-cli.js",
-    "run:all": "node node_modules/@angular-architects/module-federation/src/server/mf-dev-server.js"
+    "postinstall": "node ./decorate-angular-cli.js && ngcc --properties es2015 browser module main",
+    "start": "nx serve",
+    "build": "nx build",
+    "test": "nx test"
   },
   "private": true,
   "dependencies": {
@@ -61,6 +42,7 @@
     "primeicons": "^5.0.0",
     "primeng": "^13.3.3",
     "rxjs": "^7.5.5",
+    "tslib": "^2.0.0",
     "zone.js": "^0.11.5"
   },
   "devDependencies": {
@@ -72,12 +54,14 @@
     "@angular/cli": "^13.3.2",
     "@angular/compiler-cli": "^13.3.2",
     "@angular/language-service": "^13.3.2",
+    "@nrwl/cli": "13.10.1",
     "@nrwl/cypress": "13.10.1",
     "@nrwl/eslint-plugin-nx": "13.10.1",
     "@nrwl/jest": "13.10.1",
     "@nrwl/linter": "13.10.1",
     "@nrwl/workspace": "13.10.1",
     "@types/jest": "^27.4.1",
+    "@types/node": "16.11.7",
     "@typescript-eslint/eslint-plugin": "^5.19.0",
     "@typescript-eslint/parser": "^5.18.0",
     "codelyzer": "^6.0.2",
@@ -97,8 +81,10 @@
     "prettier": "^2.6.2",
     "ts-jest": "^27.1.4",
     "ts-node": "^10.7.0",
-    "typescript": "^4.6.3"
+    "typescript": "^4.6.3",
+    "nx": "13.10.1"
   },
-  "optionalDependencies": {    "fsevents": "^2.3.2"
+  "optionalDependencies": {
+    "fsevents": "^2.3.2"
   }
 }
