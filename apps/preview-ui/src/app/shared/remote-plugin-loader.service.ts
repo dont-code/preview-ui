@@ -1,4 +1,4 @@
-import { Compiler, Injectable, Injector } from '@angular/core';
+import {Compiler, createNgModuleRef, Injectable, Injector} from '@angular/core';
 import {
   loadRemoteModule,
   LoadRemoteModuleOptions,
@@ -29,9 +29,14 @@ export class RemotePluginLoaderService {
     const module = await loadRemoteModule(moduleDef);
     //console.log('Loaded Module:', module);
     const mainModuleClass = module[moduleDef.moduleName];
-    const mainModule = this.compiler
+    if (mainModuleClass==null)  // The main module class is not defined
+    {
+      throw new Error("ModuleClass "+moduleDef.moduleName+" not exported in "+moduleDef.remoteEntry);
+    }
+    const mainModule = createNgModuleRef<PluginModuleInterface>(mainModuleClass, this.injector).instance;
+    /*const mainModule = this.compiler
       .compileModuleSync(mainModuleClass)
-      .create(this.injector).instance as PluginModuleInterface;
+      .create(this.injector).instance as PluginModuleInterface;*/
     return mainModule;
   }
 

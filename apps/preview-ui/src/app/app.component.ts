@@ -1,9 +1,10 @@
-import { Component, Injector } from '@angular/core';
-import { PrimeNGConfig } from 'primeng/api';
-import { BaseAppComponent } from '@dontcode/sandbox';
-import { RemotePluginLoaderService } from './shared/remote-plugin-loader.service';
-import { environment } from '../environments/environment';
-import { ChangeListenerService } from '@dontcode/sandbox';
+import {Component} from '@angular/core';
+import {PrimeNGConfig} from 'primeng/api';
+import {BaseAppComponent, ChangeListenerService, IndexedDbStorageService} from '@dontcode/sandbox';
+import {RemotePluginLoaderService} from './shared/remote-plugin-loader.service';
+import {environment} from '../environments/environment';
+import { ChangeProviderService } from '@dontcode/sandbox';
+import { GlobalPluginLoader } from '@dontcode/sandbox';
 
 @Component({
   selector: 'preview-ui-root',
@@ -15,11 +16,11 @@ export class AppComponent extends BaseAppComponent {
   constructor(
     private primengConfig: PrimeNGConfig,
     protected pluginLoader: RemotePluginLoaderService,
-    listener: ChangeListenerService,
-    injector: Injector
-  ) {
-    super(injector);
-    this.listener=listener;
+    provider: ChangeProviderService,
+    storage:IndexedDbStorageService,
+    listener:ChangeListenerService,
+    globalPluginLoader:GlobalPluginLoader ) {
+    super(provider, storage, listener,globalPluginLoader);
   }
 
   override ngOnInit(): void {
@@ -31,28 +32,28 @@ export class AppComponent extends BaseAppComponent {
     this.pluginLoader
       .loadMultipleModules([
         {
+          type:'module',
           exposedModule: './Basic',
-          remoteEntry: environment.standardPluginsUrl + '/remoteEntry.js',
-          remoteName: 'dontCodeStandardPlugins',
+          remoteEntry: environment.standardPluginsUrl + '/remoteEntry.mjs',
           moduleName: 'BasicModule',
         },
         {
+          type:'module',
           exposedModule: './Fields',
-          remoteEntry: environment.standardPluginsUrl + '/remoteEntry.js',
-          remoteName: 'dontCodeStandardPlugins',
+          remoteEntry: environment.standardPluginsUrl + '/remoteEntry.mjs',
           moduleName: 'FieldsModule',
         },
         {
+          type:'module',
           exposedModule: './Rest',
           remoteEntry:
             (environment.otherPluginsUrl != null
               ? environment.otherPluginsUrl + 'rest'
-              : environment.restPluginUrl) + '/remoteEntry.js',
-          remoteName: 'dontCodeRestPlugin',
+              : environment.restPluginUrl) + '/remoteEntry.mjs',
           moduleName: 'RestModule',
         },
       ])
-      .then((module) => {
+      .then(() => {
         console.log('All Plugins loaded');
         // Check if we need to load a project ?
         const projectToLoad = (window as any).dontCodeConfig.projectId;

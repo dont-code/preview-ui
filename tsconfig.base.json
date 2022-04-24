@@ -17,6 +17,8 @@
     "esModuleInterop": true,
     "resolveJsonModule": true,
     "paths": {
+      "@dontcode/plugin-common": ["node_modules/@dontcode/plugin-common"],
+      "@dontcode/sandbox": ["node_modules/@dontcode/sandbox"]
     }
   },
   "exclude": ["node_modules", "tmp"]
