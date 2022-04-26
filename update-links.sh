@@ -9,4 +9,5 @@ nx run common:build --prod
 #nx run fields:build --prod
 
 cd ../preview-ui
-npm link ../core/node/dist/libs/core ../plugins/dist/libs/common ../plugins/dist/libs/sandbox #../plugins/dist/libs/basic ../plugins/dist/libs/screen ../plugins/dist/libs/fields
+rm -rf .angular/cache
+npm link ../core/node/dist/packages/core ../plugins/dist/libs/common ../plugins/dist/libs/sandbox #../plugins/dist/libs/basic ../plugins/dist/libs/screen ../plugins/dist/libs/fields
