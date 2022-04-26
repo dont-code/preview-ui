@@ -36,7 +36,7 @@ jobs:
         run:  nx run preview-ui:build:production
       - name: E2E Tests on ${{matrix.browser}}
         run: |
-          nx run plugin-tester-e2e:e2e --browser ${{matrix.browser}}
+          nx run preview-ui-e2e:e2e --browser ${{matrix.browser}}
       - uses: actions/upload-artifact@v2
         # Test run screenshots only on failure
         if: failure()
