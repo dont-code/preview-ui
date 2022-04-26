@@ -5,6 +5,7 @@ import {RemotePluginLoaderService} from './shared/remote-plugin-loader.service';
 import {environment} from '../environments/environment';
 import { ChangeProviderService } from '@dontcode/sandbox';
 import { GlobalPluginLoader } from '@dontcode/sandbox';
+import {ComponentLoaderService} from "@dontcode/plugin-common";
 
 @Component({
   selector: 'preview-ui-root',
@@ -19,8 +20,9 @@ export class AppComponent extends BaseAppComponent {
     provider: ChangeProviderService,
     storage:IndexedDbStorageService,
     listener:ChangeListenerService,
-    globalPluginLoader:GlobalPluginLoader ) {
-    super(provider, storage, listener,globalPluginLoader);
+    globalPluginLoader:GlobalPluginLoader,
+    loaderService: ComponentLoaderService) {
+    super(provider, storage, listener,globalPluginLoader, loaderService);
   }
 
   override ngOnInit(): void {
