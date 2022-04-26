@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, Injector} from '@angular/core';
 import {PrimeNGConfig} from 'primeng/api';
 import {BaseAppComponent, ChangeListenerService, IndexedDbStorageService} from '@dontcode/sandbox';
 import {RemotePluginLoaderService} from './shared/remote-plugin-loader.service';
@@ -21,8 +21,9 @@ export class AppComponent extends BaseAppComponent {
     storage:IndexedDbStorageService,
     listener:ChangeListenerService,
     globalPluginLoader:GlobalPluginLoader,
-    loaderService: ComponentLoaderService) {
-    super(provider, storage, listener,globalPluginLoader, loaderService);
+    loaderService: ComponentLoaderService,
+    injector:Injector) {
+    super(provider, storage, listener,globalPluginLoader, loaderService, injector);
   }
 
   override ngOnInit(): void {
