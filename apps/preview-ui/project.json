@@ -118,7 +118,7 @@
       "executor": "@nrwl/jest:jest",
       "outputs": ["coverage/apps/preview-ui"],
       "options": {
-        "jestConfig": "apps/preview-ui/jest.config.js",
+        "jestConfig": "apps/preview-ui/jest.config.ts",
         "passWithNoTests": true
       }
     },
