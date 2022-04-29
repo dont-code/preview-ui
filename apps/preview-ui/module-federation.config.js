@@ -33,9 +33,9 @@ module.exports = {
         strictVersion: true,
         eager: true,
       },
-      '@dontcode/core': {singleton: true, strictVersion: true},
-      '@dontcode/plugin-common': {singleton: true, strictVersion: true},
-      '@dontcode/sandbox': {singleton: true, strictVersion: true}
+      '@dontcode/core': {singleton: true, strictVersion: false},
+      '@dontcode/plugin-common': {singleton: true, strictVersion: false},
+      '@dontcode/sandbox': {singleton: true, strictVersion: false}
     }[name];
   }
 };

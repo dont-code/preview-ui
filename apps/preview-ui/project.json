@@ -14,6 +14,17 @@
         "polyfills": "apps/preview-ui/src/polyfills.ts",
         "tsConfig": "apps/preview-ui/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
+        "vendorChunk": true,
+        "extractLicenses": false,
+        "buildOptimizer": false,
+        "optimization": false,
+        "namedChunks": true,
+        "sourceMap": {
+          "scripts": true,
+          "styles": true,
+          "hidden": false,
+          "vendor": true
+        },
         "assets": [
           "apps/preview-ui/src/favicon.ico",
           "apps/preview-ui/src/assets",
@@ -46,6 +57,13 @@
           ]
         },
         "production": {
+          "optimization": true,
+          "outputHashing": "all",
+          "sourceMap": false,
+          "namedChunks": false,
+          "extractLicenses": true,
+          "vendorChunk": false,
+          "buildOptimizer": true,
           "budgets": [
             {
               "type": "initial",
@@ -70,12 +88,6 @@
           }
         },
         "development": {
-          "buildOptimizer": false,
-          "optimization": false,
-          "vendorChunk": true,
-          "extractLicenses": false,
-          "sourceMap": true,
-          "namedChunks": true
         }
       },
       "defaultConfiguration": "production"
@@ -91,9 +103,6 @@
         },
         "development": {
           "browserTarget": "preview-ui:build:development"
-        },
-        "static": {
-          "browserTarget": "preview-ui:build:static"
         }
       },
       "defaultConfiguration": "development",

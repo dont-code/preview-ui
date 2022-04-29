@@ -17,6 +17,7 @@
 *.launch
 .settings/
 *.sublime-workspace
+.yalc/
 
 # IDE - VSCode
 .vscode/*
@@ -43,3 +44,4 @@ Thumbs.db
 /dontcode-plugin-basic-dev.tgz
 /dontcode-plugin-screen-dev.tgz
 /dontcode-plugin-common-dev.tgz
+/yalc.lock
