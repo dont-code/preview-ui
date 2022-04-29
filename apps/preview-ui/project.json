@@ -91,6 +91,9 @@
         },
         "development": {
           "browserTarget": "preview-ui:build:development"
+        },
+        "static": {
+          "browserTarget": "preview-ui:build:static"
         }
       },
       "defaultConfiguration": "development",
