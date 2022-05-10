@@ -1,11 +1,12 @@
 import {Component, Injector} from '@angular/core';
 import {PrimeNGConfig} from 'primeng/api';
 import {BaseAppComponent, ChangeListenerService, IndexedDbStorageService} from '@dontcode/sandbox';
-import {RemotePluginLoaderService} from './shared/remote-plugin-loader.service';
+import {RemotePluginLoaderService} from '@dontcode/sandbox';
 import {environment} from '../environments/environment';
 import { ChangeProviderService } from '@dontcode/sandbox';
 import { GlobalPluginLoader } from '@dontcode/sandbox';
 import {ComponentLoaderService} from "@dontcode/plugin-common";
+import {dtcde} from "@dontcode/core";
 
 @Component({
   selector: 'preview-ui-root',
@@ -57,7 +58,12 @@ export class AppComponent extends BaseAppComponent {
         },
       ])
       .then(() => {
-        console.log('All Plugins loaded');
+        // eslint-disable-next-line no-restricted-syntax
+        console.info('Dynamic Plugins loaded');
+
+        dtcde.initPlugins ();
+        // eslint-disable-next-line no-restricted-syntax
+        console.info('Dynamic Plugins inited');
         // Check if we need to load a project ?
         const projectToLoad = (window as any).dontCodeConfig.projectId;
         if (projectToLoad) {
