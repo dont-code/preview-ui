@@ -5,9 +5,7 @@
 export const environment = {
   production: false,
   webSocketUrl: 'ws://localhost:8081/preview',
-  standardPluginsUrl: 'http://localhost:3000',
-  otherPluginsUrl: null,
-  restPluginUrl: 'http://localhost:3001',
+  repositoryUrl: 'assets/repositories/local.json',
   storeApiUrl: 'http://localhost:8084/data',
   projectApiUrl: 'http://localhost:8083/project',
   documentApiUrl: 'http://localhost:8084/documents',

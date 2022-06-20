@@ -1,9 +1,7 @@
 export const environment = {
   production: true,
   webSocketUrl: 'wss://test.dont-code.net/preview',
-  standardPluginsUrl: 'https://dont-code.net/plugins',
-  otherPluginsUrl: 'https://dont-code.net/plugin-',
-  restPluginUrl: null,
+  repositoryUrl: 'assets/repositories/prod.json',  // To be switched to https://test.dont-code.net/data/Plugin%20Module whenever it is ready
   storeApiUrl: 'https://test.dont-code.net/data',
   projectApiUrl: 'https://test.dont-code.net/demo_project',
   documentApiUrl: 'https://test.dont-code.net/documents',
