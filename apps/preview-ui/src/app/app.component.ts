@@ -1,4 +1,4 @@
-import {Component, Injector} from '@angular/core';
+import {Component, Inject, Injector} from '@angular/core';
 import {PrimeNGConfig} from 'primeng/api';
 import {
   BaseAppComponent,
@@ -9,7 +9,8 @@ import {
   RemotePluginLoaderService
 } from '@dontcode/sandbox';
 import {environment} from '../environments/environment';
-import {ComponentLoaderService} from "@dontcode/plugin-common";
+import {ComponentLoaderService, DONT_CODE_CORE} from "@dontcode/plugin-common";
+import {Core, DontCodeModelManager, DontCodePreviewManager, DontCodeStoreManager} from "@dontcode/core";
 
 @Component({
   selector: 'preview-ui-root',
@@ -26,8 +27,15 @@ export class AppComponent extends BaseAppComponent {
     listener:ChangeListenerService,
     globalPluginLoader:GlobalPluginLoader,
     loaderService: ComponentLoaderService,
-    injector:Injector) {
-    super(provider, storage, listener, pluginLoader, globalPluginLoader, loaderService, injector);
+    injector:Injector,
+    @Inject(DONT_CODE_CORE)
+    dontCodeCore: Core,
+    modelMgr:DontCodeModelManager,
+    storeMgr:DontCodeStoreManager,
+    previewMgr:DontCodePreviewManager
+  ) {
+    super(provider, storage, listener, pluginLoader, globalPluginLoader, loaderService, injector
+    ,dontCodeCore, modelMgr, storeMgr, previewMgr );
       // Manages the different cases of loading the repository of plugins
     this.runtimeConfig = (window as any).dontCodeConfig;
     // To do: Get the list from the Plugin Marketplace: https://test.dont-code.net/data/Plugin%20Module

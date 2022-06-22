@@ -7,6 +7,7 @@ import {SandboxModule} from "@dontcode/sandbox";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {environment} from "../environments/environment";
 import {HttpClientModule} from "@angular/common/http";
+import {PluginCommonModule} from "@dontcode/plugin-common";
 
 @NgModule({
   declarations: [AppComponent],
@@ -20,6 +21,7 @@ import {HttpClientModule} from "@angular/common/http";
       relativeLinkResolution: 'corrected',
       initialNavigation: 'enabledBlocking'
     }),
+    PluginCommonModule.forRoot(),
     SandboxModule.forRoot({
       webSocketUrl: environment.webSocketUrl,
       projectUrl: environment.projectApiUrl,
