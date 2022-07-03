@@ -27,6 +27,7 @@ export class AppComponent extends BaseAppComponent {
     listener:ChangeListenerService,
     globalPluginLoader:GlobalPluginLoader,
     loaderService: ComponentLoaderService,
+    changeProviderService: ChangeProviderService,
     injector:Injector,
     @Inject(DONT_CODE_CORE)
     dontCodeCore: Core,
@@ -34,7 +35,7 @@ export class AppComponent extends BaseAppComponent {
     storeMgr:DontCodeStoreManager,
     previewMgr:DontCodePreviewManager
   ) {
-    super(provider, storage, listener, pluginLoader, globalPluginLoader, loaderService, injector
+    super(provider, storage, listener, pluginLoader, globalPluginLoader, loaderService, changeProviderService,injector
     ,dontCodeCore, modelMgr, storeMgr, previewMgr );
       // Manages the different cases of loading the repository of plugins
     this.runtimeConfig = (window as any).dontCodeConfig;
