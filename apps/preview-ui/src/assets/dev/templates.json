@@ -301,6 +301,10 @@
             "ad": {
               "name": "elementsCount",
               "type": "Number"
+            },
+            "ae": {
+              "name": "content",
+              "type": "Text"
             }
           }
         }
