@@ -1,7 +1,7 @@
 {
   "npmScope": "preview-ui",
   "affected": {
-    "defaultBase": "master"
+    "defaultBase": "main"
   },
   "implicitDependencies": {
     "package.json": {
