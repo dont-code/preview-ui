@@ -29,6 +29,15 @@
         "remote-entry":"http://localhost:3001/remoteEntry.mjs"
       },
       "config": {}
+    },
+    {
+      "id": "Report",
+      "display-name": "Plugins to generate and display reports",
+      "version": "1.0.0",
+      "info": {
+        "remote-entry":"http://localhost:3002/remoteEntry.mjs"
+      },
+      "config": {}
     }
 
   ]
