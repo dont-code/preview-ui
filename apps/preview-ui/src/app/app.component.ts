@@ -40,7 +40,7 @@ export class AppComponent extends BaseAppComponent {
       // Manages the different cases of loading the repository of plugins
     this.runtimeConfig = (window as any).dontCodeConfig;
     // To do: Get the list from the Plugin Marketplace: https://test.dont-code.net/data/Plugin%20Module
-    if (this.runtimeConfig.repositoryUrl==null) {
+    if ((this.runtimeConfig!=null) && (this.runtimeConfig?.repositoryUrl==null)) {
       this.runtimeConfig.repositoryUrl=environment.repositoryUrl;
     }
   }

@@ -29,6 +29,15 @@
         "remote-entry":"https://dont-code.net/plugin-rest/remoteEntry.mjs"
       },
       "config": {}
+    },
+    {
+      "id": "Report",
+      "display-name": "Plugins to generate and display reports",
+      "version": "1.0.0",
+      "info": {
+        "remote-entry":"https://dont-code.net/plugin-report/remoteEntry.mjs"
+      },
+      "config": {}
     }
   ]
 }
