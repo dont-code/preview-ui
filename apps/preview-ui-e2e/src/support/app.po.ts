@@ -1,5 +1,5 @@
 export const getToolbar = () => cy.get('.p-toolbar');
-export const getMainMenu = () => cy.get('#mainMenu');
+export const getMainMenu = () => cy.get('#mainMenu', {timeout:8000});
 export const getHeaderMenu = (pos:number) => cy.get("#mainMenu > .grid > .col > .ng-trigger > .p-menu-list > :nth-child("+pos+")");
 export const getSubMenu = (pos:number) => cy.get("#mainMenu > .grid > .col > .ng-trigger > .p-menu-list > :nth-child("+pos+") > .p-menuitem-link");
 export const getSubMenuWithText = (text:string) => cy.get("#mainMenu > .grid > .col > .ng-trigger > .p-menu-list").contains(text);
