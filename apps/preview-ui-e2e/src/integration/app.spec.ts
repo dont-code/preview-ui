@@ -16,6 +16,9 @@ describe('preview-ui', () => {
   beforeEach(() => cy.visit('/'));
 
   it('should display standard layout', () => {
+    cy.intercept('GET','https://dont-code.net/plugin-report/remoteEntry.mjs').as('LoadLastPlugin');
+    cy.wait('@LoadLastPlugin', {timeout:8000});
+
     getMainMenu();
     getHeaderMenu(1).should ('contain.text', 'Main Menu');
     getToolbar().should('contain.text','Preview');
