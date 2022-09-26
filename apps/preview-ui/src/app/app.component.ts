@@ -11,8 +11,6 @@ import {
 import {environment} from '../environments/environment';
 import {ComponentLoaderService, DONT_CODE_CORE} from "@dontcode/plugin-common";
 import {Core, DontCodeModelManager, DontCodePreviewManager, DontCodeStoreManager} from "@dontcode/core";
-import {HttpClient, HttpErrorResponse, HttpHeaders, HttpResponse} from "@angular/common/http";
-import {error} from "ng-packagr/lib/utils/log";
 
 @Component({
   selector: 'preview-ui-root',
@@ -20,9 +18,6 @@ import {error} from "ng-packagr/lib/utils/log";
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent extends BaseAppComponent {
-  testUrl: string|null = null;
-  testResponse: HttpResponse<string>|null = null;
-  testError: string | null=null;
   testMode = false;
 
   constructor(
@@ -39,8 +34,7 @@ export class AppComponent extends BaseAppComponent {
     dontCodeCore: Core,
     modelMgr:DontCodeModelManager,
     storeMgr:DontCodeStoreManager,
-    previewMgr:DontCodePreviewManager,
-    protected httpClient:HttpClient
+    previewMgr:DontCodePreviewManager
   ) {
     super(provider, storage, listener, pluginLoader, globalPluginLoader, loaderService, changeProviderService,injector
     ,dontCodeCore, modelMgr, storeMgr, previewMgr );
@@ -68,28 +62,4 @@ export class AppComponent extends BaseAppComponent {
     });
   }
 
-  tryUrl() {
-    if (this.testUrl!=null) {
-      const coreHeaders= new HttpHeaders({
-          'Access-Control-Allow-Origin':'localhost:5001',
-          'Accept':'text/html'
-        });
-
-      this.subscription.add(this.httpClient.get("https://corsproxy.io/?"+encodeURIComponent(this.testUrl), {headers:coreHeaders, observe:"response", responseType:"text"}).subscribe({
-        next: (value) => {
-          this.testResponse=value;
-          console.debug("Result for "+this.testUrl+":", this.testResponse);
-        },
-        error: (error) => {
-          if (error instanceof HttpErrorResponse) {
-            this.testError=(error as HttpErrorResponse).message;
-          } else {
-            this.testError = error.toString();
-          }
-            console.error("Error loading testUrl "+this.testUrl+':',error);
-        }
-      })
-      );
-    }
-  }
 }
