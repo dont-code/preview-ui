@@ -8,6 +8,9 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {environment} from "../environments/environment";
 import {HttpClientModule} from "@angular/common/http";
 import {PluginCommonModule} from "@dontcode/plugin-common";
+import {InputTextModule} from "primeng/inputtext";
+import {FormsModule} from "@angular/forms";
+import {ButtonModule} from "primeng/button";
 
 @NgModule({
   declarations: [AppComponent],
@@ -30,7 +33,10 @@ import {PluginCommonModule} from "@dontcode/plugin-common";
       indexedDbName: 'Dont-code Previewer',
       applicationName: 'Previewer',
       templateFileUrl: 'assets/dev/templates.json'
-    })
+    }),
+    InputTextModule,
+    FormsModule,
+    ButtonModule
   ],
   bootstrap: [AppComponent]
 })
