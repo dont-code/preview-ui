@@ -18,6 +18,7 @@ import {Core, DontCodeModelManager, DontCodePreviewManager, DontCodeStoreManager
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent extends BaseAppComponent {
+  testMode = false;
 
   constructor(
     private primengConfig: PrimeNGConfig,
@@ -60,4 +61,5 @@ export class AppComponent extends BaseAppComponent {
       }
     });
   }
+
 }
