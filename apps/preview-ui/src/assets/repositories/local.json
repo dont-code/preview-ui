@@ -38,6 +38,15 @@
         "remote-entry":"http://localhost:3002/remoteEntry.mjs"
       },
       "config": {}
+    },
+    {
+      "id": "Commerce",
+      "display-name": "Plugins to get prices from shops",
+      "version": "1.0.0",
+      "info": {
+        "remote-entry":"http://localhost:3003/remoteEntry.mjs"
+      },
+      "config": {}
     }
 
   ]
