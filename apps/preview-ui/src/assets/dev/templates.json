@@ -310,5 +310,31 @@
         }
       }
     ]
+  },
+  {
+    "name": "Shop products",
+    "sequence": [
+      {
+        "position": "creation/entities/h",
+        "type": "ADD",
+        "value": {
+          "name": "Price Finder",
+          "fields": {
+            "aa": {
+              "name": "Product Name",
+              "type": "Text"
+            },
+            "ab": {
+              "name": "Price 1",
+              "type": "Price"
+            },
+            "ac": {
+              "name": "Price 2",
+              "type": "Price"
+            }
+          }
+        }
+      }
+    ]
   }
 ]
