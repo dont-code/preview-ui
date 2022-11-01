@@ -318,7 +318,7 @@
         "position": "creation/entities/h",
         "type": "ADD",
         "value": {
-          "name": "Price Finder",
+          "name": "Price Checker",
           "fields": {
             "aa": {
               "name": "Product Name",
@@ -331,6 +331,23 @@
             "ac": {
               "name": "Price 2",
               "type": "Price"
+            }
+          }
+        }
+      },
+      {
+        "position": "creation/entities/i",
+        "type": "ADD",
+        "value": {
+          "name": "Online Shop",
+          "fields": {
+            "ia": {
+              "name": "Shop",
+              "type": "Text"
+            },
+            "ib": {
+              "name": "Type",
+              "type": "Shop type"
             }
           }
         }
