@@ -56,6 +56,14 @@
             }
           ]
         },
+        "yolo": {
+          "fileReplacements": [
+            {
+              "replace": "apps/preview-ui/src/environments/environment.ts",
+              "with": "apps/preview-ui/src/environments/environment.yolo.ts"
+            }
+          ]
+        },
         "production": {
           "optimization": true,
           "outputHashing": "all",
@@ -103,6 +111,9 @@
         },
         "development": {
           "browserTarget": "preview-ui:build:development"
+        },
+        "yolo": {
+          "browserTarget": "preview-ui:build:yolo"
         }
       },
       "defaultConfiguration": "development",
