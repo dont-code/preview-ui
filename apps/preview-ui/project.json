@@ -1,6 +1,7 @@
 {
+  "name": "preview-ui",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
-  "root": "apps/preview-ui",
   "sourceRoot": "apps/preview-ui/src",
   "prefix": "preview-ui",
   "targets": {
@@ -36,7 +37,6 @@
         ],
         "styles": [
           "apps/preview-ui/src/styles.scss",
-          "./node_modules/flag-icon-css/css/flag-icons.css",
           "./node_modules/primeflex/primeflex.css",
           "./node_modules/primeng/resources/themes/saga-blue/theme.css",
           "./node_modules/primeng/resources/primeng.min.css",
@@ -90,18 +90,16 @@
               "with": "apps/preview-ui/src/environments/environment.prod.ts"
             }
           ],
-          "outputHashing": "all",
           "customWebpackConfig": {
             "path": "apps/preview-ui/webpack.prod.config.js"
           }
         },
-        "development": {
-        }
+        "development": {}
       },
       "defaultConfiguration": "production"
     },
     "serve": {
-      "executor": "@nrwl/angular:webpack-server",
+      "executor": "@nrwl/angular:webpack-dev-server",
       "configurations": {
         "online": {
           "browserTarget": "preview-ui:build:online"
@@ -139,14 +137,14 @@
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/apps/preview-ui"],
+      "outputs": ["{workspaceRoot}/coverage/apps/preview-ui"],
       "options": {
         "jestConfig": "apps/preview-ui/jest.config.ts",
         "passWithNoTests": true
       }
     },
     "serve-mfe": {
-      "executor": "@nrwl/workspace:run-commands",
+      "executor": "nx:run-commands",
       "options": {
         "commands": ["nx serve preview-ui"]
       }
