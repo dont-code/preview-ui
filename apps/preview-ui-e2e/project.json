@@ -1,12 +1,13 @@
 {
-  "root": "apps/preview-ui-e2e",
+  "name": "preview-ui-e2e",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/preview-ui-e2e/src",
   "projectType": "application",
   "targets": {
     "e2e": {
       "executor": "@nrwl/cypress:cypress",
       "options": {
-        "cypressConfig": "apps/preview-ui-e2e/cypress.json",
+        "cypressConfig": "apps/preview-ui-e2e/cypress.config.js",
         "tsConfig": "apps/preview-ui-e2e/tsconfig.e2e.json",
         "devServerTarget": "preview-ui:serve:online"
       },
