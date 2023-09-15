@@ -76,7 +76,7 @@ jobs:
         with:
           repo: dont-code/preview-ui
           target_branch: gh-pages # The branch the action should deploy to.
-          build_dir: preview-ui/dist/apps/preview-ui
+          build_dir: dist/apps/preview-ui
           keep_history: true
           multiple_sites: true
           jekyll: false
