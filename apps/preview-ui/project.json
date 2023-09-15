@@ -48,11 +48,11 @@
         }
       },
       "configurations": {
-        "online": {
+        "next": {
           "fileReplacements": [
             {
               "replace": "apps/preview-ui/src/environments/environment.ts",
-              "with": "apps/preview-ui/src/environments/environment.online.ts"
+              "with": "apps/preview-ui/src/environments/environment.next.ts"
             }
           ]
         },
@@ -101,8 +101,8 @@
     "serve": {
       "executor": "@nrwl/angular:webpack-dev-server",
       "configurations": {
-        "online": {
-          "browserTarget": "preview-ui:build:online"
+        "next": {
+          "browserTarget": "preview-ui:build:next"
         },
         "production": {
           "browserTarget": "preview-ui:build:production"
