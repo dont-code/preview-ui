@@ -9,7 +9,7 @@
       "options": {
         "cypressConfig": "apps/preview-ui-e2e/cypress.config.js",
         "tsConfig": "apps/preview-ui-e2e/tsconfig.e2e.json",
-        "devServerTarget": "preview-ui:serve:online"
+        "devServerTarget": "preview-ui:serve:next"
       },
       "configurations": {
         "production": {
