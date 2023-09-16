@@ -244,7 +244,7 @@ const environment = {
   webSocketUrl: 'wss://test.dont-code.net/preview',
   repositoryUrl: 'assets/repositories/next.json',
   storeApiUrl: 'https://test.dont-code.net/data',
-  projectApiUrl: 'https://test.dont-code.net/project',
+  projectApiUrl: 'https://test.dont-code.net/demo_project',
   documentApiUrl: 'https://test.dont-code.net/documents'
 };
 
