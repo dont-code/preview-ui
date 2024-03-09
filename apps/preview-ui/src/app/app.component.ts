@@ -14,6 +14,7 @@ import {Core, DontCodeModelManager, DontCodePreviewManager, DontCodeStoreManager
 import { HttpClient } from '@angular/common/http';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'preview-ui-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
