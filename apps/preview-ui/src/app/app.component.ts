@@ -9,8 +9,9 @@ import {
   RemotePluginLoaderService
 } from '@dontcode/sandbox';
 import {environment} from '../environments/environment';
-import {ComponentLoaderService, DONT_CODE_CORE} from "@dontcode/plugin-common";
+import {CommonConfigService, ComponentLoaderService, DONT_CODE_CORE} from "@dontcode/plugin-common";
 import {Core, DontCodeModelManager, DontCodePreviewManager, DontCodeStoreManager} from "@dontcode/core";
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'preview-ui-root',
@@ -29,6 +30,8 @@ export class AppComponent extends BaseAppComponent {
     globalPluginLoader:GlobalPluginLoader,
     loaderService: ComponentLoaderService,
     changeProviderService: ChangeProviderService,
+    configService: CommonConfigService,
+    httpClient: HttpClient,
     injector:Injector,
     @Inject(DONT_CODE_CORE)
     dontCodeCore: Core,
@@ -36,7 +39,7 @@ export class AppComponent extends BaseAppComponent {
     storeMgr:DontCodeStoreManager,
     previewMgr:DontCodePreviewManager
   ) {
-    super(provider, storage, listener, pluginLoader, globalPluginLoader, loaderService, changeProviderService,injector
+    super(provider, storage, listener, pluginLoader, globalPluginLoader, loaderService, changeProviderService, configService, httpClient, injector
     ,dontCodeCore, modelMgr, storeMgr, previewMgr );
       // Manages the different cases of loading the repository of plugins
     this.runtimeConfig = (window as any).dontCodeConfig;

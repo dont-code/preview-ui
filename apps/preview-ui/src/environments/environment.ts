@@ -4,11 +4,7 @@
 
 export const environment = {
   production: false,
-  webSocketUrl: 'ws://localhost:8081/preview',
-  repositoryUrl: 'assets/repositories/local.json',
-  storeApiUrl: 'https://test.dont-code.net/data',
-  projectApiUrl: 'https://test.dont-code.net/demo_project',
-  documentApiUrl: 'https://test.dont-code.net/documents',
+  repositoryUrl: 'assets/repositories/local.json'
 };
 
 /*
