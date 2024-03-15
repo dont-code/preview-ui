@@ -1,4 +1,4 @@
-import {Component, Inject, Injector} from '@angular/core';
+import {ChangeDetectorRef, Component, Inject, Injector} from '@angular/core';
 import {PrimeNGConfig} from 'primeng/api';
 import {
   BaseAppComponent,
@@ -34,6 +34,7 @@ export class AppComponent extends BaseAppComponent {
     configService: CommonConfigService,
     httpClient: HttpClient,
     injector:Injector,
+    ref: ChangeDetectorRef,
     @Inject(DONT_CODE_CORE)
     dontCodeCore: Core,
     modelMgr:DontCodeModelManager,
@@ -41,7 +42,7 @@ export class AppComponent extends BaseAppComponent {
     previewMgr:DontCodePreviewManager
   ) {
     super(provider, storage, listener, pluginLoader, globalPluginLoader, loaderService, changeProviderService, configService, httpClient, injector
-    ,dontCodeCore, modelMgr, storeMgr, previewMgr );
+    ,ref, dontCodeCore, modelMgr, storeMgr, previewMgr );
       // Manages the different cases of loading the repository of plugins
     this.runtimeConfig = (window as any).dontCodeConfig;
     // To do: Get the list from the Plugin Marketplace: https://test.dont-code.net/data/Plugin%20Module
@@ -54,8 +55,9 @@ export class AppComponent extends BaseAppComponent {
     this.primengConfig.ripple = true;
     super.ngOnInit();
 
-    // Wait for all plugins to be loaded before loading the project
-    this.pluginsLoaded?.then (() => {
+  }
+
+  override afterInitialization(): void {
       // Check if we need to load a project ?
       const projectToLoad = (window as any).dontCodeConfig.projectId;
       if (projectToLoad) {
@@ -63,7 +65,7 @@ export class AppComponent extends BaseAppComponent {
           console.log('Loaded project ', project.name);
         });
       }
-    });
+
   }
 
 }
