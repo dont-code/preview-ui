@@ -240,7 +240,7 @@ __webpack_require__.r(__webpack_exports__);
 const environment = {
   production: false,
   //repositoryUrl: 'assets/repositories/next.json'
-  repositoryUrl: 'https://dont-code.net/repositories/next-dont-code-repository.json'
+  repositoryUrl: 'https://test.dont-code.net/demo/repository-next.json'
 };
 
 /***/ })
