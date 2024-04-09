@@ -18,7 +18,7 @@ jobs:
   build:
     env:
       branch: ${{ inputs.branch || github.ref }}
-      stage: ${{ inputs.branch == 'main' && 'latest' || github.ref == 'main' && 'latest" || 'next' }}
+      stage: ${{ inputs.branch == 'main' && 'latest' || github.ref == 'main' && 'latest' || 'next' }}
 
     runs-on: ubuntu-latest
 
@@ -30,7 +30,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          ref: ${{ event.branch }}
+          ref: ${{ env.branch }}
           token: ${{secrets.DONTCODE_ACTIONS_TOKEN}}
       - name: Use Node.js version 18
         uses: actions/setup-node@v4
