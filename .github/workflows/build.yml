@@ -17,8 +17,8 @@ on:
 jobs:
   build:
     env:
-      branch: ${{ inputs.branch || github.ref }}
-      stage: ${{ inputs.branch == 'main' && 'latest' || github.ref == 'main' && 'latest' || 'next' }}
+      branch: ${{ inputs.branch || github.ref_name }}
+      stage: ${{ inputs.branch == 'main' && 'latest' || github.ref_name == 'main' && 'latest' || 'next' }}
 
     runs-on: ubuntu-latest
 
