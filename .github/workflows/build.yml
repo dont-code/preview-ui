@@ -54,11 +54,11 @@ jobs:
         # Test run screenshots only on failure
         if: failure()
         with:
-          name: cypress-screenshots
+          name: cypress-${{matrix.browser}}-screenshots
           path: dist/cypress/apps/preview-ui-e2e/screenshots
         # Test run video was always captured, so this action uses "always()" condition
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: cypress-videos
+          name: cypress-${{matrix.browser}}-videos
           path: dist/cypress/apps/preview-ui-e2e/videos
