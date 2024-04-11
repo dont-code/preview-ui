@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, Inject, Injector} from '@angular/core';
+import {ChangeDetectorRef, Component, Inject, Injector, OnInit} from '@angular/core';
 import {PrimeNGConfig} from 'primeng/api';
 import {
   BaseAppComponent,
@@ -12,6 +12,7 @@ import {environment} from '../environments/environment';
 import {CommonConfigService, ComponentLoaderService, DONT_CODE_CORE} from "@dontcode/plugin-common";
 import {Core, DontCodeModelManager, DontCodePreviewManager, DontCodeStoreManager} from "@dontcode/core";
 import { HttpClient } from '@angular/common/http';
+import { SandboxRepositorySchema } from '@dontcode/sandbox/lib/shared/definitions';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -19,7 +20,7 @@ import { HttpClient } from '@angular/common/http';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent extends BaseAppComponent {
+export class AppComponent extends BaseAppComponent implements OnInit {
   testMode = false;
 
   constructor(
@@ -43,9 +44,10 @@ export class AppComponent extends BaseAppComponent {
   ) {
     super(provider, storage, listener, pluginLoader, globalPluginLoader, loaderService, changeProviderService, configService, httpClient, injector
     ,ref, dontCodeCore, modelMgr, storeMgr, previewMgr );
+
+    this.defaultRepositoryUrl='assets/repositories/stable.json';
       // Manages the different cases of loading the repository of plugins
     this.runtimeConfig = (window as any).dontCodeConfig;
-    // To do: Get the list from the Plugin Marketplace: https://test.dont-code.net/data/Plugin%20Module
     if ((this.runtimeConfig!=null) && (this.runtimeConfig?.repositoryUrl==null)) {
       this.runtimeConfig.repositoryUrl=environment.repositoryUrl;
     }
@@ -57,15 +59,16 @@ export class AppComponent extends BaseAppComponent {
 
   }
 
-  override afterInitialization(): void {
+  override afterInitialization(config: SandboxRepositorySchema, repositoryUrl:string): Promise<void> {
+    return super.afterInitialization(config, repositoryUrl).then (() => {
       // Check if we need to load a project ?
-      const projectToLoad = (window as any).dontCodeConfig.projectId;
+      const projectToLoad = this.runtimeConfig.projectId;
       if (projectToLoad) {
         this.listener.loadProject(projectToLoad).then((project) => {
           console.log('Loaded project ', project.name);
         });
       }
-
+    });
   }
 
 }
