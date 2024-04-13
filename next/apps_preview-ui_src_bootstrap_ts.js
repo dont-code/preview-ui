@@ -14,10 +14,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_angular_core__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var primeng_api__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! primeng/api */ 3134);
 /* harmony import */ var primeng_api__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(primeng_api__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _dontcode_sandbox__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @dontcode/sandbox */ 3167);
+/* harmony import */ var _dontcode_sandbox__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @dontcode/sandbox */ 9595);
 /* harmony import */ var _dontcode_sandbox__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_dontcode_sandbox__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _environments_environment__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../environments/environment */ 4555);
-/* harmony import */ var _dontcode_plugin_common__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @dontcode/plugin-common */ 9808);
+/* harmony import */ var _dontcode_plugin_common__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @dontcode/plugin-common */ 7422);
 /* harmony import */ var _dontcode_plugin_common__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_dontcode_plugin_common__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var _dontcode_core__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @dontcode/core */ 6282);
 /* harmony import */ var _dontcode_core__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_dontcode_core__WEBPACK_IMPORTED_MODULE_5__);
@@ -81,9 +81,9 @@ class AppComponent extends _dontcode_sandbox__WEBPACK_IMPORTED_MODULE_2__.BaseAp
     super(provider, storage, listener, pluginLoader, globalPluginLoader, loaderService, changeProviderService, configService, httpClient, injector, ref, dontCodeCore, modelMgr, storeMgr, previewMgr);
     this.primengConfig = primengConfig;
     this.testMode = false;
+    this.defaultRepositoryUrl = 'assets/repositories/stable.json';
     // Manages the different cases of loading the repository of plugins
     this.runtimeConfig = window.dontCodeConfig;
-    // To do: Get the list from the Plugin Marketplace: https://test.dont-code.net/data/Plugin%20Module
     if (this.runtimeConfig != null && this.runtimeConfig?.repositoryUrl == null) {
       this.runtimeConfig.repositoryUrl = _environments_environment__WEBPACK_IMPORTED_MODULE_3__.environment.repositoryUrl;
     }
@@ -92,14 +92,16 @@ class AppComponent extends _dontcode_sandbox__WEBPACK_IMPORTED_MODULE_2__.BaseAp
     this.primengConfig.ripple = true;
     super.ngOnInit();
   }
-  afterInitialization() {
-    // Check if we need to load a project ?
-    const projectToLoad = window.dontCodeConfig.projectId;
-    if (projectToLoad) {
-      this.listener.loadProject(projectToLoad).then(project => {
-        console.log('Loaded project ', project.name);
-      });
-    }
+  afterInitialization(config, repositoryUrl) {
+    return super.afterInitialization(config, repositoryUrl).then(() => {
+      // Check if we need to load a project ?
+      const projectToLoad = this.runtimeConfig.projectId;
+      if (projectToLoad) {
+        this.listener.loadProject(projectToLoad).then(project => {
+          console.log('Loaded project ', project.name);
+        });
+      }
+    });
   }
   static #_ = this.ɵfac = function AppComponent_Factory(t) {
     return new (t || AppComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](primeng_api__WEBPACK_IMPORTED_MODULE_1__.PrimeNGConfig), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_dontcode_sandbox__WEBPACK_IMPORTED_MODULE_2__.RemotePluginLoaderService), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_dontcode_sandbox__WEBPACK_IMPORTED_MODULE_2__.ChangeProviderService), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_dontcode_sandbox__WEBPACK_IMPORTED_MODULE_2__.IndexedDbStorageService), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_dontcode_sandbox__WEBPACK_IMPORTED_MODULE_2__.ChangeListenerService), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_dontcode_sandbox__WEBPACK_IMPORTED_MODULE_2__.GlobalPluginLoader), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_dontcode_plugin_common__WEBPACK_IMPORTED_MODULE_4__.ComponentLoaderService), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_dontcode_sandbox__WEBPACK_IMPORTED_MODULE_2__.ChangeProviderService), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_dontcode_plugin_common__WEBPACK_IMPORTED_MODULE_4__.CommonConfigService), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_common_http__WEBPACK_IMPORTED_MODULE_6__.HttpClient), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_0__.Injector), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_0__.ChangeDetectorRef), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_dontcode_plugin_common__WEBPACK_IMPORTED_MODULE_4__.DONT_CODE_CORE), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_dontcode_core__WEBPACK_IMPORTED_MODULE_5__.DontCodeModelManager), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_dontcode_core__WEBPACK_IMPORTED_MODULE_5__.DontCodeStoreManager), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_dontcode_core__WEBPACK_IMPORTED_MODULE_5__.DontCodePreviewManager));
@@ -144,13 +146,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _app_component__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./app.component */ 3098);
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/router */ 4774);
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_angular_router__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _dontcode_sandbox__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @dontcode/sandbox */ 3167);
+/* harmony import */ var _dontcode_sandbox__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @dontcode/sandbox */ 9595);
 /* harmony import */ var _dontcode_sandbox__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_dontcode_sandbox__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var _angular_platform_browser_animations__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/platform-browser/animations */ 9694);
 /* harmony import */ var _angular_platform_browser_animations__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_angular_platform_browser_animations__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/common/http */ 6602);
 /* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_angular_common_http__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var _dontcode_plugin_common__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @dontcode/plugin-common */ 9808);
+/* harmony import */ var _dontcode_plugin_common__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @dontcode/plugin-common */ 7422);
 /* harmony import */ var _dontcode_plugin_common__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_dontcode_plugin_common__WEBPACK_IMPORTED_MODULE_6__);
 /* harmony import */ var primeng_inputtext__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! primeng/inputtext */ 9162);
 /* harmony import */ var primeng_inputtext__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(primeng_inputtext__WEBPACK_IMPORTED_MODULE_7__);
@@ -240,7 +242,7 @@ __webpack_require__.r(__webpack_exports__);
 const environment = {
   production: false,
   //repositoryUrl: 'assets/repositories/next.json'
-  repositoryUrl: 'https://dont-code.net/repositories/next-dont-code-repository.json'
+  repositoryUrl: 'https://test.dont-code.net/demo/repository-next.json'
 };
 
 /***/ })
