@@ -71,7 +71,7 @@ jobs:
       - name: Deploy the tester application in github pages
         if: ${{ success() && matrix.browser == 'chromium' && ( inputs.deploy == true ) }}
         run: |
-          nx run preview-ui:build:${{env.build}} --output-path="dist/apps/preview-ui/${{env.stage}}" --base-href "https://dont-code.net/preview-ui/${{env.stage}}/"
+          nx run preview-ui:build:${{env.build}} --output-path="dist/apps/preview-ui/${{env.stage}}" --base-href "https://run.dont-code.net/preview-ui/${{env.stage}}/"
       - if: ${{ success() && (matrix.browser == 'chromium') &&( inputs.deploy == true ) }}
         uses: gcollin/ghaction-github-pages@main
         with:
