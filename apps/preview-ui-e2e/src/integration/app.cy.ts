@@ -29,8 +29,10 @@ describe('preview-ui', () => {
   });
 
   it('should load and reset apps', () => {
+    cy.intercept('GET','/assets/dev/templates.json').as('LoadTemplate');
       // First load the Task Manager app
     getSubMenuWithText('Dev').click();// Move to dev page
+    cy.wait('@LoadTemplate');
     clickAutoComplete("template");
     selectPopupChoiceWithText("Task Manager Application"); // Create Entity name
     getSendButton().click();
