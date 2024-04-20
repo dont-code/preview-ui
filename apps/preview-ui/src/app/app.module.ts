@@ -25,10 +25,6 @@ import {ButtonModule} from "primeng/button";
 }),
     PluginCommonModule.forRoot(),
     SandboxModule.forRoot({
-      webSocketUrl: environment.webSocketUrl,
-      projectUrl: environment.projectApiUrl,
-      documentUrl: environment.documentApiUrl,
-      storeUrl: environment.storeApiUrl,
       indexedDbName: 'Dont-code Previewer',
       applicationName: 'Previewer',
       templateFileUrl: 'assets/dev/templates.json'

@@ -16,8 +16,8 @@ describe('preview-ui', () => {
   beforeEach(() => cy.visit('/'));
 
   it('should display standard layout', () => {
-    cy.intercept('GET','https://dont-code.net/plugin-report/next/remoteEntry.mjs').as('LoadLastPlugin');
-    cy.wait('@LoadLastPlugin', {timeout:8000});
+    cy.intercept('GET','https://run.dont-code.net/plugin-report/next/remoteEntry.mjs').as('LoadLastPlugin');
+    cy.wait('@LoadLastPlugin', {timeout:15000});
 
     getMainMenu();
     getHeaderMenu(1).should ('contain.text', 'Main Menu');

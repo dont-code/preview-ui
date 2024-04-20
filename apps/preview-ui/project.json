@@ -56,11 +56,11 @@
             }
           ]
         },
-        "yolo": {
+        "yunohost": {
           "fileReplacements": [
             {
               "replace": "apps/preview-ui/src/environments/environment.ts",
-              "with": "apps/preview-ui/src/environments/environment.yolo.ts"
+              "with": "apps/preview-ui/src/environments/environment.yunohost.ts"
             }
           ]
         },
@@ -110,8 +110,8 @@
         "development": {
           "browserTarget": "preview-ui:build:development"
         },
-        "yolo": {
-          "browserTarget": "preview-ui:build:yolo"
+        "yunohost": {
+          "browserTarget": "preview-ui:build:yunohost"
         }
       },
       "defaultConfiguration": "development",
