@@ -2,7 +2,7 @@
   "$schema": "https://dont-code.net/schemas/v1/repository-schema.json",
   "name": "Yolo Repository",
   "description": "Repository provided by Dont-code using all plugins installed in local yunohost instance",
-  "webSocketUrl": "ws://yolo.test/dc-demo/preview",
+  "webSocketUrl": "wss://yolo.test/dc-demo/preview",
   "storeApiUrl": "https://yolo.test/dc-demo/data",
   "projectApiUrl": "https://yolo.test/dc-demo/project",
   "documentApiUrl": "https://yolo.test/dc-demo/documents",
