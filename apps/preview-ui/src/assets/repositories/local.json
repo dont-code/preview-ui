@@ -2,7 +2,7 @@
   "$schema": "https://dont-code.net/schemas/v1/repository-schema.json",
   "name": "Dev Repository",
   "description": "Repository provided by Dont-code offering all defaults plugins running locally",
-  "1webSocketUrl": "ws://test.dont-code.net/demo/preview",
+  "1webSocketUrl": "wss://test.dont-code.net/demo/preview",
   "1storeApiUrl": "https://test.dont-code.net/demo/data",
   "1projectApiUrl": "https://test.dont-code.net/demo/project",
   "1documentApiUrl": "https://test.dont-code.net/demo/documents",
