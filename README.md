@@ -1,5 +1,8 @@
 ![image](https://dont-code.net/assets/logo-shadow-squared.png)
-## What is it for ? 
+## Important !
+This repository is now deprecated. All developments for Dont-code are now happening in the [Monorepo repository](https://github.com/dont-code/monorepo)
+
+## What was it for ?
 
 This application allows you to see in realtime the effect of the changes you are doing with the dont-code editor.
 It is part of the [Dont-code](https://dont-code.net) no-code / low-code platform enabling you to quickly produce your very own application. 
